@@ -3,15 +3,23 @@ package org.foi.uzdiz.mkovac.zadaca_1;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.regex.Matcher;
+import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.RegexVrsta;
+import org.foi.uzdiz.mkovac.zadaca_1.singleton.RegexSingleton;
+import org.foi.uzdiz.mkovac.zadaca_1.singleton.TvrtkaSingleton;
 
 public class GlavniProgram {
 
   public static void main(String[] args) throws IOException {
 
-    GlavniProgram gp = new GlavniProgram();
+    String argumenti = String.join(" ", args).trim();
+    if (!RegexSingleton.getInstance().provjeriIzraz(argumenti, RegexVrsta.argumenti))
+      return;
+
+    // GlavniProgram gp = new GlavniProgram();
 
     // TODO instanciraj tvrtku
+
+    TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
 
     // pokreni program
 
@@ -19,16 +27,16 @@ public class GlavniProgram {
 
     while (true) {
       String komanda = reader.readLine();
-      if (gp.provjeriIzraz(komanda))
+      if (RegexSingleton.getInstance().provjeriIzraz(komanda, RegexVrsta.komanda))
         System.out.println("Unijeli ste " + komanda);
       else
         System.out.println("Nepoznata komanda!");
     }
   }
 
-  private boolean provjeriIzraz(String izraz) {
-    Matcher matcher = RegexSingleton.getInstance().dajPatternKomanda().matcher(izraz);
-    return matcher.matches();
-  }
+  // private boolean provjeriIzraz(String izraz, RegexVrsta vrsta) {
+  // Matcher matcher = RegexSingleton.getInstance().dajPatternKomanda().matcher(izraz);
+  // return matcher.matches();
+  // }
 
 }
