@@ -12,14 +12,17 @@ public class GlavniProgram {
   public static void main(String[] args) throws IOException {
 
     String argumenti = String.join(" ", args).trim();
-    if (!RegexSingleton.getInstance().provjeriIzraz(argumenti, RegexVrsta.argumenti))
+    if (!RegexSingleton.getInstance().provjeriIzraz(argumenti, RegexVrsta.argumenti)) {
+      System.out.println("neispravni argumenti");
       return;
+    }
 
     // GlavniProgram gp = new GlavniProgram();
 
     // TODO instanciraj tvrtku
 
     TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
+    tvrtka.init(argumenti);
 
     // pokreni program
 
