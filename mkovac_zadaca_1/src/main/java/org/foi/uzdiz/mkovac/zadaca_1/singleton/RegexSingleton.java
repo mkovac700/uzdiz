@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.RegexVrsta;
+import org.foi.uzdiz.mkovac.zadaca_1.podaci.RegexVrsta;
 
 public class RegexSingleton {
   private static volatile RegexSingleton INSTANCE = new RegexSingleton();
@@ -12,7 +12,7 @@ public class RegexSingleton {
   private Pattern patternKomanda = null;
   private Pattern patternArgumenti = null;
 
-  private final String regexKomanda = "\\b(?:IP|VR (?:[1-9]|1\\d|2[0-3]))\\b";
+  private final String regexKomanda = "\\b(?:Q|IP|VR (?:[1-9]|1\\d|2[0-3]))\\b";
 
   private final String regexArgumenti =
       "^(?=.*(--vp [a-zA-ZÀ-ÖØ-öø-ÿČčĆćŽžĐđŠš0-9_-]+\\.csv))(?=.*(--pv [a-zA-ZÀ-ÖØ-öø-ÿČčĆćŽžĐđŠš0-9_-]+\\.csv))(?=.*(--pp [a-zA-ZÀ-ÖØ-öø-ÿČčĆćŽžĐđŠš0-9_-]+\\.csv))(?=.*(--mt \\d+))(?=.*(--vi \\d+))(?=.*(--vs \\d{2}\\.\\d{2}\\.\\d{4}\\. (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])))(?=.*(--ms \\d+))(?=.*(--pr (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])))(?=.*(--kr (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]))).*$";
