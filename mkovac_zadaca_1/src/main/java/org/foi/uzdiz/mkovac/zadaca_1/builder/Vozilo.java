@@ -1,5 +1,8 @@
 package org.foi.uzdiz.mkovac.zadaca_1.builder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Product created by builder
  * 
@@ -7,7 +10,7 @@ package org.foi.uzdiz.mkovac.zadaca_1.builder;
  *
  */
 public class Vozilo {
-  // TODO private List<Paket> paketi;
+  private List<Paket> paketi;
 
   private String registracija;
   private String opis;
@@ -15,7 +18,14 @@ public class Vozilo {
   private float kapacitetProstora;
   private int redoslijed;
 
-  public Vozilo() {}
+  private float kapacitetTezineTrenutno = 0;
+  private float kapacitetProstoraTrenutno = 0;
+
+  private boolean uDostavi = false;
+
+  public Vozilo() {
+    paketi = new ArrayList<>();
+  }
 
   public String getRegistracija() {
     return registracija;
@@ -62,6 +72,24 @@ public class Vozilo {
     return this.opis;
   }
 
+  public boolean dodajPaket(Paket paket) {
+    // ako kapacitet prostora ili kapacitet tezine s novim paketom prelazi zadani kapacitet, postavi
+    // u status dostave i vrati false
+    if (kapacitetProstoraTrenutno + paket.getM3() > kapacitetProstora
+        || kapacitetTezineTrenutno + paket.getTezina() > kapacitetTezine) {
 
+      uDostavi = true;
+      return false;
+
+    } else {
+      kapacitetProstoraTrenutno += paket.getM3();
+      kapacitetTezineTrenutno += paket.getTezina();
+
+      paketi.add(paket);
+
+      return true;
+    }
+
+  }
 
 }

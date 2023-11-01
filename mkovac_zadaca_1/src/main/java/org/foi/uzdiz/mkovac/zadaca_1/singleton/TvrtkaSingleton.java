@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_1.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_1.builder.Vozilo;
-import org.foi.uzdiz.mkovac.zadaca_1.podaci.Paket;
+import org.foi.uzdiz.mkovac.zadaca_1.builder.VrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_1.podaci.RegexVrsta;
-import org.foi.uzdiz.mkovac.zadaca_1.podaci.Vrsta;
-import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjePaketa;
+import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjePaketa2;
 import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjeVozila;
-import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjeVrsta;
+import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjeVrstaPaketa;
 
 public class TvrtkaSingleton extends Thread {
   private static volatile TvrtkaSingleton INSTANCE = new TvrtkaSingleton();
@@ -20,9 +22,12 @@ public class TvrtkaSingleton extends Thread {
   // VAŽNO: tryparsati podatke jer se i za to ispisuje greska
   // također treba hendlati ako ne postoji zaglavlje (prvi redak)
 
-  private List<Vrsta> vrste;
-  // private List<Vozilo> vozila;
+  // private List<Vrsta> vrste;
+  private List<VrstaPaketa> vrstePaketa;
+
   private List<Vozilo> vozila;
+
+  // private List<Paket> paketi;
 
   private List<Paket> paketi;
 
@@ -38,16 +43,28 @@ public class TvrtkaSingleton extends Thread {
 
   public int vrijemeIzvrsavanja;
 
+  UredDostavaSingleton uredDostava;
+  UredPrijemSingleton uredPrijem;
+
   private TvrtkaSingleton() {}
 
   public static TvrtkaSingleton getInstance() {
     return INSTANCE;
   }
 
+  public int getMaksTezina() {
+    return maksTezina;
+  }
+
+  public List<VrstaPaketa> getVrstePaketa() {
+    return vrstePaketa;
+  }
+
   public void init(String argumenti) {
     GreskeSingleton greske = GreskeSingleton.getInstance();
 
-    UredDostavaSingleton uredDostava = UredDostavaSingleton.getInstance();
+    uredDostava = UredDostavaSingleton.getInstance();
+    uredPrijem = UredPrijemSingleton.getInstance();
 
     String postavke[] = RegexSingleton.getInstance().razdvojiIzraz(argumenti, RegexVrsta.argumenti);
 
@@ -124,6 +141,39 @@ public class TvrtkaSingleton extends Thread {
       virtualniSat = virtualniSat.plusSeconds(mnoziteljSekunde);
 
       System.out.println("virtualni sat: " + virtualniSat.toString());
+
+      Iterator<Paket> itr = paketi.iterator();
+
+      while (itr.hasNext()) {
+        Paket p = itr.next();
+        if (p.getVrijemePrijema().isBefore(virtualniSat)) {
+          uredPrijem.zaprimiPaket(p);
+          itr.remove();
+        }
+      }
+
+      System.out.println("zaprimljeni paketi: ");
+
+      for (Paket p : uredPrijem.getPrimljeniPaketi()) {
+        System.out.println(p);
+      }
+
+      System.out.println("svi paketi: ");
+      for (Paket p : paketi) {
+        System.out.println(p);
+      }
+
+      if (!uredPrijem.getPrimljeniPaketi().isEmpty()) {
+        // ukrcaj paket u vozilo
+        Iterator<Paket> itr2 = uredPrijem.getPrimljeniPaketi().iterator();
+
+        while (itr.hasNext()) {
+          Paket p = itr.next();
+
+        }
+      }
+
+
     }
 
 
@@ -134,16 +184,26 @@ public class TvrtkaSingleton extends Thread {
     super.interrupt();
   }
 
+  /*
+   * private void ucitajVrste() { CitanjeVrsta citacVrsta = new CitanjeVrsta(); try { vrste =
+   * citacVrsta.ucitajDatoteku(datotekaVrsta); } catch (IOException e) { // TODO Auto-generated
+   * catch block e.printStackTrace(); }
+   * 
+   * for (Vrsta vrsta : vrste) {
+   * 
+   * System.out.println(vrsta.toString()); } }
+   */
+
   private void ucitajVrste() {
-    CitanjeVrsta citacVrsta = new CitanjeVrsta();
+    CitanjeVrstaPaketa citacVrstaPaketa = new CitanjeVrstaPaketa();
     try {
-      vrste = citacVrsta.ucitajDatoteku(datotekaVrsta);
+      vrstePaketa = citacVrstaPaketa.ucitajDatoteku(datotekaVrsta);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
 
-    for (Vrsta vrsta : vrste) {
+    for (VrstaPaketa vrsta : vrstePaketa) {
 
       System.out.println(vrsta.toString());
     }
@@ -164,14 +224,26 @@ public class TvrtkaSingleton extends Thread {
     }
   }
 
+  /*
+   * private void ucitajPakete() { CitanjePaketa citacPaketa = new CitanjePaketa(); try { paketi =
+   * citacPaketa.ucitajDatoteku(datotekaPaketa); } catch (IOException e) { // TODO Auto-generated
+   * catch block e.printStackTrace(); }
+   * 
+   * for (Paket paket : paketi) {
+   * 
+   * System.out.println(paket.toString()); } }
+   */
+
   private void ucitajPakete() {
-    CitanjePaketa citacPaketa = new CitanjePaketa();
+    CitanjePaketa2 citacPaketa = new CitanjePaketa2();
     try {
       paketi = citacPaketa.ucitajDatoteku(datotekaPaketa);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+
+    Collections.sort(paketi, (a, b) -> a.getVrijemePrijema().compareTo(b.getVrijemePrijema()));
 
     for (Paket paket : paketi) {
 

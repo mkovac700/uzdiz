@@ -1,5 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_1.singleton;
 
+import java.util.Collections;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_1.builder.Vozilo;
 
@@ -25,6 +26,7 @@ public class UredDostavaSingleton {
 
   public void setVozniPark(List<Vozilo> vozniPark) {
     this.vozniPark = vozniPark;
+    Collections.sort(vozniPark, (a, b) -> Integer.compare(a.getRedoslijed(), b.getRedoslijed()));
   }
 
 }
