@@ -6,9 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_1.podaci.Vozilo;
+import org.foi.uzdiz.mkovac.zadaca_1.builder.Vozilo;
+import org.foi.uzdiz.mkovac.zadaca_1.builder.VoziloBuildDirector;
+import org.foi.uzdiz.mkovac.zadaca_1.builder.VoziloBuilder;
+import org.foi.uzdiz.mkovac.zadaca_1.builder.VoziloBuilderImpl;
+import org.foi.uzdiz.mkovac.zadaca_1.singleton.GreskeSingleton;
 
 public class CitanjeVozila {
+  private GreskeSingleton greske = GreskeSingleton.getInstance();
+
   public List<Vozilo> ucitajDatoteku(String nazivDatoteke) throws IOException {
     var putanja = Path.of(nazivDatoteke);
     if (!Files.exists(putanja) || Files.isDirectory(putanja) || !Files.isReadable(putanja)) {
@@ -20,17 +26,42 @@ public class CitanjeVozila {
 
     var citac = Files.newBufferedReader(putanja, Charset.forName("UTF-8"));
 
+    // final VoziloBuilder builder = new VoziloBuilderImpl();
+    // final VoziloBuildDirector voziloBuildDirector = new VoziloBuildDirector(builder);
+
+    int rbr = 0;
+
     while (true) {
       var red = citac.readLine();
       if (red == null)
         break;
 
-      var atributi = red.split(";");
+      if (++rbr == 1)
+        continue;
+
+      var atributi = red.replace(",", ".").split(";");
       if (atributi.length != 5) {
-        // TODO singleton za greške
-        System.out.println("citanje vozila: red nema 5 atributa");
+        System.out.println(greske.dodajGresku(red, "Red nema 5 atributa!"));
       } else {
-        var vozilo = new Vozilo(atributi[0], atributi[1], atributi[2], atributi[3], atributi[4]);
+        float kapacitetTezine = 0;
+        float kapacitetProstora = 0;
+        int redoslijed = 0;
+
+        try {
+          kapacitetTezine = Float.parseFloat(atributi[2]);
+          kapacitetProstora = Float.parseFloat(atributi[3]);
+          redoslijed = Integer.parseInt(atributi[4]);
+        } catch (NumberFormatException e) {
+          System.out.println(greske.dodajGresku(red, e.getMessage()));
+          continue;
+        }
+
+        VoziloBuilder builder = new VoziloBuilderImpl();
+        VoziloBuildDirector voziloBuildDirector = new VoziloBuildDirector(builder);
+
+        var vozilo = voziloBuildDirector.construct(atributi[0], atributi[1], kapacitetTezine,
+            kapacitetProstora, redoslijed);
+
         vozila.add(vozilo);
       }
     }

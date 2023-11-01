@@ -13,18 +13,12 @@ public class GlavniProgram {
 
     String argumenti = String.join(" ", args).trim();
     if (!RegexSingleton.getInstance().provjeriIzraz(argumenti, RegexVrsta.argumenti)) {
-      System.out.println("neispravni argumenti");
+      System.out.println("Neispravni argumenti!");
       return;
     }
 
-    // GlavniProgram gp = new GlavniProgram();
-
-    // TODO instanciraj tvrtku
-
     TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
     tvrtka.init(argumenti);
-
-    // pokreni program
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -35,8 +29,16 @@ public class GlavniProgram {
           System.out.println("IP");
         } else if (komanda.split(" ")[0].equals("VR")) {
           System.out.println("VR");
+
+          tvrtka.vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
+
+          tvrtka.start();
         } else if (komanda.equals("Q")) {
           System.out.println("Q");
+
+          if (tvrtka.isAlive())
+            tvrtka.interrupt();
+
           break;
         }
       } else
