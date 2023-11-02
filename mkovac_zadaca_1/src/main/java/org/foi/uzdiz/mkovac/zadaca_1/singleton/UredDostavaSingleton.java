@@ -28,7 +28,9 @@ public class UredDostavaSingleton {
 
   public void setVozniPark(List<Vozilo> vozniPark) {
     this.vozniPark = vozniPark;
-    Collections.sort(vozniPark, (a, b) -> Integer.compare(a.getRedoslijed(), b.getRedoslijed()));
+    Collections.sort(this.vozniPark,
+        (a, b) -> Integer.compare(a.getRedoslijed(), b.getRedoslijed()));
+    trenutnoVozilo = this.vozniPark.get(0);
   }
 
   public Vozilo getTrenutnoVozilo() {

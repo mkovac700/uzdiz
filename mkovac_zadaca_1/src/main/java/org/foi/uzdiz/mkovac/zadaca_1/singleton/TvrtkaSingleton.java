@@ -66,26 +66,18 @@ public class TvrtkaSingleton {
   }
 
   public void init(String argumenti) {
-    GreskeSingleton greske = GreskeSingleton.getInstance();
 
     uredDostava = UredDostavaSingleton.getInstance();
     uredPrijem = UredPrijemSingleton.getInstance();
 
     String postavke[] = RegexSingleton.getInstance().razdvojiIzraz(argumenti, RegexVrsta.argumenti);
 
-    for (int i = 0; i < postavke.length; i++) {
-      System.out.println(i + ": " + postavke[i]);
-    }
-
     datotekaVrsta = postavke[1].split(" ")[1];
     datotekaVozila = postavke[2].split(" ")[1];
     datotekaPaketa = postavke[3].split(" ")[1];
 
-    System.out.println("ucitane vrste: ");
     ucitajVrste();
-    System.out.println("ucitana vozila: ");
     ucitajVozila();
-    System.out.println("ucitani paketi: ");
     ucitajPakete();
 
     maksTezina = Integer.parseInt(postavke[4].split(" ")[1]);
@@ -98,9 +90,6 @@ public class TvrtkaSingleton {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
     virtualniSat = LocalDateTime.parse(datumVrijeme, dtf);
 
-    System.out.println("maks tezina: " + maksTezina);
-    System.out.println("vrijeme isporuke: " + vrijemeIsporuke);
-    System.out.println("virtualni sat: " + virtualniSat.toString());
 
     mnoziteljSekunde = Integer.parseInt(postavke[10].split(" ")[1]);
 
@@ -110,24 +99,10 @@ public class TvrtkaSingleton {
     pocetakRada = LocalTime.parse(vrijemePocetak, tf);
     krajRada = LocalTime.parse(vrijemeKraj, tf);
 
-    System.out.println("mnozitelj sekunde: " + mnoziteljSekunde);
-    System.out.println("pocetak rada: " + pocetakRada.toString());
-    System.out.println("kraj rada: " + krajRada.toString());
 
     uredDostava.setVozniPark(vozila);
   }
 
-
-
-  /*
-   * private void ucitajVrste() { CitanjeVrsta citacVrsta = new CitanjeVrsta(); try { vrste =
-   * citacVrsta.ucitajDatoteku(datotekaVrsta); } catch (IOException e) { // TODO Auto-generated
-   * catch block e.printStackTrace(); }
-   * 
-   * for (Vrsta vrsta : vrste) {
-   * 
-   * System.out.println(vrsta.toString()); } }
-   */
 
   private void ucitajVrste() {
     CitanjeVrstaPaketa citacVrstaPaketa = new CitanjeVrstaPaketa();
@@ -136,11 +111,6 @@ public class TvrtkaSingleton {
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-    }
-
-    for (VrstaPaketa vrsta : vrstePaketa) {
-
-      System.out.println(vrsta.toString());
     }
   }
 
@@ -152,22 +122,7 @@ public class TvrtkaSingleton {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-
-    for (Vozilo vozilo : vozila) {
-
-      System.out.println(vozilo.toString());
-    }
   }
-
-  /*
-   * private void ucitajPakete() { CitanjePaketa citacPaketa = new CitanjePaketa(); try { paketi =
-   * citacPaketa.ucitajDatoteku(datotekaPaketa); } catch (IOException e) { // TODO Auto-generated
-   * catch block e.printStackTrace(); }
-   * 
-   * for (Paket paket : paketi) {
-   * 
-   * System.out.println(paket.toString()); } }
-   */
 
   private void ucitajPakete() {
     CitanjePaketa2 citacPaketa = new CitanjePaketa2();
@@ -180,9 +135,5 @@ public class TvrtkaSingleton {
 
     Collections.sort(paketi, (a, b) -> a.getVrijemePrijema().compareTo(b.getVrijemePrijema()));
 
-    for (Paket paket : paketi) {
-
-      System.out.println(paket.toString());
-    }
   }
 }

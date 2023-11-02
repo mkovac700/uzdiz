@@ -28,21 +28,14 @@ public class GlavniProgram {
       String komanda = reader.readLine();
       if (RegexSingleton.getInstance().provjeriIzraz(komanda, RegexVrsta.komanda)) {
         if (komanda.equals("IP")) {
-          System.out.println("IP");
+
         } else if (komanda.split(" ")[0].equals("VR")) {
-          System.out.println("VR");
 
           tvrtka.vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
 
           vw = new VirtualniWorker();
           vw.start();
-
-          // tvrtka.start();
         } else if (komanda.equals("Q")) {
-          System.out.println("Q");
-
-          // if (tvrtka.isAlive())
-          // tvrtka.interrupt();
 
           if (vw != null && vw.isAlive())
             vw.interrupt();

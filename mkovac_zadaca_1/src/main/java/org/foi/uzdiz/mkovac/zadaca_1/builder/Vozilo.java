@@ -85,6 +85,14 @@ public class Vozilo {
 
 
 
+  public float getKapacitetTezineTrenutno() {
+    return kapacitetTezineTrenutno;
+  }
+
+  public float getKapacitetProstoraTrenutno() {
+    return kapacitetProstoraTrenutno;
+  }
+
   public LocalDateTime getVrijemeZadnjegDostavljenogPaketa() {
     return vrijemeZadnjegDostavljenogPaketa;
   }
@@ -99,11 +107,17 @@ public class Vozilo {
     if (kapacitetProstoraTrenutno + paket.getM3() > kapacitetProstora
         || kapacitetTezineTrenutno + paket.getTezina() > kapacitetTezine) {
 
+      // ako nema paketa u vozilu, znaci da paket ne stane u odabrano vozilo, i nastavi dalje
+      // if (!paketi.isEmpty()) {
+      //
+      // }
+
       vrijemePolaska = TvrtkaSingleton.getInstance().getVirtualniSat();
       vrijemeZadnjegDostavljenogPaketa = vrijemePolaska;
 
-      System.out.println("[" + TvrtkaSingleton.getInstance().getVirtualniSat() + "]" + " Vozilo "
-          + this + " krenulo u dostavu!");
+      if (!paketi.isEmpty())
+        System.out.println("[" + TvrtkaSingleton.getInstance().getVirtualniSat() + "]" + " Vozilo "
+            + this + " krenulo u dostavu!");
 
       // za sve pakete postavi vrijeme preuzimanja
 
@@ -113,10 +127,12 @@ public class Vozilo {
         p.setVrijemePreuzimanja(vrijemePolaska.plusMinutes(brojac));
         brojac += TvrtkaSingleton.getInstance().vrijemeIsporuke;
 
-        System.out.println("Paket: " + p + " -> Vrijeme preuzimanja: " + p.getVrijemePreuzimanja());
+        // System.out.println("Paket: " + p + " -> Vrijeme preuzimanja: " +
+        // p.getVrijemePreuzimanja());
       }
 
       slobodno = false;
+
       return false;
 
     } else {
@@ -125,8 +141,8 @@ public class Vozilo {
 
       paketi.add(paket);
 
-      System.out.println(
-          "[" + TvrtkaSingleton.getInstance().getVirtualniSat() + "]" + " Ukrcan paket: " + paket);
+      System.out.println("[" + TvrtkaSingleton.getInstance().getVirtualniSat() + "]"
+          + " Ukrcan paket: " + paket + " u vozilo: " + this);
 
       return true;
     }
@@ -158,7 +174,28 @@ public class Vozilo {
 
   }
 
+  public void posaljiUDostavu() {
+    vrijemePolaska = TvrtkaSingleton.getInstance().getVirtualniSat();
+    vrijemeZadnjegDostavljenogPaketa = vrijemePolaska;
 
+    if (!paketi.isEmpty())
+      System.out.println("[" + TvrtkaSingleton.getInstance().getVirtualniSat() + "]" + " Vozilo "
+          + this + " krenulo u dostavu!");
+
+    // za sve pakete postavi vrijeme preuzimanja
+
+    int brojac = TvrtkaSingleton.getInstance().vrijemeIsporuke;
+
+    for (Paket p : paketi) {
+      p.setVrijemePreuzimanja(vrijemePolaska.plusMinutes(brojac));
+      brojac += TvrtkaSingleton.getInstance().vrijemeIsporuke;
+
+      // System.out.println("Paket: " + p + " -> Vrijeme preuzimanja: " +
+      // p.getVrijemePreuzimanja());
+    }
+
+    slobodno = false;
+  }
 
   public List<Paket> getPaketi() {
     return paketi;
