@@ -8,10 +8,12 @@ public class UredDostavaSingleton {
   private static volatile UredDostavaSingleton INSTANCE = new UredDostavaSingleton();
 
   // VozniPark
-  // unutar njega List<Vozila>
+  // unutar njega Vozila
   // unutar toga List<Paket>
 
   private List<Vozilo> vozniPark;
+
+  private Vozilo trenutnoVozilo;
 
   private UredDostavaSingleton() {}
 
@@ -28,5 +30,15 @@ public class UredDostavaSingleton {
     this.vozniPark = vozniPark;
     Collections.sort(vozniPark, (a, b) -> Integer.compare(a.getRedoslijed(), b.getRedoslijed()));
   }
+
+  public Vozilo getTrenutnoVozilo() {
+    return trenutnoVozilo;
+  }
+
+  public void setTrenutnoVozilo(Vozilo trenutnoVozilo) {
+    this.trenutnoVozilo = trenutnoVozilo;
+  }
+
+
 
 }

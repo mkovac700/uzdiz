@@ -22,6 +22,8 @@ public class GlavniProgram {
 
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+    VirtualniWorker vw = null;
+
     while (true) {
       String komanda = reader.readLine();
       if (RegexSingleton.getInstance().provjeriIzraz(komanda, RegexVrsta.komanda)) {
@@ -32,12 +34,18 @@ public class GlavniProgram {
 
           tvrtka.vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
 
-          tvrtka.start();
+          vw = new VirtualniWorker();
+          vw.start();
+
+          // tvrtka.start();
         } else if (komanda.equals("Q")) {
           System.out.println("Q");
 
-          if (tvrtka.isAlive())
-            tvrtka.interrupt();
+          // if (tvrtka.isAlive())
+          // tvrtka.interrupt();
+
+          if (vw != null && vw.isAlive())
+            vw.interrupt();
 
           break;
         }

@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_1.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_1.builder.Vozilo;
@@ -15,7 +14,7 @@ import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjePaketa2;
 import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjeVozila;
 import org.foi.uzdiz.mkovac.zadaca_1.pomocnici.CitanjeVrstaPaketa;
 
-public class TvrtkaSingleton extends Thread {
+public class TvrtkaSingleton {
   private static volatile TvrtkaSingleton INSTANCE = new TvrtkaSingleton();
 
   // TODO obavezno dodati listu grešaka
@@ -23,28 +22,28 @@ public class TvrtkaSingleton extends Thread {
   // također treba hendlati ako ne postoji zaglavlje (prvi redak)
 
   // private List<Vrsta> vrste;
-  private List<VrstaPaketa> vrstePaketa;
+  public List<VrstaPaketa> vrstePaketa;
 
-  private List<Vozilo> vozila;
+  public List<Vozilo> vozila;
 
   // private List<Paket> paketi;
 
-  private List<Paket> paketi;
+  public List<Paket> paketi;
 
   private String datotekaVrsta = "";
   private String datotekaVozila = "";
   private String datotekaPaketa = "";
-  private int maksTezina;
-  private int vrijemeIsporuke;
-  private LocalDateTime virtualniSat;
-  private int mnoziteljSekunde;
-  private LocalTime pocetakRada;
-  private LocalTime krajRada;
+  public int maksTezina;
+  public int vrijemeIsporuke;
+  public LocalDateTime virtualniSat;
+  public int mnoziteljSekunde;
+  public LocalTime pocetakRada;
+  public LocalTime krajRada;
 
   public int vrijemeIzvrsavanja;
 
-  UredDostavaSingleton uredDostava;
-  UredPrijemSingleton uredPrijem;
+  public UredDostavaSingleton uredDostava;
+  public UredPrijemSingleton uredPrijem;
 
   private TvrtkaSingleton() {}
 
@@ -58,6 +57,12 @@ public class TvrtkaSingleton extends Thread {
 
   public List<VrstaPaketa> getVrstePaketa() {
     return vrstePaketa;
+  }
+
+
+
+  public LocalDateTime getVirtualniSat() {
+    return virtualniSat;
   }
 
   public void init(String argumenti) {
@@ -113,76 +118,6 @@ public class TvrtkaSingleton extends Thread {
   }
 
 
-
-  @Override
-  public synchronized void start() {
-    super.start();
-  }
-
-  @Override
-  public void run() {
-    LocalDateTime virtualniKraj = virtualniSat;
-    virtualniKraj = virtualniKraj.plusHours(vrijemeIzvrsavanja);
-
-    System.out.println("virtualni sat: " + virtualniSat.toString());
-    System.out.println("virtualni kraj: " + virtualniKraj.toString());
-
-    System.out.println(virtualniSat.toLocalTime().isBefore(krajRada));
-    System.out.println(virtualniSat.isBefore(virtualniKraj));
-
-    while (virtualniSat.toLocalTime().isBefore(krajRada) && virtualniSat.isBefore(virtualniKraj)) {
-      try {
-        Thread.sleep(1000);
-      } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-
-      virtualniSat = virtualniSat.plusSeconds(mnoziteljSekunde);
-
-      System.out.println("virtualni sat: " + virtualniSat.toString());
-
-      Iterator<Paket> itr = paketi.iterator();
-
-      while (itr.hasNext()) {
-        Paket p = itr.next();
-        if (p.getVrijemePrijema().isBefore(virtualniSat)) {
-          uredPrijem.zaprimiPaket(p);
-          itr.remove();
-        }
-      }
-
-      System.out.println("zaprimljeni paketi: ");
-
-      for (Paket p : uredPrijem.getPrimljeniPaketi()) {
-        System.out.println(p);
-      }
-
-      System.out.println("svi paketi: ");
-      for (Paket p : paketi) {
-        System.out.println(p);
-      }
-
-      if (!uredPrijem.getPrimljeniPaketi().isEmpty()) {
-        // ukrcaj paket u vozilo
-        Iterator<Paket> itr2 = uredPrijem.getPrimljeniPaketi().iterator();
-
-        while (itr.hasNext()) {
-          Paket p = itr.next();
-
-        }
-      }
-
-
-    }
-
-
-  }
-
-  @Override
-  public void interrupt() {
-    super.interrupt();
-  }
 
   /*
    * private void ucitajVrste() { CitanjeVrsta citacVrsta = new CitanjeVrsta(); try { vrste =
