@@ -7,8 +7,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.podaci.Parametar;
+import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 
 public class CitacParametara implements CitacDatoteke<Parametar> {
+
+  private GreskeSingleton greske = GreskeSingleton.getInstance();
 
   @Override
   public List<Parametar> citajDatoteku(String nazivDatoteke) throws IOException {
@@ -28,17 +31,18 @@ public class CitacParametara implements CitacDatoteke<Parametar> {
       if (red == null)
         break;
 
-      if (red.contains("=")) {
-        var atributi = red.split("=");
+      var atributi = red.split("=");
+
+      if (atributi.length != 2) {
+        System.out.println(greske.novaGreska(red, "Red nije u obliku ključ=vrijednost"));
+      } else {
         String kljuc = atributi[0].trim();
         String vrijednost = atributi[1].trim();
         parametri.add(new Parametar(kljuc, vrijednost));
-      } else {
-        // TODO ispis greske da nema znaka =
       }
     }
 
-    return null;
+    return parametri;
   }
 
 }
