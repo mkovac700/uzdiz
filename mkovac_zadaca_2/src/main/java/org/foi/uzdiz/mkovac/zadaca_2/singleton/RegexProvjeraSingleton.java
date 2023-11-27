@@ -44,6 +44,10 @@ public class RegexProvjeraSingleton {
     return patternTxtDatoteka;
   }
 
+  public boolean provjeriUlazneArgumente(String argumenti) {
+    return this.provjeriIzraz(argumenti, RegexVrsta.argumenti);
+  }
+
   public boolean provjeriIzraz(String izraz, RegexVrsta vrsta) {
     Matcher matcher;
 
@@ -68,9 +72,12 @@ public class RegexProvjeraSingleton {
     String s = izraz.trim();
     Matcher matcher = null;
 
-    if (vrsta == RegexVrsta.argumenti) {
+    if (vrsta == RegexVrsta.argumenti)
       matcher = dajPatternArgumenti().matcher(s);
-    }
+    else if (vrsta == RegexVrsta.komanda)
+      matcher = dajPatternKomanda().matcher(s);
+    else if (vrsta == RegexVrsta.txtDatoteka)
+      matcher = dajPatternTxtDatoteka().matcher(s);
 
     if (matcher != null && matcher.matches()) {
       int poc = 0;
