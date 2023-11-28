@@ -23,6 +23,7 @@ public class GlavniProgram {
       System.out.println("Neuspješna inicijalizacija sustava: " + e.getMessage());
       return;
     }
+
   }
 
 }
