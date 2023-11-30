@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.prototype.NetipskiPaket;
 import org.foi.uzdiz.mkovac.zadaca_2.prototype.TipskiPaket;
@@ -42,6 +43,8 @@ public class CitacVrstaPaketa implements CitacDatoteke<VrstaPaketa> {
       if (atributi.length != 10) {
         System.out.println(greske.novaGreska(red, "Red nema 10 atributa!"));
       } else {
+        Arrays.setAll(atributi, i -> atributi[i].trim());
+
         String oznaka = atributi[0];
         String opis = atributi[1];
 
@@ -67,6 +70,19 @@ public class CitacVrstaPaketa implements CitacDatoteke<VrstaPaketa> {
           System.out.println(greske.novaGreska(red, e.getMessage()));
           continue;
         }
+
+        if (vrstePaketa.stream().anyMatch(vrstaPaketa -> oznaka.equals(vrstaPaketa.oznaka))) {
+          System.out.println(greske.novaGreska(red, "Duplikat oznake paketa!"));
+          continue;
+        }
+
+        // TODO provjera odgovaraju li tipovi (remove)
+        /*
+         * if (!oznaka.equals("A") && !oznaka.equals("B") && !oznaka.equals("C") &&
+         * !oznaka.equals("D") && !oznaka.equals("E") && !oznaka.equals("X")) { System.out.println(
+         * greske.novaGreska(red, "Vrijednost atributa 'oznaka' nije A | B | C | D | E | X"));
+         * continue; }
+         */
 
         if (oznaka.equals("X")) {
           maksimalnaTezina = Float.parseFloat(TvrtkaSingleton.getInstance().dajPostavku("mt"));

@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuildDirector;
@@ -38,10 +39,12 @@ public class CitacUlica implements CitacDatoteke<Ulica> {
       if (++rbr == 1)
         continue;
 
-      var atributi = red.replace(",", ".").split(";");
+      var atributi = red.split(";");
       if (atributi.length != 7) {
         System.out.println(greske.novaGreska(red, "Red nema 7 atributa!"));
       } else {
+        Arrays.setAll(atributi, i -> atributi[i].trim());
+
         int id;
         String naziv;
         float gpsLat1;
@@ -54,10 +57,10 @@ public class CitacUlica implements CitacDatoteke<Ulica> {
 
         try {
           id = Integer.parseInt(atributi[0]);
-          gpsLat1 = Float.parseFloat(atributi[2]);
-          gpsLon1 = Float.parseFloat(atributi[3]);
-          gpsLat2 = Float.parseFloat(atributi[4]);
-          gpsLon2 = Float.parseFloat(atributi[5]);
+          gpsLat1 = Float.parseFloat(atributi[2].replace(",", "."));
+          gpsLon1 = Float.parseFloat(atributi[3].replace(",", "."));
+          gpsLat2 = Float.parseFloat(atributi[4].replace(",", "."));
+          gpsLon2 = Float.parseFloat(atributi[5].replace(",", "."));
           najveciKucniBroj = Integer.parseInt(atributi[6]);
 
         } catch (NumberFormatException e) {
@@ -65,7 +68,22 @@ public class CitacUlica implements CitacDatoteke<Ulica> {
           continue;
         }
 
-        // TODO BUILDER
+        if (ulice.stream().anyMatch(ulica -> ulica.getId() == id)) {
+          System.out.println(greske.novaGreska(red, "Duplikat ID ulice!"));
+          continue;
+        }
+
+        if (gpsLat1 > 90.0f || gpsLat1 < -90.0f || gpsLat2 > 90.0f || gpsLat2 < -90.0f) {
+          System.out.println(greske.novaGreska(red, "Geografska širina nije u rasponu -90 do 90!"));
+          continue;
+        }
+
+        if (gpsLon1 > 180.0f || gpsLon1 < -180.0f || gpsLon2 > 180.0f || gpsLon2 < -180.0f) {
+          System.out
+              .println(greske.novaGreska(red, "Geografska dužina nije u rasponu -180 do 180!"));
+          continue;
+        }
+
         UlicaBuilder builder = new UlicaBuilderImpl();
         UlicaBuildDirector ulicaBuildDirector = new UlicaBuildDirector(builder);
 

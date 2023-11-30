@@ -69,7 +69,7 @@ public class Ulica {
 
   @Override
   public String toString() {
-    return this.naziv;
+    return this.id + ": " + this.naziv;
   }
 
 
