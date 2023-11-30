@@ -6,8 +6,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
+import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacUlica;
+import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVozila;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_2.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_2.podaci.Parametar;
@@ -34,6 +38,8 @@ public class TvrtkaSingleton {
 
   private List<Parametar> parametri;
   private List<VrstaPaketa> vrstePaketa;
+  private List<Vozilo> vozila;
+  private List<Ulica> ulice;
 
   public String getVirtualniSatFormatirano() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
@@ -42,10 +48,18 @@ public class TvrtkaSingleton {
   }
 
   public void init(String argument) throws IOException, NeispravniParametri {
+    // TODO POPRAVIT REDOSLIJED
+
     this.ucitajParametre(argument);
     this.ucitajVrstePaketa(postavke.getProperty("vp"));
+    this.ucitajVozila(postavke.getProperty("pv"));
+    this.ucitajUlice(postavke.getProperty("pu"));
 
     // TODO izdvoji postavke za tvrtku:
+    this.izdvojiPostavke();
+  }
+
+  private void izdvojiPostavke() {
     String datumVrijeme = postavke.getProperty("vs");
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
     virtualniSat = LocalDateTime.parse(datumVrijeme, dtf);
@@ -93,6 +107,32 @@ public class TvrtkaSingleton {
     // TODO remove
     for (VrstaPaketa vrstaPaketa : vrstePaketa) {
       System.out.println(vrstaPaketa.oznaka);
+    }
+  }
+
+  private void ucitajVozila(String datoteka) throws IOException {
+    CitacDatoteke<Vozilo> citac = new CitacVozila();
+    vozila = citac.citajDatoteku(datoteka);
+
+    // TODO remove
+    System.out.println("Ucitana vozila: ");
+
+    // TODO remove
+    for (Vozilo vozilo : vozila) {
+      System.out.println(vozilo);
+    }
+  }
+
+  private void ucitajUlice(String datoteka) throws IOException {
+    CitacDatoteke<Ulica> citac = new CitacUlica();
+    ulice = citac.citajDatoteku(datoteka);
+
+    // TODO remove
+    System.out.println("Ucitane ulice: ");
+
+    // TODO remove
+    for (Ulica ulica : ulice) {
+      System.out.println(ulica);
     }
   }
 

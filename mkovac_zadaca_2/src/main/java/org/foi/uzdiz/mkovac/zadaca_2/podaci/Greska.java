@@ -13,7 +13,7 @@ public class Greska {
 
   @Override
   public String toString() {
-    return "GREŠKA #" + redniBroj + " SADRŽAJ RETKA: " + zapis + " OPIS GREŠKE: " + opis;
+    return "[GREŠKA #" + redniBroj + "] SADRŽAJ RETKA: " + zapis + " OPIS GREŠKE: " + opis;
   }
 
 
