@@ -7,10 +7,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_2.builder.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuildDirector;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuilder;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuilderImpl;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 
 public class CitacUlica implements CitacDatoteke<Ulica> {

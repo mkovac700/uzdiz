@@ -1,5 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+
 /**
  * Concrete builder
  * 

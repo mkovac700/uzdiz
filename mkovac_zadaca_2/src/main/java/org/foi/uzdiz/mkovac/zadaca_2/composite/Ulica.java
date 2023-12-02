@@ -1,6 +1,13 @@
-package org.foi.uzdiz.mkovac.zadaca_2.builder;
+package org.foi.uzdiz.mkovac.zadaca_2.composite;
 
-public class Ulica {
+
+/**
+ * Leaf
+ * 
+ * @author Marijan Kovač
+ *
+ */
+public class Ulica implements LokacijaComponent {
   private int id;
   private String naziv;
   private float gpsLat1;
@@ -10,6 +17,17 @@ public class Ulica {
   private int najveciKucniBroj;
 
   public Ulica() {}
+
+  public Ulica(int id, String naziv, float gpsLat1, float gpsLon1, float gpsLat2, float gpsLon2,
+      int najveciKucniBroj) {
+    this.id = id;
+    this.naziv = naziv;
+    this.gpsLat1 = gpsLat1;
+    this.gpsLon1 = gpsLon1;
+    this.gpsLat2 = gpsLat2;
+    this.gpsLon2 = gpsLon2;
+    this.najveciKucniBroj = najveciKucniBroj;
+  }
 
   public int getId() {
     return id;
@@ -68,7 +86,7 @@ public class Ulica {
   }
 
   @Override
-  public String toString() {
+  public String prikaziDetalje() {
     return this.id + ": " + this.naziv;
   }
 

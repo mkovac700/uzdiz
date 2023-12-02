@@ -7,11 +7,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_2.builder.Mjesto;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.MjestoBuildDirector;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.MjestoBuilder;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.MjestoBuilderImpl;
-import org.foi.uzdiz.mkovac.zadaca_2.builder.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 
@@ -69,17 +69,38 @@ public class CitacMjesta implements CitacDatoteke<Mjesto> {
 
         // TODO provjera postoje li u sustavu sve ulice koje se pridodaju mjestu?:
 
+        // if (Arrays.stream(uliceId)
+        // .anyMatch(ulicaId -> !ulice.stream().anyMatch(ulica -> ulica.getId() == ulicaId))) {
+        // System.out.println(greske.novaGreska(red,
+        // "Mjesto u popisu ulica sadrži ID ulice koja ne postoji u sustavu!"));
+        // continue;
+        // }
+
         if (Arrays.stream(uliceId)
             .anyMatch(ulicaId -> !ulice.stream().anyMatch(ulica -> ulica.getId() == ulicaId))) {
           System.out.println(greske.novaGreska(red,
-              "Mjesto u popisu ulica sadrži ID ulice koja ne postoji u sustavu!"));
-          continue;
+              "[UPOZORENJE] Mjesto u popisu ulica sadrži ID ulice koja ne postoji u sustavu!"));
+
         }
 
         MjestoBuilder builder = new MjestoBuilderImpl();
         MjestoBuildDirector mjestoBuildDirector = new MjestoBuildDirector(builder);
 
-        var mjesto = mjestoBuildDirector.construct(id, naziv, uliceId);
+        // var mjesto = mjestoBuildDirector.construct(id, naziv, uliceId);
+        var mjesto = mjestoBuildDirector.construct(id, naziv);
+
+        // ulice.forEach(ulica -> mjesto.dodajLokaciju(ulica));
+
+
+        // Arrays.stream(uliceId).forEach(ulicaId -> mjesto.dodajLokaciju(
+        // ulice.stream().filter(ulica -> ulica.getId() == ulicaId).findFirst().get()));
+
+        for (int ulicaId : uliceId) {
+          if (ulice.stream().anyMatch(ulica -> ulica.getId() == ulicaId)) {
+            mjesto.dodajLokaciju(
+                ulice.stream().filter(ulica -> ulica.getId() == ulicaId).findFirst().get());
+          }
+        }
 
         mjesta.add(mjesto);
 

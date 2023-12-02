@@ -6,9 +6,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
-import org.foi.uzdiz.mkovac.zadaca_2.builder.Mjesto;
-import org.foi.uzdiz.mkovac.zadaca_2.builder.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
@@ -135,7 +135,7 @@ public class TvrtkaSingleton {
 
     // TODO remove
     for (Ulica ulica : ulice) {
-      System.out.println(ulica);
+      System.out.println(ulica.prikaziDetalje());
     }
   }
 
@@ -148,7 +148,7 @@ public class TvrtkaSingleton {
 
     // TODO remove
     for (Mjesto mjesto : mjesta) {
-      System.out.println(mjesto);
+      System.out.println(mjesto.prikaziDetalje());
     }
   }
 

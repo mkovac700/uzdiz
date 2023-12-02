@@ -1,5 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
+import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+
 /**
  * Concrete builder
  * 
@@ -31,11 +33,11 @@ public class MjestoBuilderImpl implements MjestoBuilder {
     return this;
   }
 
-  @Override
-  public MjestoBuilder setUliceId(int[] uliceId) {
-    mjesto.setUliceId(uliceId);
-    return this;
-  }
+  // @Override
+  // public MjestoBuilder setUliceId(int[] uliceId) {
+  // mjesto.setUliceId(uliceId);
+  // return this;
+  // }
 
 
 
