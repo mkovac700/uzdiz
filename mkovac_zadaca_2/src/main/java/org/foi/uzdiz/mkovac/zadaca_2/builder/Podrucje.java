@@ -1,27 +1,51 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
 
 
 /**
- * Another composite
+ * 
  * 
  * @author Marijan Kovač
  *
  */
 public class Podrucje {
   private int id;
-  // private int[][] gradUlica;
-  private List<Mjesto> mjesta;
+
+  private Mjesto svaMjesta = new Mjesto();
 
   public Podrucje(int id) {
     this.id = id;
-    mjesta = new ArrayList<>();
   }
 
-  // public ucitajMjesta(Mjesto mjesto) {
-  //
-  // }
+
+
+  public int getId() {
+    return id;
+  }
+
+
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+
+
+  public Mjesto getSvaMjesta() {
+    return svaMjesta;
+  }
+
+
+
+  public void setSvaMjesta(Mjesto svaMjesta) {
+    this.svaMjesta = svaMjesta;
+  }
+
+
+
+  public void dodajMjesta(LokacijaComponent... lokacije) {
+    svaMjesta.dodajLokaciju(lokacije);
+  }
 }

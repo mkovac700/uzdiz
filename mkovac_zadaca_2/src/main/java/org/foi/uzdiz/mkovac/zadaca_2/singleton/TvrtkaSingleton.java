@@ -6,12 +6,15 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Podrucje;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
+import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacPodrucja;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacUlica;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVozila;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVrstaPaketa;
@@ -42,6 +45,7 @@ public class TvrtkaSingleton {
   private List<Vozilo> vozila;
   private List<Ulica> ulice;
   private List<Mjesto> mjesta;
+  private List<Podrucje> podrucja;
 
   public String getVirtualniSatFormatirano() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
@@ -57,6 +61,7 @@ public class TvrtkaSingleton {
     this.ucitajVozila(postavke.getProperty("pv"));
     this.ucitajUlice(postavke.getProperty("pu"));
     this.ucitajMjesta(postavke.getProperty("pm"));
+    this.ucitajPodrucja(postavke.getProperty("pmu"));
 
     // TODO izdvoji postavke za tvrtku:
     this.izdvojiPostavke();
@@ -152,6 +157,27 @@ public class TvrtkaSingleton {
     }
   }
 
+  private void ucitajPodrucja(String datoteka) throws IOException {
+    CitacDatoteke<Podrucje> citac = new CitacPodrucja();
+    podrucja = citac.citajDatoteku(datoteka);
+
+    // TODO remove
+    System.out.println("Ucitana podrucja: ");
+
+    // TODO remove
+    for (Podrucje podrucje : podrucja) {
+      System.out.println("Područje " + podrucje.getId());
+      for (LokacijaComponent mjesto : podrucje.getSvaMjesta().dajLokacije()) {
+        System.out
+            .println("    " + ((Mjesto) mjesto).getId() + ": " + ((Mjesto) mjesto).getNaziv());
+        for (LokacijaComponent ulica : mjesto.dajLokacije()) {
+          System.out
+              .println("        " + ((Ulica) ulica).getId() + ": " + ((Ulica) ulica).getNaziv());
+        }
+      }
+    }
+  }
+
   public String dajPostavku(String kljuc) {
     return postavke.getProperty(kljuc);
   }
@@ -160,5 +186,25 @@ public class TvrtkaSingleton {
     return ulice;
   }
 
+  public List<Mjesto> getMjesta() {
+    return mjesta;
+  }
 
+  public List<Podrucje> getPodrucja() {
+    return podrucja;
+  }
+
+  public void ispisPodrucja() {
+    for (Podrucje podrucje : podrucja) {
+      System.out.println("Područje " + podrucje.getId());
+      for (LokacijaComponent mjesto : podrucje.getSvaMjesta().dajLokacije()) {
+        System.out
+            .println("    " + ((Mjesto) mjesto).getId() + ": " + ((Mjesto) mjesto).getNaziv());
+        for (LokacijaComponent ulica : mjesto.dajLokacije()) {
+          System.out
+              .println("        " + ((Ulica) ulica).getId() + ": " + ((Ulica) ulica).getNaziv());
+        }
+      }
+    }
+  }
 }

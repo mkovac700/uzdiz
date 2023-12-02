@@ -45,6 +45,8 @@ public class GlavniProgram {
         } else if (komanda.split(" ")[0].equals("VR")) {
           int vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
           simulator.pokreni(vrijemeIzvrsavanja);
+        } else if (komanda.equals("PP")) {
+          tvrtka.ispisPodrucja();
         } else if (komanda.equals("Q")) {
           break;
         }

@@ -1,6 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.composite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Composite
@@ -43,6 +44,11 @@ public class Mjesto implements LokacijaComponent {
   @Override
   public void dodajLokaciju(LokacijaComponent lokacija) {
     ulice.add(lokacija);
+  }
+
+  @Override
+  public void dodajLokaciju(LokacijaComponent... lokacije) {
+    ulice.addAll(Arrays.asList(lokacije));
   }
 
   @Override

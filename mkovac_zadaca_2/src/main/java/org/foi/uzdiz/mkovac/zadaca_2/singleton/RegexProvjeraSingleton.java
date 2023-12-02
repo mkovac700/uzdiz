@@ -13,7 +13,7 @@ public class RegexProvjeraSingleton {
   private Pattern patternArgumenti = null;
   private Pattern patternTxtDatoteka = null;
 
-  private final String regexKomanda = "\\b(?:Q|IP|VR (?:[1-9]|1\\d|2[0-3]))\\b";
+  private final String regexKomanda = "\\b(?:Q|IP|VR (?:[1-9]|1\\d|2[0-3])|PP)\\b";
 
   private final String regexArgumenti =
       "^(?=.*(--vp [a-zA-ZÀ-ÖØ-öø-ÿČčĆćŽžĐđŠš0-9_-]+\\.csv))(?=.*(--pv [a-zA-ZÀ-ÖØ-öø-ÿČčĆćŽžĐđŠš0-9_-]+\\.csv))(?=.*(--pp [a-zA-ZÀ-ÖØ-öø-ÿČčĆćŽžĐđŠš0-9_-]+\\.csv))(?=.*(--mt \\d+))(?=.*(--vi \\d+))(?=.*(--vs \\d{2}\\.\\d{2}\\.\\d{4}\\. (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])))(?=.*(--ms \\d+))(?=.*(--pr (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])))(?=.*(--kr (0[0-9]|1[0-9]|2[0-3]):([0-5][0-9]))).*$";
