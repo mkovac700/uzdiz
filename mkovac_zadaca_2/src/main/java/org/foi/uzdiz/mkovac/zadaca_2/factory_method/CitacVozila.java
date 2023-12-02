@@ -61,7 +61,7 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
           redoslijed = Integer.parseInt(atributi[4]);
           prosjecnaBrzina = Float.parseFloat(atributi[5].replace(",", "."));
           podrucjaPoRangu =
-              Arrays.stream(atributi[6].split(".")).mapToInt(Integer::parseInt).toArray();
+              Arrays.stream(atributi[6].split(",")).mapToInt(Integer::parseInt).toArray();
         } catch (NumberFormatException e) {
           System.out.println(greske.novaGreska(red, e.getMessage()));
           continue;

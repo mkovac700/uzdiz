@@ -6,9 +6,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Mjesto;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Ulica;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
+import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacUlica;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVozila;
@@ -35,11 +37,11 @@ public class TvrtkaSingleton {
   public LocalTime pocetakRada;
   public LocalTime krajRada;
 
-
   private List<Parametar> parametri;
   private List<VrstaPaketa> vrstePaketa;
   private List<Vozilo> vozila;
   private List<Ulica> ulice;
+  private List<Mjesto> mjesta;
 
   public String getVirtualniSatFormatirano() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
@@ -54,6 +56,7 @@ public class TvrtkaSingleton {
     this.ucitajVrstePaketa(postavke.getProperty("vp"));
     this.ucitajVozila(postavke.getProperty("pv"));
     this.ucitajUlice(postavke.getProperty("pu"));
+    this.ucitajMjesta(postavke.getProperty("pm"));
 
     // TODO izdvoji postavke za tvrtku:
     this.izdvojiPostavke();
@@ -136,7 +139,26 @@ public class TvrtkaSingleton {
     }
   }
 
+  private void ucitajMjesta(String datoteka) throws IOException {
+    CitacDatoteke<Mjesto> citac = new CitacMjesta();
+    mjesta = citac.citajDatoteku(datoteka);
+
+    // TODO remove
+    System.out.println("Ucitana mjesta: ");
+
+    // TODO remove
+    for (Mjesto mjesto : mjesta) {
+      System.out.println(mjesto);
+    }
+  }
+
   public String dajPostavku(String kljuc) {
     return postavke.getProperty(kljuc);
   }
+
+  public List<Ulica> getUlice() {
+    return ulice;
+  }
+
+
 }
