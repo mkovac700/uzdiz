@@ -1,6 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 
 /**
  * Director
@@ -16,11 +16,7 @@ public class MjestoBuildDirector {
     this.builder = builder;
   }
 
-  // public Mjesto construct(int id, String naziv, int[] uliceId) {
-  // return builder.setId(id).setNaziv(naziv).setUliceId(uliceId).build();
-  // }
-
-  public Mjesto construct(int id, String naziv) {
+  public MjestoComposite construct(int id, String naziv) {
     return builder.setId(id).setNaziv(naziv).build();
   }
 

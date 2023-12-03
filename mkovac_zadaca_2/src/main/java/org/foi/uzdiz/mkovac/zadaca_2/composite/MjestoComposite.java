@@ -9,20 +9,20 @@ import java.util.Arrays;
  * @author Marijan Kovač
  *
  */
-public class Mjesto implements LokacijaComponent {
+public class MjestoComposite implements LokacijaComponent {
   private int id;
   private String naziv;
 
-  private ArrayList<LokacijaComponent> ulice;
+  private ArrayList<LokacijaComponent> komponente;
 
-  public Mjesto() {
-    this.ulice = new ArrayList<>();
+  public MjestoComposite() {
+    this.komponente = new ArrayList<>();
   }
 
-  public Mjesto(int id, String naziv) {
+  public MjestoComposite(int id, String naziv) {
     this.id = id;
     this.naziv = naziv;
-    this.ulice = new ArrayList<>();
+    this.komponente = new ArrayList<>();
   }
 
   public int getId() {
@@ -43,17 +43,17 @@ public class Mjesto implements LokacijaComponent {
 
   @Override
   public void dodajLokaciju(LokacijaComponent lokacija) {
-    ulice.add(lokacija);
+    komponente.add(lokacija);
   }
 
   @Override
   public void dodajLokaciju(LokacijaComponent... lokacije) {
-    ulice.addAll(Arrays.asList(lokacije));
+    komponente.addAll(Arrays.asList(lokacije));
   }
 
   @Override
   public ArrayList<LokacijaComponent> dajLokacije() {
-    return this.ulice;
+    return this.komponente;
   }
 
   @Override

@@ -7,11 +7,13 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Podrucje;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.VoziloBuildDirector;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.VoziloBuilder;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.VoziloBuilderImpl;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
+import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 
 public class CitacVozila implements CitacDatoteke<Vozilo> {
 
@@ -25,6 +27,8 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
       throw new IOException(
           "Datoteka '" + nazivDatoteke + "' nije datoteka ili nije moguće otvoriti!");
     }
+
+    List<Podrucje> podrucja = TvrtkaSingleton.getInstance().getPodrucja();
 
     List<Vozilo> vozila = new ArrayList<>();
 
@@ -52,7 +56,7 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
         float kapacitetProstora = 0;
         int redoslijed = 0;
         float prosjecnaBrzina = 0;
-        int[] podrucjaPoRangu = null;
+        int[] podrucjaPoRanguID = null;
         String status = atributi[7];
 
         try {
@@ -60,8 +64,8 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
           kapacitetProstora = Float.parseFloat(atributi[3].replace(",", "."));
           redoslijed = Integer.parseInt(atributi[4]);
           prosjecnaBrzina = Float.parseFloat(atributi[5].replace(",", "."));
-          podrucjaPoRangu =
-              Arrays.stream(atributi[6].split(",")).mapToInt(Integer::parseInt).toArray();
+          podrucjaPoRanguID = Arrays.stream(atributi[6].replace(" ", "").split(","))
+              .mapToInt(Integer::parseInt).toArray();
         } catch (NumberFormatException e) {
           System.out.println(greske.novaGreska(red, e.getMessage()));
           continue;
@@ -72,7 +76,17 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
           continue;
         }
 
-        // TODO if podrucjaPoRangu not in popisPodrucja continue;
+        List<Podrucje> podrucjaPoRangu = new ArrayList<>();
+
+        for (int id : podrucjaPoRanguID) {
+          if (podrucja.stream().anyMatch(p -> p.getId() == id)) {
+            Podrucje podrucje = podrucja.stream().filter(p -> p.getId() == id).findFirst().get();
+            podrucjaPoRangu.add(podrucje);
+          } else {
+            System.out.println(greske.novaGreska(red,
+                "[UPOZORENJE] Vozilo u popisu područja sadrži ID područja koje ne postoji u sustavu!"));
+          }
+        }
 
         if (!status.equals("A") && !status.equals("NA") && !status.equals("NI")) {
           System.out

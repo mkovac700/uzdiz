@@ -1,6 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 
 /**
  * The builder abstraction
@@ -10,12 +10,10 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
  */
 public interface MjestoBuilder {
 
-  Mjesto build();
+  MjestoComposite build();
 
   MjestoBuilder setId(final int id);
 
   MjestoBuilder setNaziv(final String naziv);
-
-  // MjestoBuilder setUliceId(final int[] uliceId);
 
 }

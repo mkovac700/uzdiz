@@ -1,5 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
+import java.util.List;
+
 /**
  * Concrete builder
  * 
@@ -56,7 +58,7 @@ public class VoziloBuilderImpl implements VoziloBuilder {
   }
 
   @Override
-  public VoziloBuilder setPodrucjaPoRangu(int[] podrucjaPoRangu) {
+  public VoziloBuilder setPodrucjaPoRangu(List<Podrucje> podrucjaPoRangu) {
     vozilo.setPodrucjaPoRangu(podrucjaPoRangu);
     return this;
   }

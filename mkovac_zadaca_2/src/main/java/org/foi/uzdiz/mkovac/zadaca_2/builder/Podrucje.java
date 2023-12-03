@@ -1,7 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 
 
 /**
@@ -13,18 +13,21 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
 public class Podrucje {
   private int id;
 
-  private Mjesto svaMjesta = new Mjesto();
+  private MjestoComposite svaMjesta;
+
+  public Podrucje() {
+    svaMjesta = new MjestoComposite();
+  }
 
   public Podrucje(int id) {
     this.id = id;
+    svaMjesta = new MjestoComposite();
   }
-
 
 
   public int getId() {
     return id;
   }
-
 
 
   public void setId(int id) {
@@ -33,13 +36,13 @@ public class Podrucje {
 
 
 
-  public Mjesto getSvaMjesta() {
+  public MjestoComposite getSvaMjesta() {
     return svaMjesta;
   }
 
 
 
-  public void setSvaMjesta(Mjesto svaMjesta) {
+  public void setSvaMjesta(MjestoComposite svaMjesta) {
     this.svaMjesta = svaMjesta;
   }
 

@@ -10,17 +10,17 @@ import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.MjestoBuildDirector;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.MjestoBuilder;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.MjestoBuilderImpl;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 
-public class CitacMjesta implements CitacDatoteke<Mjesto> {
+public class CitacMjesta implements CitacDatoteke<MjestoComposite> {
 
   private GreskeSingleton greske = GreskeSingleton.getInstance();
 
   @Override
-  public List<Mjesto> citajDatoteku(String nazivDatoteke) throws IOException {
+  public List<MjestoComposite> citajDatoteku(String nazivDatoteke) throws IOException {
 
     var putanja = Path.of(nazivDatoteke);
     if (!Files.exists(putanja) || Files.isDirectory(putanja) || !Files.isReadable(putanja)) {
@@ -28,9 +28,9 @@ public class CitacMjesta implements CitacDatoteke<Mjesto> {
           "Datoteka '" + nazivDatoteke + "' nije datoteka ili nije moguće otvoriti!");
     }
 
-    List<Mjesto> mjesta = new ArrayList<>();
+    List<MjestoComposite> mjesta = new ArrayList<>();
 
-    List<Ulica> ulice = TvrtkaSingleton.getInstance().getUlice();
+    List<UlicaLeaf> ulice = TvrtkaSingleton.getInstance().getUlice();
 
     var citac = Files.newBufferedReader(putanja, Charset.forName("UTF-8"));
 
@@ -67,14 +67,7 @@ public class CitacMjesta implements CitacDatoteke<Mjesto> {
           continue;
         }
 
-        // TODO provjera postoje li u sustavu sve ulice koje se pridodaju mjestu?:
-
-        // if (Arrays.stream(uliceId)
-        // .anyMatch(ulicaId -> !ulice.stream().anyMatch(ulica -> ulica.getId() == ulicaId))) {
-        // System.out.println(greske.novaGreska(red,
-        // "Mjesto u popisu ulica sadrži ID ulice koja ne postoji u sustavu!"));
-        // continue;
-        // }
+        // TODO provjera postoje li u sustavu sve ulice koje se pridodaju mjestu
 
         if (Arrays.stream(uliceId)
             .anyMatch(ulicaId -> !ulice.stream().anyMatch(ulica -> ulica.getId() == ulicaId))) {
@@ -86,14 +79,7 @@ public class CitacMjesta implements CitacDatoteke<Mjesto> {
         MjestoBuilder builder = new MjestoBuilderImpl();
         MjestoBuildDirector mjestoBuildDirector = new MjestoBuildDirector(builder);
 
-        // var mjesto = mjestoBuildDirector.construct(id, naziv, uliceId);
         var mjesto = mjestoBuildDirector.construct(id, naziv);
-
-        // ulice.forEach(ulica -> mjesto.dodajLokaciju(ulica));
-
-
-        // Arrays.stream(uliceId).forEach(ulicaId -> mjesto.dodajLokaciju(
-        // ulice.stream().filter(ulica -> ulica.getId() == ulicaId).findFirst().get()));
 
         for (int ulicaId : uliceId) {
           if (ulice.stream().anyMatch(ulica -> ulica.getId() == ulicaId)) {

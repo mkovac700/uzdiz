@@ -1,5 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
+import java.util.List;
+
 /**
  * The builder abstraction
  * 
@@ -21,7 +23,7 @@ public interface VoziloBuilder {
 
   VoziloBuilder setProsjecnaBrzina(final float prosjecnaBrzina);
 
-  VoziloBuilder setPodrucjaPoRangu(final int[] podrucjaPoRangu);
+  VoziloBuilder setPodrucjaPoRangu(final List<Podrucje> podrucjaPoRangu);
 
   VoziloBuilder setStatus(final String status);
 }

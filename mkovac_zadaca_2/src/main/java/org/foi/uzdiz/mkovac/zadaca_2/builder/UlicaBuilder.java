@@ -1,6 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 
 /**
  * The builder abstraction
@@ -9,7 +9,7 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
  *
  */
 public interface UlicaBuilder {
-  Ulica build();
+  UlicaLeaf build();
 
   UlicaBuilder setId(final int id);
 

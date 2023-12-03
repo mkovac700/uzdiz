@@ -10,14 +10,14 @@ import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuildDirector;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuilder;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.UlicaBuilderImpl;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 
-public class CitacUlica implements CitacDatoteke<Ulica> {
+public class CitacUlica implements CitacDatoteke<UlicaLeaf> {
   private GreskeSingleton greske = GreskeSingleton.getInstance();
 
   @Override
-  public List<Ulica> citajDatoteku(String nazivDatoteke) throws IOException {
+  public List<UlicaLeaf> citajDatoteku(String nazivDatoteke) throws IOException {
 
     var putanja = Path.of(nazivDatoteke);
     if (!Files.exists(putanja) || Files.isDirectory(putanja) || !Files.isReadable(putanja)) {
@@ -25,7 +25,7 @@ public class CitacUlica implements CitacDatoteke<Ulica> {
           "Datoteka '" + nazivDatoteke + "' nije datoteka ili nije moguće otvoriti!");
     }
 
-    List<Ulica> ulice = new ArrayList<>();
+    List<UlicaLeaf> ulice = new ArrayList<>();
 
     var citac = Files.newBufferedReader(putanja, Charset.forName("UTF-8"));
 

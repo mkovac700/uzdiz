@@ -1,5 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
+import java.util.List;
+
 public class Vozilo {
   private String registracija;
   private String opis;
@@ -7,7 +9,7 @@ public class Vozilo {
   private float kapacitetProstora;
   private int redoslijed;
   private float prosjecnaBrzina;
-  private int[] podrucjaPoRangu;
+  private List<Podrucje> podrucjaPoRangu;
   private String status;
 
   public Vozilo() {}
@@ -60,11 +62,11 @@ public class Vozilo {
     this.prosjecnaBrzina = prosjecnaBrzina;
   }
 
-  public int[] getPodrucjaPoRangu() {
+  public List<Podrucje> getPodrucjaPoRangu() {
     return podrucjaPoRangu;
   }
 
-  public void setPodrucjaPoRangu(int[] podrucjaPoRangu) {
+  public void setPodrucjaPoRangu(List<Podrucje> podrucjaPoRangu) {
     this.podrucjaPoRangu = podrucjaPoRangu;
   }
 

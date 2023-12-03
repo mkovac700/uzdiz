@@ -1,6 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 
 /**
  * Concrete builder
@@ -10,14 +10,14 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
  */
 public class MjestoBuilderImpl implements MjestoBuilder {
 
-  private Mjesto mjesto;
+  private MjestoComposite mjesto;
 
   public MjestoBuilderImpl() {
-    mjesto = new Mjesto();
+    mjesto = new MjestoComposite();
   }
 
   @Override
-  public Mjesto build() {
+  public MjestoComposite build() {
     return mjesto;
   }
 
@@ -32,13 +32,6 @@ public class MjestoBuilderImpl implements MjestoBuilder {
     mjesto.setNaziv(naziv);
     return this;
   }
-
-  // @Override
-  // public MjestoBuilder setUliceId(int[] uliceId) {
-  // mjesto.setUliceId(uliceId);
-  // return this;
-  // }
-
 
 
 }

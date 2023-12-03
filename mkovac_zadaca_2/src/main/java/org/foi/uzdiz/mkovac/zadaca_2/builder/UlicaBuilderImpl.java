@@ -1,6 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 
 /**
  * Concrete builder
@@ -10,14 +10,14 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
  */
 public class UlicaBuilderImpl implements UlicaBuilder {
 
-  private Ulica ulica;
+  private UlicaLeaf ulica;
 
   public UlicaBuilderImpl() {
-    ulica = new Ulica();
+    ulica = new UlicaLeaf();
   }
 
   @Override
-  public Ulica build() {
+  public UlicaLeaf build() {
     return ulica;
   }
 

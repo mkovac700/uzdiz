@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Podrucje;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.PodrucjeBuildDirector;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.PodrucjeBuilder;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.PodrucjeBuilderImpl;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 
@@ -29,8 +32,7 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
           "Datoteka '" + nazivDatoteke + "' nije datoteka ili nije moguće otvoriti!");
     }
 
-    // List<Ulica> sveUliceUSustavu = TvrtkaSingleton.getInstance().getUlice();
-    List<Mjesto> svaMjestaUSustavu = TvrtkaSingleton.getInstance().getMjesta();
+    List<MjestoComposite> svaMjestaUSustavu = TvrtkaSingleton.getInstance().getMjesta();
 
     List<Podrucje> podrucja = new ArrayList<>();
 
@@ -64,15 +66,14 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
 
         paroviGradUlica = atributi[1].split(",");
 
-        // Map<Integer, Ulica> uliceMap = new HashMap<>();
-        Map<Integer, Mjesto> mjestaUPodrucjuMap = new HashMap<>();
+        Map<Integer, MjestoComposite> mjestaUPodrucjuMap = new HashMap<>();
 
         for (String par : paroviGradUlica) {
           String[] parovi = par.split(":");
           int mjestoID = Integer.parseInt(parovi[0]); // mjestoID
 
 
-          Mjesto pronadenoMjesto = null; // mjesto pronadeno u sustavu (za usporedbu)
+          MjestoComposite pronadenoMjesto = null; // mjesto pronadeno u sustavu (za usporedbu)
 
           if (svaMjestaUSustavu.stream().anyMatch(mjesto -> mjesto.getId() == mjestoID)) {
             pronadenoMjesto = svaMjestaUSustavu.stream()
@@ -85,24 +86,19 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
           if (!mjestaUPodrucjuMap.containsKey(mjestoID)) { // ako u mapi nema mjesta s idjem
             // kreiraj novo mjesto na bazi postojeceg i dodaj u mapu
 
-            // if (svaMjestaUSustavu.stream().anyMatch(mjesto -> mjesto.getId() == mjestoID)) {
-            // pronadenoMjesto = svaMjestaUSustavu.stream()
-            // .filter(mjesto -> mjesto.getId() == mjestoID).findFirst().get();
-            // }
-
             if (pronadenoMjesto != null)
               mjestaUPodrucjuMap.put(mjestoID,
-                  new Mjesto(pronadenoMjesto.getId(), pronadenoMjesto.getNaziv()));
+                  new MjestoComposite(pronadenoMjesto.getId(), pronadenoMjesto.getNaziv()));
           }
 
           if (parovi[1].equals("*")) {
             // TODO dodaj sve ulice pronadenog mjesta
             for (LokacijaComponent u : pronadenoMjesto.dajLokacije()) {
-              Ulica ulica = (Ulica) u;
+              UlicaLeaf ulica = (UlicaLeaf) u;
 
-              LokacijaComponent novaUlica =
-                  new Ulica(ulica.getId(), ulica.getNaziv(), ulica.getGpsLat1(), ulica.getGpsLon1(),
-                      ulica.getGpsLat2(), ulica.getGpsLon2(), ulica.getNajveciKucniBroj());
+              LokacijaComponent novaUlica = new UlicaLeaf(ulica.getId(), ulica.getNaziv(),
+                  ulica.getGpsLat1(), ulica.getGpsLon1(), ulica.getGpsLat2(), ulica.getGpsLon2(),
+                  ulica.getNajveciKucniBroj());
 
               mjestaUPodrucjuMap.get(mjestoID).dodajLokaciju(novaUlica);
             }
@@ -117,17 +113,17 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
               continue;
             }
 
-            Ulica pronadenaUlica = null;
+            UlicaLeaf pronadenaUlica = null;
 
             if (pronadenoMjesto.dajLokacije().stream()
-                .anyMatch(ulica -> ((Ulica) ulica).getId() == ulicaID)) {
-              pronadenaUlica = (Ulica) pronadenoMjesto.dajLokacije().stream()
-                  .filter(ulica -> ((Ulica) ulica).getId() == ulicaID).findFirst().get();
+                .anyMatch(ulica -> ((UlicaLeaf) ulica).getId() == ulicaID)) {
+              pronadenaUlica = (UlicaLeaf) pronadenoMjesto.dajLokacije().stream()
+                  .filter(ulica -> ((UlicaLeaf) ulica).getId() == ulicaID).findFirst().get();
             }
 
             if (pronadenaUlica != null)
               mjestaUPodrucjuMap.get(mjestoID)
-                  .dodajLokaciju(new Ulica(pronadenaUlica.getId(), pronadenaUlica.getNaziv(),
+                  .dodajLokaciju(new UlicaLeaf(pronadenaUlica.getId(), pronadenaUlica.getNaziv(),
                       pronadenaUlica.getGpsLat1(), pronadenaUlica.getGpsLon1(),
                       pronadenaUlica.getGpsLat2(), pronadenaUlica.getGpsLon2(),
                       pronadenaUlica.getNajveciKucniBroj()));
@@ -136,13 +132,12 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
 
         } // for
 
+        PodrucjeBuilder builder = new PodrucjeBuilderImpl();
+        PodrucjeBuildDirector podrucjeBuildDirector = new PodrucjeBuildDirector(builder);
 
+        var podrucje = podrucjeBuildDirector.construct(id);
 
-        Podrucje podrucje = new Podrucje(id);
-        // podrucje.dodajMjesta(mjestaUPodrucjuMap.values());
-        // podrucje.getSvaMjesta().dodajLokaciju((Mjesto) mjestaUPodrucjuMap.values());
-
-        for (Mjesto mup : mjestaUPodrucjuMap.values()) {
+        for (MjestoComposite mup : mjestaUPodrucjuMap.values()) {
           podrucje.getSvaMjesta().dodajLokaciju(mup);
         }
 

@@ -7,7 +7,7 @@ package org.foi.uzdiz.mkovac.zadaca_2.composite;
  * @author Marijan Kovač
  *
  */
-public class Ulica implements LokacijaComponent {
+public class UlicaLeaf implements LokacijaComponent {
   private int id;
   private String naziv;
   private float gpsLat1;
@@ -16,9 +16,9 @@ public class Ulica implements LokacijaComponent {
   private float gpsLon2;
   private int najveciKucniBroj;
 
-  public Ulica() {}
+  public UlicaLeaf() {}
 
-  public Ulica(int id, String naziv, float gpsLat1, float gpsLon1, float gpsLat2, float gpsLon2,
+  public UlicaLeaf(int id, String naziv, float gpsLat1, float gpsLon1, float gpsLat2, float gpsLon2,
       int najveciKucniBroj) {
     this.id = id;
     this.naziv = naziv;

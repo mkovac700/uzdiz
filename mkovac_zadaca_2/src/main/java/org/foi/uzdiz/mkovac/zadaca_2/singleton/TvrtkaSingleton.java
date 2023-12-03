@@ -9,8 +9,8 @@ import java.util.Properties;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Podrucje;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Mjesto;
-import org.foi.uzdiz.mkovac.zadaca_2.composite.Ulica;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
+import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
@@ -43,8 +43,8 @@ public class TvrtkaSingleton {
   private List<Parametar> parametri;
   private List<VrstaPaketa> vrstePaketa;
   private List<Vozilo> vozila;
-  private List<Ulica> ulice;
-  private List<Mjesto> mjesta;
+  private List<UlicaLeaf> ulice;
+  private List<MjestoComposite> mjesta;
   private List<Podrucje> podrucja;
 
   public String getVirtualniSatFormatirano() {
@@ -58,10 +58,10 @@ public class TvrtkaSingleton {
 
     this.ucitajParametre(argument);
     this.ucitajVrstePaketa(postavke.getProperty("vp"));
-    this.ucitajVozila(postavke.getProperty("pv"));
     this.ucitajUlice(postavke.getProperty("pu"));
     this.ucitajMjesta(postavke.getProperty("pm"));
     this.ucitajPodrucja(postavke.getProperty("pmu"));
+    this.ucitajVozila(postavke.getProperty("pv"));
 
     // TODO izdvoji postavke za tvrtku:
     this.izdvojiPostavke();
@@ -132,27 +132,27 @@ public class TvrtkaSingleton {
   }
 
   private void ucitajUlice(String datoteka) throws IOException {
-    CitacDatoteke<Ulica> citac = new CitacUlica();
+    CitacDatoteke<UlicaLeaf> citac = new CitacUlica();
     ulice = citac.citajDatoteku(datoteka);
 
     // TODO remove
     System.out.println("Ucitane ulice: ");
 
     // TODO remove
-    for (Ulica ulica : ulice) {
+    for (UlicaLeaf ulica : ulice) {
       System.out.println(ulica.prikaziDetalje());
     }
   }
 
   private void ucitajMjesta(String datoteka) throws IOException {
-    CitacDatoteke<Mjesto> citac = new CitacMjesta();
+    CitacDatoteke<MjestoComposite> citac = new CitacMjesta();
     mjesta = citac.citajDatoteku(datoteka);
 
     // TODO remove
     System.out.println("Ucitana mjesta: ");
 
     // TODO remove
-    for (Mjesto mjesto : mjesta) {
+    for (MjestoComposite mjesto : mjesta) {
       System.out.println(mjesto.prikaziDetalje());
     }
   }
@@ -168,11 +168,11 @@ public class TvrtkaSingleton {
     for (Podrucje podrucje : podrucja) {
       System.out.println("Područje " + podrucje.getId());
       for (LokacijaComponent mjesto : podrucje.getSvaMjesta().dajLokacije()) {
-        System.out
-            .println("    " + ((Mjesto) mjesto).getId() + ": " + ((Mjesto) mjesto).getNaziv());
+        System.out.println("    " + ((MjestoComposite) mjesto).getId() + ": "
+            + ((MjestoComposite) mjesto).getNaziv());
         for (LokacijaComponent ulica : mjesto.dajLokacije()) {
-          System.out
-              .println("        " + ((Ulica) ulica).getId() + ": " + ((Ulica) ulica).getNaziv());
+          System.out.println(
+              "        " + ((UlicaLeaf) ulica).getId() + ": " + ((UlicaLeaf) ulica).getNaziv());
         }
       }
     }
@@ -182,11 +182,11 @@ public class TvrtkaSingleton {
     return postavke.getProperty(kljuc);
   }
 
-  public List<Ulica> getUlice() {
+  public List<UlicaLeaf> getUlice() {
     return ulice;
   }
 
-  public List<Mjesto> getMjesta() {
+  public List<MjestoComposite> getMjesta() {
     return mjesta;
   }
 
@@ -198,11 +198,11 @@ public class TvrtkaSingleton {
     for (Podrucje podrucje : podrucja) {
       System.out.println("Područje " + podrucje.getId());
       for (LokacijaComponent mjesto : podrucje.getSvaMjesta().dajLokacije()) {
-        System.out
-            .println("    " + ((Mjesto) mjesto).getId() + ": " + ((Mjesto) mjesto).getNaziv());
+        System.out.println("    " + ((MjestoComposite) mjesto).getId() + ": "
+            + ((MjestoComposite) mjesto).getNaziv());
         for (LokacijaComponent ulica : mjesto.dajLokacije()) {
-          System.out
-              .println("        " + ((Ulica) ulica).getId() + ": " + ((Ulica) ulica).getNaziv());
+          System.out.println(
+              "        " + ((UlicaLeaf) ulica).getId() + ": " + ((UlicaLeaf) ulica).getNaziv());
         }
       }
     }
