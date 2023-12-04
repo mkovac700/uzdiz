@@ -158,6 +158,10 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
 
     } // while
 
+    if (podrucja.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
+
     return podrucja;
   }
 

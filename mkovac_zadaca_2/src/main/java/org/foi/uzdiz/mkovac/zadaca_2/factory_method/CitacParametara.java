@@ -42,6 +42,10 @@ public class CitacParametara implements CitacDatoteke<Parametar> {
       }
     }
 
+    if (parametri.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
+
     return parametri;
   }
 

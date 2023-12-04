@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Osoba;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.OsobaBuildDirector;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.OsobaBuilder;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.OsobaBuilderImpl;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.PaketBuildDirector;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.PaketBuilder;
@@ -107,9 +110,17 @@ public class CitacPaketa implements CitacDatoteke<Paket> {
           }
         }
 
+        // TODO ako posiljatelj ne postoji, nije neki problem pa se posalje upozorenje i kreira novi
+        // sa null vrijednostima!
         if (!osobe.stream().anyMatch(osoba -> osoba.getOsoba().equals(pos))) {
-          System.out.println(greske.novaGreska(red, "Pošiljatelj ne postoji u sustavu!"));
-          continue;
+          System.out.println(greske.novaGreska(red,
+              "[UPOZORENJE] Pošiljatelj ne postoji u sustavu! -> Kreiram novi na temelju podatka iz paketa..."));
+          OsobaBuilder osobaBuilder = new OsobaBuilderImpl();
+          OsobaBuildDirector osobaBuildDirector = new OsobaBuildDirector(osobaBuilder);
+          Osoba o = osobaBuildDirector.construct(pos, null, null, 0);
+          osobe.add(o);
+          posiljatelj = o;
+          // continue;
         } else {
           posiljatelj =
               osobe.stream().filter(osoba -> osoba.getOsoba().equals(pos)).findFirst().get();
@@ -180,12 +191,13 @@ public class CitacPaketa implements CitacDatoteke<Paket> {
         var paket = paketBuildDirector.construct(oznaka, vrijemePrijema, posiljatelj, primatelj,
             vrstaPaketa, visina, sirina, duzina, tezina, uslugaDostave, iznosPouzeca);
 
-        // TODO ubacivanje paketa na odgovarajuce mjesto
-
-
         paketi.add(paket);
       }
     } // while
+
+    if (paketi.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
 
     Collections.sort(paketi, (a, b) -> a.getVrijemePrijema().compareTo(b.getVrijemePrijema()));
 

@@ -90,11 +90,11 @@ public class CitacOsoba implements CitacDatoteke<Osoba> {
           continue;
         }
 
-        if (kbr > ulica.getNajveciKucniBroj()) {
-          System.out.println(
-              greske.novaGreska(red, "Kućni broj osobe veći je od najvećeg kućnog broja ulice!"));
-          continue;
-        }
+        // TODO provjera je li kucni broj osobe veci od najveceg kucnog broja ulice - NE TREBA??
+        /*
+         * if (kbr > ulica.getNajveciKucniBroj()) { System.out.println( greske.novaGreska(red,
+         * "Kućni broj osobe veći je od najvećeg kućnog broja ulice!")); continue; }
+         */
 
         // TODO build osobe i add to list
 
@@ -108,7 +108,9 @@ public class CitacOsoba implements CitacDatoteke<Osoba> {
       }
     } // while
 
-    // TODO provjerit jel ima ijedan podatak u listi, ako ne baciti novu iznimku PraznaDatoteka
+    if (osobe.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
 
     return osobe;
   }

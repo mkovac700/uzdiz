@@ -94,6 +94,10 @@ public class CitacUlica implements CitacDatoteke<UlicaLeaf> {
       }
     }
 
+    if (ulice.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
+
     return ulice;
   }
 }

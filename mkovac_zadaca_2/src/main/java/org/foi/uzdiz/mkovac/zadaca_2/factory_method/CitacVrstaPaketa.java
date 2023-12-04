@@ -83,6 +83,30 @@ public class CitacVrstaPaketa implements CitacDatoteke<VrstaPaketa> {
           continue;
         }
 
+        if (visina <= 0.0f || sirina <= 0.0f || duzina <= 0.0f) {
+          System.out.println(greske.novaGreska(red,
+              "Visina i/ili širina i/ili dužina su manje ili jednake 0,00!"));
+          continue;
+        }
+
+        if (!oznaka.equals("X") && maksimalnaTezina <= 0.0f) {
+          System.out.println(greske.novaGreska(red,
+              "Maksimalna težina za tipski paket je manja ili jednaka 0,00!"));
+          continue;
+        }
+
+        if (cijena <= 0.0f || cijenaHitno <= 0.0f) {
+          System.out.println(
+              greske.novaGreska(red, "'Cijena' i/ili 'Cijena hitno' je manja ili jednaka 0,00!"));
+          continue;
+        }
+
+        if (oznaka.equals("X") && (cijenaP <= 0.0f || cijenaT <= 0.0f)) {
+          System.out.println(greske.novaGreska(red,
+              "'CijenaP' i/ili 'CijenaT' je manja ili jednaka 0,00 za paket vrste 'X'!"));
+          continue;
+        }
+
         if (oznaka.equals("X")) {
           maksimalnaTezina = Float.parseFloat(TvrtkaSingleton.getInstance().dajPostavku("mt"));
 
@@ -94,6 +118,11 @@ public class CitacVrstaPaketa implements CitacDatoteke<VrstaPaketa> {
         }
       }
     }
+
+    if (vrstePaketa.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
+
     return vrstePaketa;
   }
 }

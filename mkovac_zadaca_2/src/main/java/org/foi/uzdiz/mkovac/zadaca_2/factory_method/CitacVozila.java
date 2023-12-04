@@ -103,6 +103,11 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
         vozila.add(vozilo);
       }
     }
+
+    if (vozila.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
+
     return vozila;
   }
 }

@@ -93,6 +93,10 @@ public class CitacMjesta implements CitacDatoteke<MjestoComposite> {
       }
     }
 
+    if (mjesta.isEmpty())
+      throw new IOException(
+          "Datoteka '" + nazivDatoteke + "' je prazna ili ne sadrži odgovarajuće podatke!");
+
     return mjesta;
   }
 
