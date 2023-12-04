@@ -76,13 +76,12 @@ public class CitacVrstaPaketa implements CitacDatoteke<VrstaPaketa> {
           continue;
         }
 
-        // TODO provjera odgovaraju li tipovi (remove)
-        /*
-         * if (!oznaka.equals("A") && !oznaka.equals("B") && !oznaka.equals("C") &&
-         * !oznaka.equals("D") && !oznaka.equals("E") && !oznaka.equals("X")) { System.out.println(
-         * greske.novaGreska(red, "Vrijednost atributa 'oznaka' nije A | B | C | D | E | X"));
-         * continue; }
-         */
+        if (!oznaka.equals("A") && !oznaka.equals("B") && !oznaka.equals("C") && !oznaka.equals("D")
+            && !oznaka.equals("E") && !oznaka.equals("X")) {
+          System.out.println(
+              greske.novaGreska(red, "Vrijednost atributa 'oznaka' nije A | B | C | D | E | X"));
+          continue;
+        }
 
         if (oznaka.equals("X")) {
           maksimalnaTezina = Float.parseFloat(TvrtkaSingleton.getInstance().dajPostavku("mt"));

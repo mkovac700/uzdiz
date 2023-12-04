@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Osoba;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Podrucje;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
@@ -15,6 +16,7 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacOsoba;
+import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacPaketa;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacPodrucja;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacUlica;
@@ -49,6 +51,7 @@ public class TvrtkaSingleton {
   private List<Podrucje> podrucja;
   private List<Vozilo> vozila;
   private List<Osoba> osobe;
+  private List<Paket> paketi;
 
   public String getVirtualniSatFormatirano() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
@@ -66,6 +69,7 @@ public class TvrtkaSingleton {
     this.ucitajPodrucja(postavke.getProperty("pmu"));
     this.ucitajVozila(postavke.getProperty("pv"));
     this.ucitajOsobe(postavke.getProperty("po"));
+    this.ucitajPakete(postavke.getProperty("pp"));
 
     // TODO izdvoji postavke za tvrtku:
     this.izdvojiPostavke();
@@ -192,6 +196,20 @@ public class TvrtkaSingleton {
     // TODO remove
     for (Osoba osoba : osobe) {
       System.out.println(osoba);
+    }
+
+  }
+
+  private void ucitajPakete(String datoteka) throws IOException {
+    CitacDatoteke<Paket> citac = new CitacPaketa();
+    paketi = citac.citajDatoteku(datoteka);
+
+    // TODO remove
+    System.out.println("Ucitani paketi: ");
+
+    // TODO remove
+    for (Paket paket : paketi) {
+      System.out.println(paket);
     }
 
   }

@@ -106,6 +106,9 @@ public class Paket {
     this.iznosPouzeca = iznosPouzeca;
   }
 
-
+  @Override
+  public String toString() {
+    return this.oznaka;
+  }
 
 }
