@@ -212,6 +212,14 @@ public class TvrtkaSingleton {
     return podrucja;
   }
 
+  public List<Osoba> getOsobe() {
+    return osobe;
+  }
+
+  public List<VrstaPaketa> getVrstePaketa() {
+    return vrstePaketa;
+  }
+
   public void ispisPodrucja() {
     for (Podrucje podrucje : podrucja) {
       System.out.println("Područje " + podrucje.getId());

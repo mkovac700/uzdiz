@@ -65,6 +65,11 @@ public class CitacOsoba implements CitacDatoteke<Osoba> {
           continue;
         }
 
+        if (osobe.stream().anyMatch(o -> o.getOsoba().equals(osobaId))) {
+          System.out.println(greske.novaGreska(red, "Osoba s tim imenom već postoji u sustavu!"));
+          continue;
+        }
+
         if (kbr < 1) {
           System.out.println(greske.novaGreska(red, "Neispravan kućni broj!"));
           continue;

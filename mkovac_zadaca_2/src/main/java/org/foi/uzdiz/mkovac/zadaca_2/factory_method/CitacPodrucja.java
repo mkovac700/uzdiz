@@ -64,14 +64,25 @@ public class CitacPodrucja implements CitacDatoteke<Podrucje> {
           continue;
         }
 
-        paroviGradUlica = atributi[1].split(",");
+        if (podrucja.stream().anyMatch(podrucje -> podrucje.getId() == id)) {
+          System.out.println(greske.novaGreska(red, "Duplikat ID podrucja!"));
+          continue;
+        }
+
+        paroviGradUlica = atributi[1].replace(" ", "").split(",");
 
         Map<Integer, MjestoComposite> mjestaUPodrucjuMap = new HashMap<>();
 
         for (String par : paroviGradUlica) {
           String[] parovi = par.split(":");
-          int mjestoID = Integer.parseInt(parovi[0]); // mjestoID
+          int mjestoID;
 
+          try {
+            mjestoID = Integer.parseInt(parovi[0]);
+          } catch (NumberFormatException e1) {
+            System.out.println(greske.novaGreska(red, e1.getMessage()));
+            continue;
+          }
 
           MjestoComposite pronadenoMjesto = null; // mjesto pronadeno u sustavu (za usporedbu)
 
