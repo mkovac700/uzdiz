@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Properties;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Osoba;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Podrucje;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
@@ -13,6 +14,7 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
+import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacOsoba;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacPodrucja;
 import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacUlica;
@@ -42,10 +44,11 @@ public class TvrtkaSingleton {
 
   private List<Parametar> parametri;
   private List<VrstaPaketa> vrstePaketa;
-  private List<Vozilo> vozila;
   private List<UlicaLeaf> ulice;
   private List<MjestoComposite> mjesta;
   private List<Podrucje> podrucja;
+  private List<Vozilo> vozila;
+  private List<Osoba> osobe;
 
   public String getVirtualniSatFormatirano() {
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
@@ -62,6 +65,7 @@ public class TvrtkaSingleton {
     this.ucitajMjesta(postavke.getProperty("pm"));
     this.ucitajPodrucja(postavke.getProperty("pmu"));
     this.ucitajVozila(postavke.getProperty("pv"));
+    this.ucitajOsobe(postavke.getProperty("po"));
 
     // TODO izdvoji postavke za tvrtku:
     this.izdvojiPostavke();
@@ -176,6 +180,20 @@ public class TvrtkaSingleton {
         }
       }
     }
+  }
+
+  private void ucitajOsobe(String datoteka) throws IOException {
+    CitacDatoteke<Osoba> citac = new CitacOsoba();
+    osobe = citac.citajDatoteku(datoteka);
+
+    // TODO remove
+    System.out.println("Ucitane osobe: ");
+
+    // TODO remove
+    for (Osoba osoba : osobe) {
+      System.out.println(osoba);
+    }
+
   }
 
   public String dajPostavku(String kljuc) {
