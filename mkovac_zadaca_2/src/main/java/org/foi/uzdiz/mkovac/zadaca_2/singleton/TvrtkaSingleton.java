@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Osoba;
@@ -29,8 +30,12 @@ import org.foi.uzdiz.mkovac.zadaca_2.prototype.VrstaPaketa;
 public class TvrtkaSingleton {
   private static volatile TvrtkaSingleton INSTANCE = new TvrtkaSingleton();
 
+  private UredPrijem uredPrijem;
+  private UredDostava uredDostava;
+
   private TvrtkaSingleton() {
-    postavke = new Properties();
+    uredPrijem = new UredPrijem();
+    uredDostava = new UredDostava();
   }
 
   public static TvrtkaSingleton getInstance() {
@@ -38,6 +43,8 @@ public class TvrtkaSingleton {
   }
 
   private Properties postavke;
+
+  private DateTimeFormatter dtf;
 
   public LocalDateTime virtualniSat;
   public int mnoziteljSekunde;
@@ -54,13 +61,17 @@ public class TvrtkaSingleton {
   private List<Paket> paketi;
 
   public String getVirtualniSatFormatirano() {
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
     String virtualniSatFormatirano = virtualniSat.format(dtf);
     return virtualniSatFormatirano;
   }
 
+  public String konvertirajDatumVrijeme(LocalDateTime datumVrijeme) {
+    return datumVrijeme.format(dtf);
+  }
+
   public void init(String argument) throws IOException, NeispravniParametri {
-    // TODO POPRAVIT REDOSLIJED
+    postavke = new Properties();
+    dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
 
     this.ucitajParametre(argument);
     this.ucitajVrstePaketa(postavke.getProperty("vp"));
@@ -71,7 +82,6 @@ public class TvrtkaSingleton {
     this.ucitajOsobe(postavke.getProperty("po"));
     this.ucitajPakete(postavke.getProperty("pp"));
 
-    // TODO izdvoji postavke za tvrtku:
     this.izdvojiPostavke();
   }
 
@@ -238,6 +248,14 @@ public class TvrtkaSingleton {
     return vrstePaketa;
   }
 
+  public List<Paket> getPaketi() {
+    return paketi;
+  }
+
+  public DateTimeFormatter getDtf() {
+    return dtf;
+  }
+
   public void ispisPodrucja() {
     for (Podrucje podrucje : podrucja) {
       System.out.println("Područje " + podrucje.getId());
@@ -250,5 +268,57 @@ public class TvrtkaSingleton {
         }
       }
     }
+  }
+
+  public UredPrijem getUredPrijem() {
+    return uredPrijem;
+  }
+
+  public UredDostava getUredDostava() {
+    return uredDostava;
+  }
+
+  public class UredPrijem {
+
+    /**
+     * Trajno ostaju radi statistike
+     */
+    private List<Paket> primljeniPaketi;
+
+    /**
+     * Privremeno dok se ne ukrcaju
+     */
+    private List<Paket> primljeniPaketiTmp;
+
+    UredPrijem() {
+      primljeniPaketi = new ArrayList<Paket>();
+      primljeniPaketiTmp = new ArrayList<Paket>();
+
+    }
+
+    public List<Paket> getSviPrimljeniPaketi() {
+      return primljeniPaketi;
+    }
+
+    public List<Paket> getPrimljeniPaketi() {
+      return primljeniPaketiTmp;
+    }
+
+    public void zaprimiPaket(Paket paket) {
+      primljeniPaketiTmp.add(paket);
+      primljeniPaketi.add(paket);
+
+      // TODO ispisati da je stigao paket (dodati jos info)
+      System.out.println("Zaprimljen paket " + paket.getOznaka() + " -> VRIJEME PRIJEMA: "
+          + konvertirajDatumVrijeme(paket.getVrijemePrijema()) + " POŠILJATELJ: "
+          + paket.getPosiljatelj().getOsoba() + " PRIMATELJ: " + paket.getPrimatelj().getOsoba());
+    }
+
+
+
+  }
+
+  class UredDostava {
+
   }
 }

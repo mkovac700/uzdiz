@@ -1,6 +1,8 @@
 package org.foi.uzdiz.mkovac.zadaca_2;
 
 import java.time.LocalDateTime;
+import java.util.Iterator;
+import org.foi.uzdiz.mkovac.zadaca_2.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 
 public class Simulator {
@@ -21,9 +23,24 @@ public class Simulator {
         break;
       }
 
+      // TODO dodati ogranicenje ako je virtualni sat prije pocetka radnog vremena (pr)
+
       tvrtka.virtualniSat = tvrtka.virtualniSat.plusSeconds(tvrtka.mnoziteljSekunde);
 
-      System.out.println("[" + tvrtka.getVirtualniSatFormatirano() + "]" + " kao nešto radim...");
+      // System.out.println("[" + tvrtka.getVirtualniSatFormatirano() + "]" + " kao nešto
+      // radim...");
+
+      Iterator<Paket> itr = tvrtka.getPaketi().iterator();
+
+      while (itr.hasNext()) {
+        Paket p = itr.next();
+        if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
+          tvrtka.getUredPrijem().zaprimiPaket(p);
+          itr.remove();
+        }
+      }
+
+
     }
 
     // TODO odredi kraj rada:
