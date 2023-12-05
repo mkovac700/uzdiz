@@ -312,6 +312,9 @@ public class TvrtkaSingleton {
       System.out.println("Zaprimljen paket " + paket.getOznaka() + " -> VRIJEME PRIJEMA: "
           + konvertirajDatumVrijeme(paket.getVrijemePrijema()) + " POŠILJATELJ: "
           + paket.getPosiljatelj().getOsoba() + " PRIMATELJ: " + paket.getPrimatelj().getOsoba());
+
+      // TODO posalji obavijest primatelju i posiljatelju
+      paket.setStatus("ZAPRIMLJEN");
     }
 
 

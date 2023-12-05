@@ -191,6 +191,10 @@ public class CitacPaketa implements CitacDatoteke<Paket> {
         var paket = paketBuildDirector.construct(oznaka, vrijemePrijema, posiljatelj, primatelj,
             vrstaPaketa, visina, sirina, duzina, tezina, uslugaDostave, iznosPouzeca);
 
+        // TODO pretplati posiljatelja i primatelja na info o paketu
+        paket.addObserver(posiljatelj);
+        paket.addObserver(primatelj);
+
         paketi.add(paket);
       }
     } // while

@@ -8,10 +8,12 @@ import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 public class Simulator {
   private TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
 
+  private LocalDateTime virtualniKraj;
+
   public Simulator() {}
 
   public void pokreni(int vrijemeIzvrsavanja) {
-    LocalDateTime virtualniKraj = tvrtka.virtualniSat;
+    virtualniKraj = tvrtka.virtualniSat;
     virtualniKraj = virtualniKraj.plusHours(vrijemeIzvrsavanja);
 
     while (tvrtka.virtualniSat.toLocalTime().isBefore(tvrtka.krajRada)
@@ -23,27 +25,36 @@ public class Simulator {
         break;
       }
 
-      // TODO dodati ogranicenje ako je virtualni sat prije pocetka radnog vremena (pr)
-
       tvrtka.virtualniSat = tvrtka.virtualniSat.plusSeconds(tvrtka.mnoziteljSekunde);
 
-      // System.out.println("[" + tvrtka.getVirtualniSatFormatirano() + "]" + " kao nešto
-      // radim...");
+      System.out.println("[" + tvrtka.getVirtualniSatFormatirano() + "]");
 
-      Iterator<Paket> itr = tvrtka.getPaketi().iterator();
+      // TODO dodati ogranicenje ako je virtualni sat prije pocetka radnog vremena (pr)
+      if (tvrtka.virtualniSat.toLocalTime().isBefore(tvrtka.pocetakRada))
+        continue;
 
-      while (itr.hasNext()) {
-        Paket p = itr.next();
-        if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
-          tvrtka.getUredPrijem().zaprimiPaket(p);
-          itr.remove();
-        }
-      }
+      zaprimiPakete();
 
 
     }
 
-    // TODO odredi kraj rada:
+    odrediKrajRada();
+
+  }
+
+  private void zaprimiPakete() {
+    Iterator<Paket> itr = tvrtka.getPaketi().iterator();
+
+    while (itr.hasNext()) {
+      Paket p = itr.next();
+      if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
+        tvrtka.getUredPrijem().zaprimiPaket(p);
+        itr.remove();
+      }
+    }
+  }
+
+  private void odrediKrajRada() {
     if (tvrtka.virtualniSat.toLocalTime().equals(tvrtka.krajRada)
         || tvrtka.virtualniSat.toLocalTime().isAfter(tvrtka.krajRada)) {
       System.out.println("Kraj rada: isteklo radno vrijeme!");
@@ -53,6 +64,5 @@ public class Simulator {
     } else {
       System.out.println("Kraj rada: neočekivan prekid!");
     }
-
   }
 }

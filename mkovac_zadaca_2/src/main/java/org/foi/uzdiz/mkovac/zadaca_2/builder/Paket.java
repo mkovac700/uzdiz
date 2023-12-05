@@ -1,9 +1,19 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_2.observer.Observer;
+import org.foi.uzdiz.mkovac.zadaca_2.observer.Subject;
 import org.foi.uzdiz.mkovac.zadaca_2.prototype.VrstaPaketa;
 
-public class Paket {
+public class Paket implements Subject {
+
+  private List<Observer> observers = new ArrayList<>();
+
+  private String status = "";
+
   private String oznaka;
   private LocalDateTime vrijemePrijema;
   private Osoba posiljatelj;
@@ -109,6 +119,37 @@ public class Paket {
   @Override
   public String toString() {
     return this.oznaka;
+  }
+
+  @Override
+  public void addObserver(Observer observer) {
+    observers.add(observer);
+  }
+
+  @Override
+  public void removeObserver(Observer observer) {
+    observers.remove(observer);
+  }
+
+  @Override
+  public String getStatus() {
+    return status;
+  }
+
+  @Override
+  public void setStatus(String state) {
+    this.status = state;
+    posaljiObavijest();
+  }
+
+  @Override
+  public void posaljiObavijest() {
+    Iterator<Observer> i = observers.iterator();
+    while (i.hasNext()) {
+      Observer o = (Observer) i.next();
+      o.update(this);
+    }
+
   }
 
 }

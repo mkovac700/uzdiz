@@ -47,6 +47,8 @@ public class GlavniProgram {
           simulator.pokreni(vrijemeIzvrsavanja);
         } else if (komanda.equals("PP")) {
           tvrtka.ispisPodrucja();
+        } else if (komanda.split(" ")[0].equals("PO")) {
+          // TODO promjeni sattus paketa
         } else if (komanda.equals("Q")) {
           break;
         }

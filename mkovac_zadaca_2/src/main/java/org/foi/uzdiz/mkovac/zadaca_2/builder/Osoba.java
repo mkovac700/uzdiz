@@ -2,8 +2,10 @@ package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
+import org.foi.uzdiz.mkovac.zadaca_2.observer.Observer;
+import org.foi.uzdiz.mkovac.zadaca_2.observer.Subject;
 
-public class Osoba {
+public class Osoba implements Observer {
   private String osoba;
   private MjestoComposite grad;
   private UlicaLeaf ulica;
@@ -47,6 +49,15 @@ public class Osoba {
   public String toString() {
     return this.osoba + " -> " + "Grad: " + this.grad.getId() + ", Ulica: " + this.ulica.getId()
         + ", Kbr: " + this.kbr;
+  }
+
+  @Override
+  public void update(Subject subject) {
+    if (subject instanceof Paket) {
+      String oznaka = ((Paket) subject).getOznaka();
+      String poruka = "Paket " + oznaka + " promijenio status u " + subject.getStatus();
+      System.out.println(this.osoba + ": Stigla poruka '" + poruka + "'");
+    }
   }
 
 
