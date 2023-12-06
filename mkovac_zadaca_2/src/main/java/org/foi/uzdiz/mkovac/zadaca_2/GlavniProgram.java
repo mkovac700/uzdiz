@@ -11,8 +11,11 @@ import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 public class GlavniProgram {
 
   public static void main(String[] args) {
+
+    RegexProvjeraSingleton regex = RegexProvjeraSingleton.getInstance();
+
     String argument = String.join(" ", args).trim();
-    if (!RegexProvjeraSingleton.getInstance().provjeriIzraz(argument, RegexVrsta.txtDatoteka)) {
+    if (!regex.provjeriIzraz(argument, RegexVrsta.txtDatoteka)) {
       System.out.println("Neispravan argument!");
       return;
     }
@@ -39,7 +42,9 @@ public class GlavniProgram {
         continue;
       }
 
-      if (RegexProvjeraSingleton.getInstance().provjeriIzraz(komanda, RegexVrsta.komanda)) {
+      if (regex.provjeriIzraz(komanda, RegexVrsta.komanda)) {
+        String[] grupa = regex.razdvojiIzraz(komanda, RegexVrsta.komanda);
+
         if (komanda.equals("IP")) {
           // TODO ispis paketa
         } else if (komanda.split(" ")[0].equals("VR")) {
@@ -48,7 +53,7 @@ public class GlavniProgram {
         } else if (komanda.equals("PP")) {
           tvrtka.ispisPodrucja();
         } else if (komanda.split(" ")[0].equals("PO")) {
-          // TODO promjeni sattus paketa
+          tvrtka.promjeniStatusSlanjaObavijesti(grupa[8].replace("'", ""), grupa[9], grupa[10]);
         } else if (komanda.equals("Q")) {
           break;
         }

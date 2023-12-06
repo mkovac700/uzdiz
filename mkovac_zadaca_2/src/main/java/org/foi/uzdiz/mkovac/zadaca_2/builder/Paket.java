@@ -123,12 +123,21 @@ public class Paket implements Subject {
 
   @Override
   public void addObserver(Observer observer) {
-    observers.add(observer);
+    if (!observers.contains(observer)) {
+      observers.add(observer);
+    } else {
+      System.out.println("Pretplatnik već dodan!");
+    }
   }
 
   @Override
   public void removeObserver(Observer observer) {
-    observers.remove(observer);
+    if (observers.contains(observer)) {
+      observers.remove(observer);
+    } else {
+      System.out.println("Pretplatnik ne postoji!");
+    }
+
   }
 
   @Override

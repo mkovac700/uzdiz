@@ -270,6 +270,58 @@ public class TvrtkaSingleton {
     }
   }
 
+  public void promjeniStatusSlanjaObavijesti(String osoba, String oznakaPaketa, String naredba) {
+
+    if (paketi.stream().anyMatch(p -> p.getOznaka().equals(oznakaPaketa))) {
+      Paket paket =
+          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get();
+
+      if (paketi.stream().anyMatch(p -> p.getPosiljatelj().getOsoba().equals(osoba))) {
+        Osoba o = paketi.stream().filter(p -> p.getPosiljatelj().getOsoba().equals(osoba))
+            .findFirst().get().getPosiljatelj();
+
+        if (naredba.equals("N")) {
+          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
+              .removeObserver(o);
+
+          System.out.println("Pošiljatelj " + o.getOsoba() + " ne želi primati obavijesti za paket "
+              + paket.getOznaka());
+        } else {
+          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
+              .addObserver(o);
+
+          System.out.println("Pošiljatelj " + o.getOsoba() + " želi primati obavijesti za paket "
+              + paket.getOznaka());
+        }
+
+      }
+
+      else if (paketi.stream().anyMatch(p -> p.getPrimatelj().getOsoba().equals(osoba))) {
+        Osoba o = paketi.stream().filter(p -> p.getPosiljatelj().getOsoba().equals(osoba))
+            .findFirst().get().getPrimatelj();
+
+        if (naredba.equals("N")) {
+          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
+              .removeObserver(o);
+
+          System.out.println("Primatelj " + o.getOsoba() + " ne želi primati obavijesti za paket "
+              + paket.getOznaka());
+        } else {
+          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
+              .addObserver(o);
+
+          System.out.println("Primatelj " + o.getOsoba() + " želi primati obavijesti za paket "
+              + paket.getOznaka());
+        }
+      } else {
+        System.out.println("Osoba " + osoba + " nije primatelj/pošiljatelj paketa!");
+      }
+    } else {
+      System.out.println("Paket " + oznakaPaketa + " nije pronađen!");
+    }
+
+  }
+
   public UredPrijem getUredPrijem() {
     return uredPrijem;
   }
