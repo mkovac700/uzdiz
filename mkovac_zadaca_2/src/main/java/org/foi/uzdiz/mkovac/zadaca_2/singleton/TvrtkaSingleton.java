@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Osoba;
@@ -388,19 +389,36 @@ public class TvrtkaSingleton {
       paket.setStatus("ZAPRIMLJEN");
     }
 
+    public void prebaciPaketeUUredZaDostavu() {
+      UredDostava uredDostava = TvrtkaSingleton.getInstance().getUredDostava();
 
+      Iterator<Paket> itr = primljeniPaketiTmp.iterator();
+
+      while (itr.hasNext()) {
+        Paket p = itr.next();
+        uredDostava.zaprimiPaket(p);
+        itr.remove();
+      }
+    }
 
   }
 
-  class UredDostava {
+  public class UredDostava {
     // TODO prostor
     private List<Podrucje> podrucja;
 
     // TODO vozni park
     private List<Vozilo> vozila;
 
-    public UredDostava() {
+    private List<Paket> paketi;
 
+    // private UredPrijem uredPrijem;
+
+    public UredDostava() {
+      podrucja = new ArrayList<>();
+      vozila = new ArrayList<>();
+      paketi = new ArrayList<>();
+      // uredPrijem = TvrtkaSingleton.getInstance().getUredPrijem();
     }
 
     public List<Podrucje> getPodrucja() {
@@ -419,7 +437,134 @@ public class TvrtkaSingleton {
       this.vozila = vozila;
     }
 
+    public void zaprimiPaket(Paket paket) {
+      this.paketi.add(paket);
+    }
 
+    public Podrucje odrediPodrucjePaketa(Paket paket) {
+      MjestoComposite gradPosiljatelja = paket.getPrimatelj().getGrad();
+      UlicaLeaf ulicaPosiljatelja = paket.getPrimatelj().getUlica();
+      // int kbrPosiljatelja = paket.getPrimatelj().getKbr();
+
+      Podrucje odabranoPodrucje = null;
+
+      for (Podrucje p : podrucja) {
+        // ako u podrucju postoji grad koji odgovara gradu posiljatelja
+        if (p.getSvaMjesta().dajLokacije().stream()
+            .anyMatch(m -> ((MjestoComposite) m).getId() == gradPosiljatelja.getId())) {
+
+          // ako u gradu iz podrucja postoji ulica koja odgovara ulici posiljatelja
+          if (p.getSvaMjesta().dajLokacije().stream()
+              .filter(m -> ((MjestoComposite) m).getId() == gradPosiljatelja.getId()).findFirst()
+              .get().dajLokacije().stream()
+              .anyMatch(u -> ((UlicaLeaf) u).getId() == ulicaPosiljatelja.getId())) {
+
+            odabranoPodrucje = p;
+            break;
+          }
+        }
+      }
+
+      if (odabranoPodrucje == null) {
+        System.out.println("Za paket ne postoji područje koje pokriva ured!");
+      }
+
+      return odabranoPodrucje;
+
+    }
+
+    public Vozilo pronadiVoziloZaHitniPaket(Paket paket) {
+
+      Podrucje podrucjePaketa = this.odrediPodrucjePaketa(paket);
+
+      if (podrucjePaketa == null) {
+        return null;
+      } else {
+        // TODO traži vozilo koje već vozi hitni paket s istim područjem
+        for (Vozilo vozilo : vozila) {
+          if (vozilo.getTrenutnoPodrucje().equals(podrucjePaketa)
+              && vozilo.getPaketi().stream().anyMatch(p -> p.getUslugaDostave().equals("H"))) {
+
+            // TODO dodat uvjet za tezinu i prostor paketa
+            // ako trenutna tezina u vozilu + tezina novog paketa premasuje kapacitet vozila,
+            // preskoci
+            if (vozilo.izracunajTrenutnuTezinu() + paket.getTezina() > vozilo.getKapacitetTezine())
+              continue;
+            // ako trenutno zauzece prostora u vozilu + prostor novog paketa premasuje kapacitet
+            // prostora u vozilu, preskoci
+            if (vozilo.izracunajTrenutnoZauzeceProstora() + paket.getM3() > vozilo
+                .getKapacitetProstora())
+              continue;
+
+            return vozilo;
+          }
+        }
+
+        // TODO traži ispravno slobodno vozilo koje je najviše rangirano za područje paketa
+        int minRang = -1; // zapravo onaj minimalni, tj na prvom mjestu
+        int trenutniRang = 0;
+        // Vozilo voziloTmp;
+        List<Vozilo> tmpVozila = new ArrayList<>();
+
+        // prvo pronadi koji je minimalni rang podrucja
+        for (Vozilo vozilo : vozila) {
+          if (vozilo.getStatus().getOznaka().equals("A")) {
+            if (vozilo.getPodrucjaPoRangu().contains(podrucjePaketa)) {
+              tmpVozila.add(vozilo);
+
+              trenutniRang = vozilo.getPodrucjaPoRangu().indexOf(podrucjePaketa);
+              if (minRang == -1)
+                minRang = trenutniRang;
+              else if (trenutniRang < minRang)
+                minRang = trenutniRang;
+            }
+          }
+        }
+
+        // zatim opet prodi kroz petlju i nadi vozilo koji ima objekt podrucja na tom indeksu
+        if (minRang != -1) {
+          for (Vozilo vozilo : tmpVozila) {
+            if (vozilo.getPodrucjaPoRangu().indexOf(podrucjePaketa) == minRang) {
+
+              // TODO dodat uvjet za tezinu i prostor paketa
+              // ako trenutna tezina u vozilu + tezina novog paketa premasuje kapacitet vozila,
+              // preskoci
+              if (vozilo.izracunajTrenutnuTezinu() + paket.getTezina() > vozilo
+                  .getKapacitetTezine())
+                continue;
+              // ako trenutno zauzece prostora u vozilu + prostor novog paketa premasuje kapacitet
+              // prostora u vozilu, preskoci
+              if (vozilo.izracunajTrenutnoZauzeceProstora() + paket.getM3() > vozilo
+                  .getKapacitetProstora())
+                continue;
+
+              return vozilo;
+            }
+          }
+        }
+
+      }
+      // TODO nijedno odgovarajuće vozilo nije pronađeno (paket čeka idući puni sat)
+      return null;
+    }
+
+    public void utovariHitniPaket(Paket paket) {
+      Vozilo vozilo = this.pronadiVoziloZaHitniPaket(paket);
+      Podrucje podrucje = this.odrediPodrucjePaketa(paket);
+      if (vozilo == null) {
+        System.out.println("Nije pronađeno nijedno slobodno vozilo za paket " + paket.getOznaka());
+      } else {
+        vozilo.ukrcajPaket(paket, podrucje);
+        paket.setStatus("UKRCAN U VOZILO");
+      }
+    }
+
+    public void utovariHitnePakete() {
+      for (Paket p : paketi) {
+        if (p.getUslugaDostave().equals("H"))
+          utovariHitniPaket(p);
+      }
+    }
 
   }
 }

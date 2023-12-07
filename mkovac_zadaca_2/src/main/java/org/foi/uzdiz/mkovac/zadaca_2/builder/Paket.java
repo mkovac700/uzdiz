@@ -161,4 +161,8 @@ public class Paket implements Subject {
 
   }
 
+  public float getM3() {
+    return this.sirina * this.duzina * this.visina;
+  }
+
 }

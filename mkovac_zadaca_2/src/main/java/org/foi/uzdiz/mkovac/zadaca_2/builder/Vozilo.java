@@ -1,5 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_2.state.State;
 
@@ -13,7 +14,12 @@ public class Vozilo {
   private List<Podrucje> podrucjaPoRangu;
   private State status;
 
-  public Vozilo() {}
+  private List<Paket> paketi;
+  private Podrucje trenutnoPodrucje;
+
+  public Vozilo() {
+    paketi = new ArrayList<>();
+  }
 
   public String getRegistracija() {
     return registracija;
@@ -96,5 +102,42 @@ public class Vozilo {
     return this.opis;
   }
 
+  public List<Paket> getPaketi() {
+    return paketi;
+  }
 
+  public Podrucje getTrenutnoPodrucje() {
+    return trenutnoPodrucje;
+  }
+
+  public void setTrenutnoPodrucje(Podrucje trenutnoPodrucje) {
+    this.trenutnoPodrucje = trenutnoPodrucje;
+  }
+
+  public float izracunajTrenutnuTezinu() {
+    float tezinaUkupno = 0;
+    for (Paket p : paketi) {
+      tezinaUkupno += p.getTezina();
+    }
+    return tezinaUkupno;
+  }
+
+  public float izracunajTrenutnoZauzeceProstora() {
+    float prostorUkupno = 0;
+    for (Paket p : paketi) {
+      prostorUkupno += p.getM3();
+    }
+    return prostorUkupno;
+  }
+
+  public void ukrcajPaket(Paket paket, Podrucje podrucje) {
+    if (paketi.isEmpty()) {
+      // TODO znači da ako nema paketa, trenutno podrucje je null (first run)
+      // pa se mora postavit sukladno uvjetima u ured dostava
+      // VAŽNO - kod iskrcaja se mora vratit nazad na null kad se isporuči zadnji paket!!!
+      trenutnoPodrucje = podrucje;
+    }
+
+    paketi.add(paket);
+  }
 }
