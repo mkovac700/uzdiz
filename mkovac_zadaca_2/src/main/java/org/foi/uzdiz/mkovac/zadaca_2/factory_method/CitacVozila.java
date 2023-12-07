@@ -1,5 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2.factory_method;
 
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -14,6 +15,10 @@ import org.foi.uzdiz.mkovac.zadaca_2.builder.VoziloBuilder;
 import org.foi.uzdiz.mkovac.zadaca_2.builder.VoziloBuilderImpl;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.GreskeSingleton;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
+import org.foi.uzdiz.mkovac.zadaca_2.state.AktivnoState;
+import org.foi.uzdiz.mkovac.zadaca_2.state.NeaktivnoState;
+import org.foi.uzdiz.mkovac.zadaca_2.state.NeispravnoState;
+import org.foi.uzdiz.mkovac.zadaca_2.state.State;
 
 public class CitacVozila implements CitacDatoteke<Vozilo> {
 
@@ -57,7 +62,7 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
         int redoslijed = 0;
         float prosjecnaBrzina = 0;
         int[] podrucjaPoRanguID = null;
-        String status = atributi[7];
+        String statusID = atributi[7];
 
         try {
           kapacitetTezine = Float.parseFloat(atributi[2].replace(",", "."));
@@ -88,11 +93,20 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
           }
         }
 
-        if (!status.equals("A") && !status.equals("NA") && !status.equals("NI")) {
+        if (!statusID.equals("A") && !statusID.equals("NA") && !statusID.equals("NI")) {
           System.out
               .println(greske.novaGreska(red, "Vrijednost atributa 'status' nije A | NI | NA"));
           continue;
         }
+
+        State status = null;
+
+        if (statusID.equals("A"))
+          status = new AktivnoState();
+        if (statusID.equals("NA"))
+          status = new NeaktivnoState();
+        if (statusID.equals("NI"))
+          status = new NeispravnoState();
 
         VoziloBuilder builder = new VoziloBuilderImpl();
         VoziloBuildDirector voziloBuildDirector = new VoziloBuildDirector(builder);

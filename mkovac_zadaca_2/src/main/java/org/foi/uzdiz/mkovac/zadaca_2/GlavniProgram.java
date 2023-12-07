@@ -45,16 +45,20 @@ public class GlavniProgram {
       if (regex.provjeriIzraz(komanda, RegexVrsta.komanda)) {
         String[] grupa = regex.razdvojiIzraz(komanda, RegexVrsta.komanda);
 
-        if (komanda.equals("IP")) {
+        String kljuc = komanda.split(" ")[0];
+
+        if (kljuc.equals("IP")) {
           // TODO ispis paketa
-        } else if (komanda.split(" ")[0].equals("VR")) {
+        } else if (kljuc.equals("VR")) {
           int vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
           simulator.pokreni(vrijemeIzvrsavanja);
-        } else if (komanda.equals("PP")) {
+        } else if (kljuc.equals("PP")) {
           tvrtka.ispisPodrucja();
-        } else if (komanda.split(" ")[0].equals("PO")) {
+        } else if (kljuc.equals("PO")) {
           tvrtka.promjeniStatusSlanjaObavijesti(grupa[8].replace("'", ""), grupa[9], grupa[10]);
-        } else if (komanda.equals("Q")) {
+        } else if (kljuc.equals("PS")) {
+          tvrtka.promijeniStatusVozila(grupa[13], grupa[14]);
+        } else if (kljuc.equals("Q")) {
           break;
         }
       } else

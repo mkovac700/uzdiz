@@ -1,6 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_2.state.State;
 
 /**
  * The builder abstraction
@@ -25,5 +26,5 @@ public interface VoziloBuilder {
 
   VoziloBuilder setPodrucjaPoRangu(final List<Podrucje> podrucjaPoRangu);
 
-  VoziloBuilder setStatus(final String status);
+  VoziloBuilder setStatus(final State status);
 }

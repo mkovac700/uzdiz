@@ -1,6 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_2.state.State;
 
 public class Vozilo {
   private String registracija;
@@ -10,7 +11,7 @@ public class Vozilo {
   private int redoslijed;
   private float prosjecnaBrzina;
   private List<Podrucje> podrucjaPoRangu;
-  private String status;
+  private State status;
 
   public Vozilo() {}
 
@@ -70,12 +71,24 @@ public class Vozilo {
     this.podrucjaPoRangu = podrucjaPoRangu;
   }
 
-  public String getStatus() {
+  public State getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(State status) {
     this.status = status;
+  }
+
+  public void aktiviraj() {
+    this.status.aktiviraj(this);
+  }
+
+  public void deaktiviraj() {
+    this.status.deaktiviraj(this);
+  }
+
+  public void setNeispravno() {
+    this.status.setNeispravno(this);
   }
 
   @Override

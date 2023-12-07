@@ -83,6 +83,9 @@ public class TvrtkaSingleton {
     this.ucitajPakete(postavke.getProperty("pp"));
 
     this.izdvojiPostavke();
+
+    uredDostava.setPodrucja(podrucja);
+    uredDostava.setVozila(vozila);
   }
 
   private void izdvojiPostavke() {
@@ -145,7 +148,7 @@ public class TvrtkaSingleton {
 
     // TODO remove
     for (Vozilo vozilo : vozila) {
-      System.out.println(vozilo);
+      System.out.println(vozilo + " -> STATUS: " + vozilo.getStatus().getOznaka());
     }
   }
 
@@ -322,6 +325,22 @@ public class TvrtkaSingleton {
 
   }
 
+  public void promijeniStatusVozila(String registracija, String status) {
+    if (vozila.stream().anyMatch(v -> v.getRegistracija().equals(registracija))) {
+      Vozilo vozilo =
+          vozila.stream().filter(v -> v.getRegistracija().equals(registracija)).findFirst().get();
+
+      if (status.equals("A"))
+        vozilo.aktiviraj();
+      if (status.equals("NA"))
+        vozilo.deaktiviraj();
+      if (status.equals("NI"))
+        vozilo.setNeispravno();
+    } else {
+      System.out.println("Vozilo nije pronađeno!");
+    }
+  }
+
   public UredPrijem getUredPrijem() {
     return uredPrijem;
   }
@@ -342,7 +361,7 @@ public class TvrtkaSingleton {
      */
     private List<Paket> primljeniPaketiTmp;
 
-    UredPrijem() {
+    public UredPrijem() {
       primljeniPaketi = new ArrayList<Paket>();
       primljeniPaketiTmp = new ArrayList<Paket>();
 
@@ -374,6 +393,33 @@ public class TvrtkaSingleton {
   }
 
   class UredDostava {
+    // TODO prostor
+    private List<Podrucje> podrucja;
+
+    // TODO vozni park
+    private List<Vozilo> vozila;
+
+    public UredDostava() {
+
+    }
+
+    public List<Podrucje> getPodrucja() {
+      return podrucja;
+    }
+
+    public void setPodrucja(List<Podrucje> podrucja) {
+      this.podrucja = podrucja;
+    }
+
+    public List<Vozilo> getVozila() {
+      return vozila;
+    }
+
+    public void setVozila(List<Vozilo> vozila) {
+      this.vozila = vozila;
+    }
+
+
 
   }
 }

@@ -1,6 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import java.util.List;
+import org.foi.uzdiz.mkovac.zadaca_2.state.State;
 
 /**
  * Director
@@ -18,7 +19,7 @@ public class VoziloBuildDirector {
 
   public Vozilo construct(String registracija, String opis, float kapacitetTezine,
       float kapacitetProstora, int redoslijed, float prosjecnaBrzina,
-      List<Podrucje> podrucjaPoRangu, String status) {
+      List<Podrucje> podrucjaPoRangu, State status) {
     return builder.setRegistracija(registracija).setOpis(opis).setKapacitetTezine(kapacitetTezine)
         .setKapacitetProstora(kapacitetProstora).setRedoslijed(redoslijed)
         .setProsjecnaBrzina(prosjecnaBrzina).setPodrucjaPoRangu(podrucjaPoRangu).setStatus(status)
