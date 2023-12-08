@@ -18,7 +18,7 @@ import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 import org.foi.uzdiz.mkovac.zadaca_2.state.AktivnoState;
 import org.foi.uzdiz.mkovac.zadaca_2.state.NeaktivnoState;
 import org.foi.uzdiz.mkovac.zadaca_2.state.NeispravnoState;
-import org.foi.uzdiz.mkovac.zadaca_2.state.State;
+import org.foi.uzdiz.mkovac.zadaca_2.state.StatusVozilaState;
 
 public class CitacVozila implements CitacDatoteke<Vozilo> {
 
@@ -99,7 +99,7 @@ public class CitacVozila implements CitacDatoteke<Vozilo> {
           continue;
         }
 
-        State status = null;
+        StatusVozilaState status = null;
 
         if (statusID.equals("A"))
           status = new AktivnoState();

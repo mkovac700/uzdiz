@@ -1,8 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_2;
 
 import java.time.LocalDateTime;
-import java.util.Iterator;
-import org.foi.uzdiz.mkovac.zadaca_2.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
 
 public class Simulator {
@@ -10,7 +8,7 @@ public class Simulator {
 
   private LocalDateTime virtualniKraj;
 
-  private static int brojZaprimljenihPaketa;
+  // private static int brojZaprimljenihPaketa;
 
   public Simulator() {}
 
@@ -36,7 +34,7 @@ public class Simulator {
         continue;
 
       // TODO prebaciti metodu u tvrtka.uredprijem
-      zaprimiPakete();
+      tvrtka.getUredPrijem().zaprimiPakete();
 
       // TODO prije nego otkuca puni sat, odraditi postupak utovara
 
@@ -55,6 +53,7 @@ public class Simulator {
         tvrtka.getUredDostava().utovariOstalePakete();
 
         // sada kreće dostava
+        tvrtka.getUredDostava().pokreniIsporuku();
 
       }
 
@@ -63,20 +62,8 @@ public class Simulator {
 
     odrediKrajRada();
 
-  }
 
-  private void zaprimiPakete() {
-    Iterator<Paket> itr = tvrtka.getPaketi()
-        .subList(brojZaprimljenihPaketa, tvrtka.getPaketi().size() - 1).iterator();
 
-    while (itr.hasNext()) {
-      Paket p = itr.next();
-      if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
-        tvrtka.getUredPrijem().zaprimiPaket(p);
-        brojZaprimljenihPaketa++;
-        // itr.remove();
-      }
-    }
   }
 
   private void odrediKrajRada() {
@@ -86,6 +73,9 @@ public class Simulator {
     } else if (tvrtka.virtualniSat.equals(virtualniKraj)
         || tvrtka.virtualniSat.isAfter(virtualniKraj)) {
       System.out.println("Kraj rada: isteklo zadano vrijeme izvršavanja!");
+
+      // TODO dodat provjeru jel postoje vozila koja su jos u dostavi te nastavit dostavljat ako
+      // jesu
     } else {
       System.out.println("Kraj rada: neočekivan prekid!");
     }

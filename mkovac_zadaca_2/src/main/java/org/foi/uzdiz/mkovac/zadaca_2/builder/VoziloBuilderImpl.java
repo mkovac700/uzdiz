@@ -1,7 +1,7 @@
 package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_2.state.State;
+import org.foi.uzdiz.mkovac.zadaca_2.state.StatusVozilaState;
 
 /**
  * Concrete builder
@@ -65,7 +65,7 @@ public class VoziloBuilderImpl implements VoziloBuilder {
   }
 
   @Override
-  public VoziloBuilder setStatus(State status) {
+  public VoziloBuilder setStatus(StatusVozilaState status) {
     vozilo.setStatus(status);
     return this;
   }

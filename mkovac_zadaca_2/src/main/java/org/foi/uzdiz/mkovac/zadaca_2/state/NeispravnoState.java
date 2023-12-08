@@ -2,7 +2,7 @@ package org.foi.uzdiz.mkovac.zadaca_2.state;
 
 import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 
-public class NeispravnoState implements State {
+public class NeispravnoState implements StatusVozilaState {
 
   private String oznaka = "NI";
 

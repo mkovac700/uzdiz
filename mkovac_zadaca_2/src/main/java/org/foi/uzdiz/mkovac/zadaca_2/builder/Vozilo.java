@@ -2,7 +2,12 @@ package org.foi.uzdiz.mkovac.zadaca_2.builder;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_2.state.State;
+import org.foi.uzdiz.mkovac.zadaca_2.podaci.Voznja;
+import org.foi.uzdiz.mkovac.zadaca_2.singleton.TvrtkaSingleton;
+import org.foi.uzdiz.mkovac.zadaca_2.state.StatusVozilaState;
+import org.foi.uzdiz.mkovac.zadaca_2.state.StatusVoznjeState;
+import org.foi.uzdiz.mkovac.zadaca_2.state.UkrcavanjeState;
+import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaStrategy;
 
 public class Vozilo {
   private String registracija;
@@ -12,13 +17,22 @@ public class Vozilo {
   private int redoslijed;
   private float prosjecnaBrzina;
   private List<Podrucje> podrucjaPoRangu;
-  private State status;
+  private StatusVozilaState status;
+
+  private StatusVoznjeState statusVoznje;
 
   private List<Paket> paketi;
   private Podrucje trenutnoPodrucje;
 
+  private List<Voznja> voznje;
+
+  private Voznja trenutnaVoznja;
+
+  private IsporukaStrategy isporukaStrategy;
+
   public Vozilo() {
     paketi = new ArrayList<>();
+    statusVoznje = new UkrcavanjeState();
   }
 
   public String getRegistracija() {
@@ -77,11 +91,11 @@ public class Vozilo {
     this.podrucjaPoRangu = podrucjaPoRangu;
   }
 
-  public State getStatus() {
+  public StatusVozilaState getStatus() {
     return status;
   }
 
-  public void setStatus(State status) {
+  public void setStatus(StatusVozilaState status) {
     this.status = status;
   }
 
@@ -95,6 +109,26 @@ public class Vozilo {
 
   public void setNeispravno() {
     this.status.setNeispravno(this);
+  }
+
+  public void setUkrcavanje() {
+    this.statusVoznje.setUkrcavanje(this);
+  }
+
+  public void setIsporuka() {
+    this.statusVoznje.setIsporuka(this);
+  }
+
+  public void setPovratak() {
+    this.statusVoznje.setPovratak(this);
+  }
+
+  public StatusVoznjeState getStatusVoznje() {
+    return statusVoznje;
+  }
+
+  public void setStatusVoznje(StatusVoznjeState statusVoznje) {
+    this.statusVoznje = statusVoznje;
   }
 
   @Override
@@ -136,8 +170,26 @@ public class Vozilo {
       // pa se mora postavit sukladno uvjetima u ured dostava
       // VAŽNO - kod iskrcaja se mora vratit nazad na null kad se isporuči zadnji paket!!!
       trenutnoPodrucje = podrucje;
+
+      trenutnaVoznja = new Voznja();
+      trenutnaVoznja.setVrijemePocetka(TvrtkaSingleton.getInstance().virtualniSat);
+      voznje.add(trenutnaVoznja);
     }
 
     paketi.add(paket);
   }
+
+  public IsporukaStrategy getIsporukaStrategy() {
+    return isporukaStrategy;
+  }
+
+  public void setIsporukaStrategy(IsporukaStrategy isporukaStrategy) {
+    this.isporukaStrategy = isporukaStrategy;
+  }
+
+  public void odrediVrstuIsporuke() {
+    isporukaStrategy.obaviIzracune(paketi, trenutnaVoznja);
+  }
+
+
 }

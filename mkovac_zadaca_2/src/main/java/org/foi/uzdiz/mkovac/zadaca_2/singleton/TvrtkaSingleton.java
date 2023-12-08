@@ -27,6 +27,8 @@ import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_2.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_2.podaci.Parametar;
 import org.foi.uzdiz.mkovac.zadaca_2.prototype.VrstaPaketa;
+import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaRedoslijed;
+import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaStrategy;
 
 public class TvrtkaSingleton {
   private static volatile TvrtkaSingleton INSTANCE = new TvrtkaSingleton();
@@ -51,6 +53,10 @@ public class TvrtkaSingleton {
   public int mnoziteljSekunde;
   public LocalTime pocetakRada;
   public LocalTime krajRada;
+
+  public String gpsUreda;
+  public int vrijemeIzvrsavanja;
+  public int isporuka;
 
   private List<Parametar> parametri;
   private List<VrstaPaketa> vrstePaketa;
@@ -101,6 +107,10 @@ public class TvrtkaSingleton {
     DateTimeFormatter tf = DateTimeFormatter.ofPattern("HH:mm");
     pocetakRada = LocalTime.parse(vrijemePocetak, tf);
     krajRada = LocalTime.parse(vrijemeKraj, tf);
+
+    gpsUreda = postavke.getProperty("gps");
+    vrijemeIzvrsavanja = Integer.parseInt(postavke.getProperty("vi"));
+    isporuka = Integer.parseInt(postavke.getProperty("isporuka"));
   }
 
   private void ucitajParametre(String datoteka) throws IOException, NeispravniParametri {
@@ -351,6 +361,7 @@ public class TvrtkaSingleton {
   }
 
   public class UredPrijem {
+    private static int brojZaprimljenihPaketa;
 
     /**
      * Trajno ostaju radi statistike
@@ -387,6 +398,22 @@ public class TvrtkaSingleton {
 
       // TODO posalji obavijest primatelju i posiljatelju
       paket.setStatus("ZAPRIMLJEN");
+    }
+
+    public void zaprimiPakete() {
+      TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
+
+      Iterator<Paket> itr = tvrtka.getPaketi()
+          .subList(brojZaprimljenihPaketa, tvrtka.getPaketi().size() - 1).iterator();
+
+      while (itr.hasNext()) {
+        Paket p = itr.next();
+        if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
+          tvrtka.getUredPrijem().zaprimiPaket(p);
+          brojZaprimljenihPaketa++;
+          // itr.remove();
+        }
+      }
     }
 
     public void prebaciPaketeUUredZaDostavu() {
@@ -510,7 +537,8 @@ public class TvrtkaSingleton {
 
         // prvo pronadi koji je minimalni rang podrucja
         for (Vozilo vozilo : vozila) {
-          if (vozilo.getStatus().getOznaka().equals("A")) {
+          if (vozilo.getStatus().getOznaka().equals("A")
+              && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")) {
             if (vozilo.getPodrucjaPoRangu().contains(podrucjePaketa)) {
               tmpVozila.add(vozilo);
 
@@ -586,7 +614,8 @@ public class TvrtkaSingleton {
 
         // prvo pronadi koji je minimalni rang podrucja
         for (Vozilo vozilo : vozila) {
-          if (vozilo.getStatus().getOznaka().equals("A")) {
+          if (vozilo.getStatus().getOznaka().equals("A")
+              && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")) {
             if (vozilo.getPodrucjaPoRangu().contains(podrucjePaketa)) {
               tmpVozila.add(vozilo);
 
@@ -675,6 +704,47 @@ public class TvrtkaSingleton {
           itr.remove();
         }
       }
+    }
+
+    public void odrediVrstuIsporuke(Vozilo vozilo) {
+      switch (isporuka) {
+        case 1:
+          IsporukaStrategy isporukaRedoslijed = new IsporukaRedoslijed();
+          // isporukaRedoslijed.obaviIsporuku();
+          vozilo.setIsporukaStrategy(isporukaRedoslijed);
+          vozilo.odrediVrstuIsporuke();
+          break;
+
+        case 2:
+
+          break;
+
+        default:
+          break;
+      }
+
+
+    }
+
+    public void pokreniIsporuku() {
+      for (Vozilo vozilo : vozila) {
+
+        if (vozilo.getStatus().getOznaka().equals("A")
+            && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")) {
+          odrediVrstuIsporuke(vozilo); // tu se zapravo izrošadiraju paketi ovisno o strategiji
+          // TODO pokreniVozila() ili bolje receno obaviIsporuku()
+        }
+
+        // ako je vec u statusu isporuke, onda nastavi isporucivat
+        if (vozilo.getStatus().getOznaka().equals("A")
+            && vozilo.getStatusVoznje().getOznaka().equals("ISPORUKA")) {
+          // TODO obaviIsporuku()
+        }
+
+
+      }
+
+
     }
   }
 }
