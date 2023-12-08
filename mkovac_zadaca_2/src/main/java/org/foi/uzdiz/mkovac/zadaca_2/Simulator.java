@@ -45,11 +45,17 @@ public class Simulator {
         System.out.println("Utovar paketa...");
 
         // TODO prebaci u ured za dostavu
+        // tvrtka.getUredPrijem().prebaciPaketeUUredZaDostavu();
         tvrtka.getUredPrijem().prebaciPaketeUUredZaDostavu();
 
+        // utovari hitne
         tvrtka.getUredDostava().utovariHitnePakete();
 
-        // utovariOstale();
+        // utovari ostale
+        tvrtka.getUredDostava().utovariOstalePakete();
+
+        // sada kreće dostava
+
       }
 
 
