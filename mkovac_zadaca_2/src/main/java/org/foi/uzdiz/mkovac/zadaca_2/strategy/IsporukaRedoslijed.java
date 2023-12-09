@@ -28,8 +28,11 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
     for (Paket paket : paketi) {
       float[] gpsPaketa = izracunajGpsPaketa(paket);
 
-      float udaljenost =
-          this.izracunajUdaljenostIzmeduDvijeTocke(trenutniGpsKonvertirano, gpsPaketa);
+      // float udaljenost =
+      // this.izracunajUdaljenostIzmeduDvijeTocke(trenutniGpsKonvertirano, gpsPaketa);
+
+      float udaljenost = this
+          .izracunajUdaljenostIzmeduDvijeTocke(konvertirajGpsKoordinate(trenutniGps), gpsPaketa);
 
       Segment segment = new Segment();
       segment.setOdGps(trenutniGps);
@@ -38,9 +41,14 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
       segment.setTrajanjeIsporuke(TvrtkaSingleton.getInstance().vrijemeIzvrsavanja);
       segment.setPaket(paket);
 
+      System.out.println("OD GPS: " + segment.getOdGps() + " DO GPS: " + segment.getDoGps()
+          + " UDALJENOST: " + udaljenost);
+
       segmenti.add(segment);
 
-      System.arraycopy(gpsPaketa, 0, trenutniGpsKonvertirano, 0, gpsPaketa.length);
+      trenutniGps = konvertirajGpsKoordinate(gpsPaketa);
+
+      // System.arraycopy(gpsPaketa, 0, trenutniGpsKonvertirano, 0, gpsPaketa.length);
     }
 
     voznja.setSegmenti(segmenti);
@@ -82,8 +90,8 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
 
     // float udaljenostOdPocetkaDoPaketa = postotak * udaljenostPocetakKrajUlice;
 
-    float paketLat = gpsLat2 - gpsLat1 * postotak + gpsLat1;
-    float paketLon = gpsLon2 - gpsLon1 * postotak + gpsLon1;
+    float paketLat = (gpsLat2 - gpsLat1) * postotak + gpsLat1;
+    float paketLon = (gpsLon2 - gpsLon1) * postotak + gpsLon1;
 
     return new float[] {paketLat, paketLon};
   }

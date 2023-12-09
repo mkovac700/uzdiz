@@ -511,6 +511,7 @@ public class TvrtkaSingleton {
         // TODO traži vozilo koje već vozi hitni paket s istim područjem
         for (Vozilo vozilo : vozila) {
           if (vozilo.getTrenutnoPodrucje() != null
+              && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")
               && vozilo.getTrenutnoPodrucje().equals(podrucjePaketa)
               && vozilo.getPaketi().stream().anyMatch(p -> p.getUslugaDostave().equals("H"))) {
 
@@ -588,6 +589,7 @@ public class TvrtkaSingleton {
         // TODO traži vozilo koje već vozi paket (koji nije hitan) s istim područjem
         for (Vozilo vozilo : vozila) {
           if (vozilo.getTrenutnoPodrucje() != null
+              && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")
               && vozilo.getTrenutnoPodrucje().equals(podrucjePaketa)
               && vozilo.getPaketi().stream().anyMatch(p -> !p.getUslugaDostave().equals("H"))) {
 

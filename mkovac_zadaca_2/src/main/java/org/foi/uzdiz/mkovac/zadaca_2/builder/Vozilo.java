@@ -181,7 +181,7 @@ public class Vozilo {
       // pa se mora postavit sukladno uvjetima u ured dostava
       // VAŽNO - kod iskrcaja se mora vratit nazad na null kad se isporuči zadnji paket!!!
       trenutnoPodrucje = podrucje;
-
+      System.out.println("TEST");
       trenutnaVoznja = new Voznja();
       trenutnaVoznja.setVrijemePocetka(TvrtkaSingleton.getInstance().virtualniSat);
       voznje.add(trenutnaVoznja);
@@ -199,6 +199,8 @@ public class Vozilo {
   }
 
   public void odrediVrstuIsporuke() {
+    System.out.println("TEST2");
+
     isporukaStrategy.obaviIzracune(paketi, trenutnaVoznja);
 
     LocalDateTime vrijemePocetka = TvrtkaSingleton.getInstance().virtualniSat;
@@ -211,13 +213,16 @@ public class Vozilo {
       segment.setVrijemePocetka(vrijemePocetka);
       segment.setVrijemeKraja(vrijemePocetka.plusMinutes(segment.getUkupnoTrajanjeSegmenta()));
 
+      System.out.println("> " + segment.getPaket().getOznaka() + "(Udaljenost: "
+          + segment.getUdaljenost() + ") TREBA BITI PREUZET U --> " + segment.getVrijemeKraja());
+
       vrijemePocetka = segment.getVrijemeKraja();
     }
 
     this.setIsporuka();
 
     for (Paket paket : paketi) {
-      paket.setOznaka("U DOSTAVI");
+      paket.setStatus("U DOSTAVI");
     }
   }
 

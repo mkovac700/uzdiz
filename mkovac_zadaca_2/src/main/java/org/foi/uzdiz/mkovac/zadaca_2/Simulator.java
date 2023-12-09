@@ -52,10 +52,11 @@ public class Simulator {
         tvrtka.getUredDostava().utovariOstalePakete();
 
         // sada kreće dostava
-        tvrtka.getUredDostava().pokreniIsporuku();
+        // tvrtka.getUredDostava().pokreniIsporuku();
 
       }
-
+      // sada kreće dostava
+      tvrtka.getUredDostava().pokreniIsporuku();
 
     }
 
