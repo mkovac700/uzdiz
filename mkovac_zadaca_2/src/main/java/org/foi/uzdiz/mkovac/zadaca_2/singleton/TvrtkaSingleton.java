@@ -15,20 +15,20 @@ import org.foi.uzdiz.mkovac.zadaca_2.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.LokacijaComponent;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacDatoteke;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacMjesta;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacOsoba;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacPaketa;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacParametara;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacPodrucja;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacUlica;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVozila;
-import org.foi.uzdiz.mkovac.zadaca_2.factory_method.CitacVrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_2.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_2.podaci.Parametar;
 import org.foi.uzdiz.mkovac.zadaca_2.prototype.VrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaRedoslijed;
 import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaStrategy;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacDatoteke;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacMjesta;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacOsoba;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacPaketa;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacParametara;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacPodrucja;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacUlica;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacVozila;
+import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacVrstaPaketa;
 
 public class TvrtkaSingleton {
   private static volatile TvrtkaSingleton INSTANCE = new TvrtkaSingleton();
@@ -122,119 +122,48 @@ public class TvrtkaSingleton {
         postavke.put(parametar.getKljuc(), parametar.getVrijednost());
       else
         throw new NeispravniParametri("Datoteka parametara sadrži duplikat ključa!");
-
-      // TODO remove
-      System.out.println(
-          "k: " + parametar.getKljuc() + " v: " + postavke.getProperty(parametar.getKljuc()));
     }
 
     if (!ParametriProvjeraSingleton.getInstance().provjeriParametre(postavke))
       throw new NeispravniParametri(
           "Datoteka parametara ne sadrži sve parametre ili parametri nisu ispravni!");
-    else {
-      // TODO remove
-      System.out.println("Parametri OK");
-    }
+
   }
 
   private void ucitajVrstePaketa(String datoteka) throws IOException {
     CitacDatoteke<VrstaPaketa> citac = new CitacVrstaPaketa();
     vrstePaketa = citac.citajDatoteku(datoteka);
-
-    // TODO remove
-    System.out.println("Ucitane vrste paketa: ");
-
-    // TODO remove
-    for (VrstaPaketa vrstaPaketa : vrstePaketa) {
-      System.out.println(vrstaPaketa.oznaka);
-    }
   }
 
   private void ucitajVozila(String datoteka) throws IOException {
     CitacDatoteke<Vozilo> citac = new CitacVozila();
     vozila = citac.citajDatoteku(datoteka);
-
-    // TODO remove
-    System.out.println("Ucitana vozila: ");
-
-    // TODO remove
-    for (Vozilo vozilo : vozila) {
-      System.out.println(vozilo + " -> STATUS: " + vozilo.getStatus().getOznaka());
-    }
   }
 
   private void ucitajUlice(String datoteka) throws IOException {
     CitacDatoteke<UlicaLeaf> citac = new CitacUlica();
     ulice = citac.citajDatoteku(datoteka);
-
-    // TODO remove
-    System.out.println("Ucitane ulice: ");
-
-    // TODO remove
-    for (UlicaLeaf ulica : ulice) {
-      System.out.println(ulica.prikaziDetalje());
-    }
   }
 
   private void ucitajMjesta(String datoteka) throws IOException {
     CitacDatoteke<MjestoComposite> citac = new CitacMjesta();
     mjesta = citac.citajDatoteku(datoteka);
-
-    // TODO remove
-    System.out.println("Ucitana mjesta: ");
-
-    // TODO remove
-    for (MjestoComposite mjesto : mjesta) {
-      System.out.println(mjesto.prikaziDetalje());
-    }
   }
 
   private void ucitajPodrucja(String datoteka) throws IOException {
     CitacDatoteke<Podrucje> citac = new CitacPodrucja();
     podrucja = citac.citajDatoteku(datoteka);
-
-    // TODO remove
-    System.out.println("Ucitana podrucja: ");
-
-    // TODO remove
-    for (Podrucje podrucje : podrucja) {
-      System.out.println("Područje " + podrucje.getId());
-      for (LokacijaComponent mjesto : podrucje.getSvaMjesta().dajLokacije()) {
-        System.out.println("    " + ((MjestoComposite) mjesto).getId() + ": "
-            + ((MjestoComposite) mjesto).getNaziv());
-        for (LokacijaComponent ulica : mjesto.dajLokacije()) {
-          System.out.println(
-              "        " + ((UlicaLeaf) ulica).getId() + ": " + ((UlicaLeaf) ulica).getNaziv());
-        }
-      }
-    }
   }
 
   private void ucitajOsobe(String datoteka) throws IOException {
     CitacDatoteke<Osoba> citac = new CitacOsoba();
     osobe = citac.citajDatoteku(datoteka);
 
-    // TODO remove
-    System.out.println("Ucitane osobe: ");
-
-    // TODO remove
-    for (Osoba osoba : osobe) {
-      System.out.println(osoba);
-    }
-
   }
 
   private void ucitajPakete(String datoteka) throws IOException {
     CitacDatoteke<Paket> citac = new CitacPaketa();
     paketi = citac.citajDatoteku(datoteka);
-
-    // TODO remove
-    System.out.println("Ucitani paketi: ");
-
-    // TODO remove
-    for (Paket paket : paketi) {
-      System.out.println(paket);
-    }
 
   }
 

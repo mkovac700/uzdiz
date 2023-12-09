@@ -41,9 +41,6 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
       segment.setTrajanjeIsporuke(TvrtkaSingleton.getInstance().vrijemeIzvrsavanja);
       segment.setPaket(paket);
 
-      System.out.println("OD GPS: " + segment.getOdGps() + " DO GPS: " + segment.getDoGps()
-          + " UDALJENOST: " + udaljenost);
-
       segmenti.add(segment);
 
       trenutniGps = konvertirajGpsKoordinate(gpsPaketa);

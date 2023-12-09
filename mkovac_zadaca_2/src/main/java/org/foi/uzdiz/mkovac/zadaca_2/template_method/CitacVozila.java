@@ -1,4 +1,4 @@
-package org.foi.uzdiz.mkovac.zadaca_2.factory_method;
+package org.foi.uzdiz.mkovac.zadaca_2.template_method;
 
 
 import java.io.IOException;
