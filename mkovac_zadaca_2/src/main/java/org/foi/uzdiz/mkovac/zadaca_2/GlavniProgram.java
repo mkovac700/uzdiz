@@ -48,16 +48,16 @@ public class GlavniProgram {
         String kljuc = komanda.split(" ")[0];
 
         if (kljuc.equals("IP")) {
-          // TODO ispis paketa
+
         } else if (kljuc.equals("VR")) {
           int vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
           simulator.pokreni(vrijemeIzvrsavanja);
         } else if (kljuc.equals("PP")) {
           tvrtka.ispisPodrucja();
         } else if (kljuc.equals("PO")) {
-          tvrtka.promjeniStatusSlanjaObavijesti(grupa[8].replace("'", ""), grupa[9], grupa[10]);
+          tvrtka.promjeniStatusSlanjaObavijesti(grupa[7].replace("'", ""), grupa[8], grupa[9]);
         } else if (kljuc.equals("PS")) {
-          tvrtka.promijeniStatusVozila(grupa[13], grupa[14]);
+          tvrtka.promijeniStatusVozila(grupa[12], grupa[13]);
         } else if (kljuc.equals("Q")) {
           break;
         }

@@ -1,4 +1,4 @@
-package org.foi.uzdiz.mkovac.zadaca_2.singleton;
+package org.foi.uzdiz.mkovac.zadaca_2.pomocnici;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,11 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.foi.uzdiz.mkovac.zadaca_2.podaci.RegexVrsta;
+import org.foi.uzdiz.mkovac.zadaca_2.singleton.RegexProvjeraSingleton;
 
-public class ParametriProvjeraSingleton {
-  private static volatile ParametriProvjeraSingleton INSTANCE = new ParametriProvjeraSingleton();
+public class ParametriProvjera {
 
-  private ParametriProvjeraSingleton() {}
-
-  public static ParametriProvjeraSingleton getInstance() {
-    return INSTANCE;
-  }
+  public ParametriProvjera() {}
 
   private final String[] kljucevi_staro = {"vp", "pv", "pp", "mt", "vi", "vs", "ms", "pr", "kr"};
   private final String[] kljucevi_novo = {"po", "pm", "pu", "pmu", "gps", "isporuka"};

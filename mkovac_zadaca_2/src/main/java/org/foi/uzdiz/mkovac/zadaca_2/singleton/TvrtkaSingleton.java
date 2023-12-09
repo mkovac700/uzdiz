@@ -17,7 +17,9 @@ import org.foi.uzdiz.mkovac.zadaca_2.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_2.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_2.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_2.podaci.Parametar;
+import org.foi.uzdiz.mkovac.zadaca_2.pomocnici.ParametriProvjera;
 import org.foi.uzdiz.mkovac.zadaca_2.prototype.VrstaPaketa;
+import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaNajblizaDostava;
 import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaRedoslijed;
 import org.foi.uzdiz.mkovac.zadaca_2.strategy.IsporukaStrategy;
 import org.foi.uzdiz.mkovac.zadaca_2.template_method.CitacDatoteke;
@@ -36,9 +38,12 @@ public class TvrtkaSingleton {
   private UredPrijem uredPrijem;
   private UredDostava uredDostava;
 
+  private ParametriProvjera parametriProvjera;
+
   private TvrtkaSingleton() {
     uredPrijem = new UredPrijem();
     uredDostava = new UredDostava();
+    parametriProvjera = new ParametriProvjera();
   }
 
   public static TvrtkaSingleton getInstance() {
@@ -124,7 +129,7 @@ public class TvrtkaSingleton {
         throw new NeispravniParametri("Datoteka parametara sadrži duplikat ključa!");
     }
 
-    if (!ParametriProvjeraSingleton.getInstance().provjeriParametre(postavke))
+    if (!parametriProvjera.provjeriParametre(postavke))
       throw new NeispravniParametri(
           "Datoteka parametara ne sadrži sve parametre ili parametri nisu ispravni!");
 
@@ -641,12 +646,14 @@ public class TvrtkaSingleton {
       switch (isporuka) {
         case 1:
           IsporukaStrategy isporukaRedoslijed = new IsporukaRedoslijed();
-          // isporukaRedoslijed.obaviIsporuku();
           vozilo.setIsporukaStrategy(isporukaRedoslijed);
           vozilo.odrediVrstuIsporuke();
           break;
 
         case 2:
+          IsporukaStrategy isporukaNajblizaDostava = new IsporukaNajblizaDostava();
+          vozilo.setIsporukaStrategy(isporukaNajblizaDostava);
+          vozilo.odrediVrstuIsporuke();
 
           break;
 
