@@ -64,6 +64,10 @@ public class Voznja {
     this.segmenti = segmenti;
   }
 
+  public List<Segment> getSegmenti() {
+    return segmenti;
+  }
+
 
 
 }

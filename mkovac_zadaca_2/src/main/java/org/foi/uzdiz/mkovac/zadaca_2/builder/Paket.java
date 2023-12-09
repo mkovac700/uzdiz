@@ -26,6 +26,8 @@ public class Paket implements Subject {
   private String uslugaDostave;
   private float iznosPouzeca;
 
+  private LocalDateTime vrijemeIsporuke;
+
   public Paket() {}
 
   public String getOznaka() {
@@ -164,5 +166,15 @@ public class Paket implements Subject {
   public float getM3() {
     return this.sirina * this.duzina * this.visina;
   }
+
+  public LocalDateTime getVrijemeIsporuke() {
+    return vrijemeIsporuke;
+  }
+
+  public void setVrijemeIsporuke(LocalDateTime vrijemeIsporuke) {
+    this.vrijemeIsporuke = vrijemeIsporuke;
+  }
+
+
 
 }

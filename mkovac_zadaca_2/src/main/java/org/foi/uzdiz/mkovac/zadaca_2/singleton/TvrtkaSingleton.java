@@ -726,19 +726,27 @@ public class TvrtkaSingleton {
 
     }
 
+    public void obaviIsporuku(Vozilo vozilo) {
+      vozilo.obaviIsporuku();
+    }
+
     public void pokreniIsporuku() {
       for (Vozilo vozilo : vozila) {
 
         if (vozilo.getStatus().getOznaka().equals("A")
-            && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")) {
+            && vozilo.getStatusVoznje().getOznaka().equals("UKRCAVANJE")
+            && vozilo.getTrenutnaVoznja() != null) {
           odrediVrstuIsporuke(vozilo); // tu se zapravo izrošadiraju paketi ovisno o strategiji
           // TODO pokreniVozila() ili bolje receno obaviIsporuku()
+          obaviIsporuku(vozilo);
+
         }
 
         // ako je vec u statusu isporuke, onda nastavi isporucivat
         if (vozilo.getStatus().getOznaka().equals("A")
             && vozilo.getStatusVoznje().getOznaka().equals("ISPORUKA")) {
           // TODO obaviIsporuku()
+          obaviIsporuku(vozilo);
         }
 
 

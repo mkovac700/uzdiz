@@ -42,8 +42,7 @@ public class Simulator {
           .getHour()) {
         System.out.println("Utovar paketa...");
 
-        // TODO prebaci u ured za dostavu
-        // tvrtka.getUredPrijem().prebaciPaketeUUredZaDostavu();
+        // preseli pakete u ured za dostavu
         tvrtka.getUredPrijem().prebaciPaketeUUredZaDostavu();
 
         // utovari hitne
