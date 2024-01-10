@@ -591,29 +591,33 @@ public class TvrtkaSingleton {
       return null;
     }
 
-    public void utovariHitniPaket(Paket paket) {
+    public boolean utovariHitniPaket(Paket paket) {
       Vozilo vozilo = this.pronadiVoziloZaHitniPaket(paket);
       Podrucje podrucje = this.odrediPodrucjePaketa(paket);
       if (vozilo == null) {
         System.out.println("Nije pronađeno nijedno slobodno vozilo za paket " + paket.getOznaka());
+        return false;
       } else {
         vozilo.ukrcajPaket(paket, podrucje);
         System.out
             .println("Paket " + paket.getOznaka() + " ukrcan u vozilo " + vozilo.getRegistracija());
         paket.setStatus("UKRCAN U VOZILO");
+        return true;
       }
     }
 
-    public void utovariObicniPaket(Paket paket) {
+    public boolean utovariObicniPaket(Paket paket) {
       Vozilo vozilo = this.pronadiVoziloZaOstalePakete(paket);
       Podrucje podrucje = this.odrediPodrucjePaketa(paket);
       if (vozilo == null) {
         System.out.println("Nije pronađeno nijedno slobodno vozilo za paket " + paket.getOznaka());
+        return false;
       } else {
         vozilo.ukrcajPaket(paket, podrucje);
         System.out
             .println("Paket " + paket.getOznaka() + " ukrcan u vozilo " + vozilo.getRegistracija());
         paket.setStatus("UKRCAN U VOZILO");
+        return true;
       }
     }
 
@@ -624,8 +628,8 @@ public class TvrtkaSingleton {
       while (itr.hasNext()) {
         Paket p = itr.next();
         if (p.getUslugaDostave().equals("H")) {
-          utovariHitniPaket(p);
-          itr.remove();
+          if (utovariHitniPaket(p))
+            itr.remove();
         }
       }
     }
@@ -636,8 +640,8 @@ public class TvrtkaSingleton {
       while (itr.hasNext()) {
         Paket p = itr.next();
         if (!p.getUslugaDostave().equals("H")) {
-          utovariObicniPaket(p);
-          itr.remove();
+          if (utovariObicniPaket(p))
+            itr.remove();
         }
       }
     }
