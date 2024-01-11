@@ -21,9 +21,11 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
     // voznja sluzi tome da se odma kreiraju segmenti
     List<Segment> segmenti = new ArrayList<>();
 
-    String trenutniGps = TvrtkaSingleton.getInstance().gpsUreda;
+    final String gpsUreda = TvrtkaSingleton.getInstance().gpsUreda;
 
-    float[] trenutniGpsKonvertirano = konvertirajGpsKoordinate(trenutniGps);
+    String trenutniGps = gpsUreda;
+
+    // float[] trenutniGpsKonvertirano = konvertirajGpsKoordinate(trenutniGps);
 
     for (Paket paket : paketi) {
       float[] gpsPaketa = izracunajGpsPaketa(paket);
@@ -48,6 +50,18 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
       // System.arraycopy(gpsPaketa, 0, trenutniGpsKonvertirano, 0, gpsPaketa.length);
     }
 
+    // nakon zadnjeg paketa kreiraj i segment povratka u ured:
+    float udaljenost = this.izracunajUdaljenostIzmeduDvijeTocke(
+        konvertirajGpsKoordinate(trenutniGps), konvertirajGpsKoordinate(gpsUreda));
+    Segment segment = new Segment();
+    segment.setOdGps(trenutniGps);
+    segment.setDoGps(gpsUreda);
+    segment.setUdaljenost(udaljenost);
+    // ostalo je sve null ukljucujuci i paket
+
+    segmenti.add(segment);
+
+    // na kraju dodijeli segmente voznji
     voznja.setSegmenti(segmenti);
 
   }

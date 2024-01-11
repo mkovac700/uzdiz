@@ -691,6 +691,17 @@ public class TvrtkaSingleton {
           obaviIsporuku(vozilo);
         }
 
+        // ako je vozilo pak u povratku, onda provjeri vrijeme kad bi se trebalo vratit te mu
+        // promijeni status natrag u ukrcavanje ako se vratilo
+        if (vozilo.getStatus().getOznaka().equals("A")
+            && vozilo.getStatusVoznje().getOznaka().equals("POVRATAK")) {
+
+          if (vozilo.getVrijemePovratka().isBefore(virtualniSat) // TODO isAfter?
+              || vozilo.getVrijemePovratka().isEqual(virtualniSat)) {
+            vozilo.setUkrcavanje();
+          }
+        }
+
 
       }
 

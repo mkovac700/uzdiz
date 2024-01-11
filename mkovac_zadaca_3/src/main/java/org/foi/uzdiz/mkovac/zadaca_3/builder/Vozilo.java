@@ -227,32 +227,58 @@ public class Vozilo {
     // for (Paket paket : paketi) {
     // paket.setOznaka("U DOSTAVI");
     // }
-    if (!paketi.isEmpty()) {
-      for (Segment segment : trenutnaVoznja.getSegmenti()) {
-        if (segment.getPaket().getStatus().equals("U DOSTAVI")) {
-          // ako je vrijeme za to ukloni paket iz liste paketa
+
+    // TODO mozda dodati provjeru statusa vozila dal je u dostavi?
 
 
-          if (segment.getVrijemeKraja().isBefore(TvrtkaSingleton.getInstance().virtualniSat)
-              || segment.getVrijemeKraja().isEqual(TvrtkaSingleton.getInstance().virtualniSat)) {
-            segment.getPaket().setVrijemeIsporuke(TvrtkaSingleton.getInstance().virtualniSat);
-            segment.getPaket().setStatus("PREUZETO");
-            paketi.remove(segment.getPaket());
-          }
+    // if (!paketi.isEmpty()) {
+    for (Segment segment : trenutnaVoznja.getSegmenti()) {
+
+
+
+      // ovdje se provjeri i da nije zadnji segment u pitanju, odnosno povratak (paket je null)
+      if (paketi.isEmpty() && segment.getPaket() == null) {
+        this.setPovratak();
+        this.setVrijemePovratka(segment.getVrijemeKraja());
+        this.trenutnoPodrucje = null;
+        this.trenutnaVoznja = null;
+
+        System.out.println("Vozilo " + this.getRegistracija() + " bi se trebalo vratiti u "
+            + TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(this.getVrijemePovratka()));
+
+      }
+
+      if (segment.getPaket() != null && segment.getPaket().getStatus().equals("U DOSTAVI")) {
+        // ako je vrijeme za to ukloni paket iz liste paketa
+
+
+        if (segment.getVrijemeKraja().isBefore(TvrtkaSingleton.getInstance().virtualniSat)
+            || segment.getVrijemeKraja().isEqual(TvrtkaSingleton.getInstance().virtualniSat)) {
+          segment.getPaket().setVrijemeIsporuke(TvrtkaSingleton.getInstance().virtualniSat);
+          segment.getPaket().setStatus("PREUZETO");
+          paketi.remove(segment.getPaket());
         }
       }
     }
+    // }
 
 
     // nakon svega provjeri jel lista paketa prazna (svi dostavljeni) i u tom slucaju settaj vozilo
     // u
     // stanje povratka te odredi vrijeme kad bi se trebalo vratit
-    if (paketi.isEmpty()) {
-      this.setPovratak();
-      // this.vrijemePovratka = TvrtkaSingleton.getInstance().virtualniSat.
-    }
+    /*
+     * if (paketi.isEmpty()) { this.setPovratak(); }
+     */
 
 
+  }
+
+  public LocalDateTime getVrijemePovratka() {
+    return vrijemePovratka;
+  }
+
+  public void setVrijemePovratka(LocalDateTime vrijemePovratka) {
+    this.vrijemePovratka = vrijemePovratka;
   }
 
 }
