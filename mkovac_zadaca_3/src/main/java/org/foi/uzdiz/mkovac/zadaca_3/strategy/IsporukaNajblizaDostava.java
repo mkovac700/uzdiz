@@ -12,37 +12,65 @@ public class IsporukaNajblizaDostava implements IsporukaStrategy {
 
   @Override
   public void obaviIzracune(List<Paket> paketi, Voznja voznja) {
-    // voznja sluzi tome da se odma kreiraju segmenti
+
     List<Segment> segmenti = new ArrayList<>();
 
-    String trenutniGps = TvrtkaSingleton.getInstance().gpsUreda;
+    // kopija liste paketa kako se ne bi dirala originalna lista
+    List<Paket> paketiTmp = new ArrayList<>(paketi);
 
-    float[] trenutniGpsKonvertirano = konvertirajGpsKoordinate(trenutniGps);
+    final String gpsUreda = TvrtkaSingleton.getInstance().gpsUreda;
 
-    for (Paket paket : paketi) {
-      float[] gpsPaketa = izracunajGpsPaketa(paket);
+    String trenutniGps = gpsUreda;
 
-      // float udaljenost =
-      // this.izracunajUdaljenostIzmeduDvijeTocke(trenutniGpsKonvertirano, gpsPaketa);
+    while (!paketiTmp.isEmpty()) {
+      float najmanjaUdaljenost = Float.MAX_VALUE;
+      Paket najbliziPaket = null;
 
-      float udaljenost = this
-          .izracunajUdaljenostIzmeduDvijeTocke(konvertirajGpsKoordinate(trenutniGps), gpsPaketa);
+      for (Paket paket : paketiTmp) {
+        float[] gpsPaketa = izracunajGpsPaketa(paket);
+
+        float udaljenost = this
+            .izracunajUdaljenostIzmeduDvijeTocke(konvertirajGpsKoordinate(trenutniGps), gpsPaketa);
+
+        if (udaljenost < najmanjaUdaljenost) {
+          najmanjaUdaljenost = udaljenost;
+          najbliziPaket = paket;
+        }
+      }
+
+      float[] gpsNajblizegPaketa = izracunajGpsPaketa(najbliziPaket);
 
       Segment segment = new Segment();
       segment.setOdGps(trenutniGps);
-      segment.setDoGps(this.konvertirajGpsKoordinate(gpsPaketa));
-      segment.setUdaljenost(udaljenost);
+      segment.setDoGps(this.konvertirajGpsKoordinate(gpsNajblizegPaketa));
+      segment.setUdaljenost(najmanjaUdaljenost);
       segment.setTrajanjeIsporuke(TvrtkaSingleton.getInstance().vrijemeIzvrsavanja);
-      segment.setPaket(paket);
+      segment.setPaket(najbliziPaket);
 
       segmenti.add(segment);
 
-      trenutniGps = konvertirajGpsKoordinate(gpsPaketa);
+      trenutniGps = konvertirajGpsKoordinate(gpsNajblizegPaketa);
 
-      // System.arraycopy(gpsPaketa, 0, trenutniGpsKonvertirano, 0, gpsPaketa.length);
+      paketiTmp.remove(najbliziPaket);
+
     }
 
+    // nakon zadnjeg paketa kreiraj i segment povratka u ured:
+    float udaljenost = this.izracunajUdaljenostIzmeduDvijeTocke(
+        konvertirajGpsKoordinate(trenutniGps), konvertirajGpsKoordinate(gpsUreda));
+    Segment segment = new Segment();
+    segment.setOdGps(trenutniGps);
+    segment.setDoGps(gpsUreda);
+    segment.setUdaljenost(udaljenost);
+    // ostalo je sve null ukljucujuci i paket
+
+    segmenti.add(segment);
+
+    // TODO PRESLOŽI
+
+    // na kraju dodijeli segmente voznji
     voznja.setSegmenti(segmenti);
+
   }
 
   private String konvertirajGpsKoordinate(float[] gpsKoordinate) {
