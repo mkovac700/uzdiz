@@ -53,6 +53,7 @@ public class TvrtkaSingleton {
   private Properties postavke;
 
   private DateTimeFormatter dtf;
+  private DateTimeFormatter tf;
 
   public LocalDateTime virtualniSat;
   public int mnoziteljSekunde;
@@ -81,9 +82,14 @@ public class TvrtkaSingleton {
     return datumVrijeme.format(dtf);
   }
 
+  public String konvertirajVrijeme(LocalTime vrijeme) {
+    return vrijeme.format(tf);
+  }
+
   public void init(String argument) throws IOException, NeispravniParametri {
     postavke = new Properties();
     dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
+    tf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     this.ucitajParametre(argument);
     this.ucitajVrstePaketa(postavke.getProperty("vp"));
@@ -664,8 +670,6 @@ public class TvrtkaSingleton {
         default:
           break;
       }
-
-
     }
 
     public void obaviIsporuku(Vozilo vozilo) {

@@ -40,6 +40,53 @@ public class Vozilo {
     voznje = new ArrayList<>();
   }
 
+  public float getOdvozenoKm() {
+    float ukupno = 0;
+    for (Voznja v : voznje) {
+      ukupno += v.getUkupnoKm();
+    }
+    return ukupno;
+  }
+
+  public int getBrojHitnih() {
+    int brojHitnih = 0;
+    for (Paket p : paketi) {
+      if (p.getUslugaDostave().equals("H"))
+        brojHitnih++;
+    }
+    return brojHitnih;
+  }
+
+  public int getBrojObicnih() {
+    int brojObicnih = 0;
+    for (Paket p : paketi) {
+      if (!p.getUslugaDostave().equals("H"))
+        brojObicnih++;
+    }
+    return brojObicnih;
+  }
+
+  public int getBrojIsporucenih() {
+    int brojIsporucenih = 0;
+    for (Paket p : paketi) {
+      if (p.getStatus().equals("PREUZETO"))
+        brojIsporucenih++;
+    }
+    return brojIsporucenih;
+  }
+
+  public int getBrojVoznji() {
+    return voznje.size();
+  }
+
+  public float getTrenutniPostotakZauzecaProstora() {
+    return (this.izracunajTrenutnoZauzeceProstora() / this.kapacitetProstora) * 100;
+  }
+
+  public float getTrenutniPostotakZauzecaTezine() {
+    return (this.izracunajTrenutnuTezinu() / this.kapacitetTezine) * 100;
+  }
+
   public String getRegistracija() {
     return registracija;
   }
@@ -219,6 +266,20 @@ public class Vozilo {
     for (Paket paket : paketi) {
       paket.setStatus("U DOSTAVI");
     }
+
+    try {
+      trenutnaVoznja.setZauzeceProstoraNaPocetku(
+          (this.izracunajTrenutnuTezinu() / this.kapacitetTezine) * 100);
+    } catch (Exception e) {
+      trenutnaVoznja.setZauzeceProstoraNaPocetku(0);
+    }
+
+    try {
+      trenutnaVoznja.setZauzeceTezineNaPocetku(
+          (this.izracunajTrenutnoZauzeceProstora() / this.kapacitetProstora) * 100);
+    } catch (Exception e) {
+      trenutnaVoznja.setZauzeceProstoraNaPocetku(0);
+    }
   }
 
   public void obaviIsporuku() {
@@ -240,6 +301,9 @@ public class Vozilo {
       if (paketi.isEmpty() && segment.getPaket() == null) {
         this.setPovratak();
         this.setVrijemePovratka(segment.getVrijemeKraja());
+
+        trenutnaVoznja.setVrijemePovratka(vrijemePovratka);
+
         this.trenutnoPodrucje = null;
         this.trenutnaVoznja = null;
 
