@@ -87,7 +87,7 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
     if (kbrPaketa > najveciKbr)
       kbrPaketa = najveciKbr;
 
-    float postotak = (float) kbrPaketa / (float) najveciKbr;
+    float postotak = (float) (kbrPaketa / najveciKbr);
 
     float gpsLat1 = ulica.getGpsLat1();
     float gpsLon1 = ulica.getGpsLon1();

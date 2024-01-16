@@ -321,9 +321,9 @@ public class TvrtkaSingleton {
       System.out.println("Nema podataka za prikaz!");
       return;
     }
-    if (n > voznje.size() - 1) {
-      System.out
-          .println("Uneseni broj vožnje veći od ukupnog broja vožnji za vozilo " + registracija);
+    if (n > voznje.size()) {
+      System.out.println("Nema podataka o vožnji " + n + " za vozilo " + registracija
+          + ". Ukupan broj vožnji trenutno: " + voznje.size());
       return;
     }
 
@@ -331,13 +331,68 @@ public class TvrtkaSingleton {
 
     PodaciVoziloVisitorImpl podaciVoziloVisitorImpl = new PodaciVoziloVisitorImpl();
 
+    // PRINTAJ GORNJI BORDER ZAGLAVLJA
+    for (int i = 0; i <= 5; i++) {
+      System.out.print("+");
+      if (i == 5)
+        break;
+      for (int j = 0; j < 20; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+
+    // PRINTAJ ZAGLAVLJE
+    String[] zaglavlje = {"VRIJEME POČETKA", "VRIJEME KRAJA", "TRAJANJE", "ODVOŽENO KM", "PAKET"};
+
+    System.out.print("|");
+
+    // for (String z : zaglavlje) System.out.print(String.format("%-20s|", z));
+
+    for (String z : zaglavlje) {
+      int totalSpaces = 20 - z.length();
+      int padding = totalSpaces / 2;
+      System.out.print(String.format("%-20s|", String.format("%-" + (z.length() + padding) + "s",
+          String.format("%" + (z.length() + padding) + "s", z))));
+    }
+
+    System.out.println();
+
+    // PRINTAJ DONJI BORDER ZAGLAVLJA
+    for (int i = 0; i <= 5; i++) {
+      System.out.print("+");
+      if (i == 5)
+        break;
+      for (int j = 0; j < 20; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+
+    // PRINTAJ PODATKE
+
     for (Segment s : trazenaVoznja.getSegmenti()) {
       String[] podaci = s.accept(podaciVoziloVisitorImpl);
+      System.out.print("|");
       for (String p : podaci) {
-        System.out.print(String.format("%-30s", p));
+        System.out.print(String.format("%-20s|", p));
       }
       System.out.println();
     }
+
+    // PRINTAJ DONJI BORDER
+    for (int i = 0; i <= 5; i++) {
+      System.out.print("+");
+      if (i == 5)
+        break;
+      for (int j = 0; j < 20; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
   }
 
   public UredPrijem getUredPrijem() {

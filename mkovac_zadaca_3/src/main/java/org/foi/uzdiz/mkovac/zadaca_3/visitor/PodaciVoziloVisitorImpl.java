@@ -1,5 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_3.visitor;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Paket;
@@ -14,7 +15,9 @@ public class PodaciVoziloVisitorImpl implements Visitor {
   public String[] visit(Segment segment) {
     LocalDateTime vrijemePocetka = segment.getVrijemePocetka();
     LocalDateTime vrijemeKraja = segment.getVrijemeKraja();
-    int trajanje = segment.getUkupnoTrajanjeSegmenta();
+    // float trajanje = segment.getUkupnoTrajanjeSegmenta();
+    long trajanjeMillis = (long) (segment.getUkupnoTrajanjeSegmenta() * 60 * 1000);
+    LocalTime trajanje = LocalTime.MIDNIGHT.plus(Duration.ofMillis(trajanjeMillis));
     float odvozenoKm = segment.getUdaljenost();
     Paket paket = segment.getPaket();
     String oznakaPaketa = "-";
@@ -23,7 +26,8 @@ public class PodaciVoziloVisitorImpl implements Visitor {
 
     return new String[] {TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(vrijemePocetka),
         TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(vrijemeKraja),
-        String.valueOf(trajanje), String.valueOf(odvozenoKm), oznakaPaketa};
+        TvrtkaSingleton.getInstance().konvertirajVrijeme(trajanje), String.valueOf(odvozenoKm),
+        oznakaPaketa};
   }
 
   @Override

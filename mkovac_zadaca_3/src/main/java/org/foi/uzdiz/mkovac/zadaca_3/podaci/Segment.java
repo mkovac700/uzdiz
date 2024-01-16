@@ -11,9 +11,9 @@ public class Segment implements Element {
   private float udaljenost; // km
   private LocalDateTime vrijemePocetka;
   private LocalDateTime vrijemeKraja;
-  private int trajanjeVoznje; // udaljenost/prosjecnaBrzina*60 --> u minutama
+  private float trajanjeVoznje; // udaljenost/prosjecnaBrzina*60 --> u minutama
   private int trajanjeIsporuke;
-  private int ukupnoTrajanjeSegmenta; // trajanjeVoznje + trajanjeIsporuke
+  private float ukupnoTrajanjeSegmenta; // trajanjeVoznje + trajanjeIsporuke
   private Paket paket;
 
   public Segment() {}
@@ -58,11 +58,11 @@ public class Segment implements Element {
     this.vrijemeKraja = vrijemeKraja;
   }
 
-  public int getTrajanjeVoznje() {
+  public float getTrajanjeVoznje() {
     return trajanjeVoznje;
   }
 
-  public void setTrajanjeVoznje(int trajanjeVoznje) {
+  public void setTrajanjeVoznje(float trajanjeVoznje) {
     this.trajanjeVoznje = trajanjeVoznje;
   }
 
@@ -74,11 +74,11 @@ public class Segment implements Element {
     this.trajanjeIsporuke = trajanjeIsporuke;
   }
 
-  public int getUkupnoTrajanjeSegmenta() {
+  public float getUkupnoTrajanjeSegmenta() {
     return ukupnoTrajanjeSegmenta;
   }
 
-  public void setUkupnoTrajanjeSegmenta(int ukupnoTrajanjeSegmenta) {
+  public void setUkupnoTrajanjeSegmenta(float ukupnoTrajanjeSegmenta) {
     this.ukupnoTrajanjeSegmenta = ukupnoTrajanjeSegmenta;
   }
 

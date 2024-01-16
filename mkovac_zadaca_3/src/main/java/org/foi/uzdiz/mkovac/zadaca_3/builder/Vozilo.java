@@ -1,5 +1,6 @@
 package org.foi.uzdiz.mkovac.zadaca_3.builder;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -254,13 +255,23 @@ public class Vozilo implements Element {
 
     // dodaj ostale podatke za segmente
     for (Segment segment : trenutnaVoznja.getSegmenti()) {
-      int trajanjeVoznje = (int) ((segment.getUdaljenost() / this.prosjecnaBrzina) * 60);
-      // segment.setTrajanjeVoznje((int) segment.getUdaljenost() / (int) this.prosjecnaBrzina * 60);
+      /*
+       * int trajanjeVoznje = (int) ((segment.getUdaljenost() / this.prosjecnaBrzina) * 60); //
+       * segment.setTrajanjeVoznje((int) segment.getUdaljenost() / (int) this.prosjecnaBrzina * 60);
+       * segment.setTrajanjeVoznje(trajanjeVoznje); segment
+       * .setUkupnoTrajanjeSegmenta(segment.getTrajanjeVoznje() + segment.getTrajanjeIsporuke());
+       * segment.setVrijemePocetka(vrijemePocetka);
+       * segment.setVrijemeKraja(vrijemePocetka.plusMinutes(segment.getUkupnoTrajanjeSegmenta()));
+       */
+      float trajanjeVoznje = (segment.getUdaljenost() / this.prosjecnaBrzina) * 60;
       segment.setTrajanjeVoznje(trajanjeVoznje);
-      segment
-          .setUkupnoTrajanjeSegmenta(segment.getTrajanjeVoznje() + segment.getTrajanjeIsporuke());
+      segment.setUkupnoTrajanjeSegmenta(trajanjeVoznje + segment.getTrajanjeIsporuke());
+
+      long ukupnoTrajanjeSegmentaMillis = (long) (segment.getUkupnoTrajanjeSegmenta() * 60 * 1000);
+      Duration duration = Duration.ofMillis(ukupnoTrajanjeSegmentaMillis);
+
       segment.setVrijemePocetka(vrijemePocetka);
-      segment.setVrijemeKraja(vrijemePocetka.plusMinutes(segment.getUkupnoTrajanjeSegmenta()));
+      segment.setVrijemeKraja(vrijemePocetka.plus(duration));
 
       vrijemePocetka = segment.getVrijemeKraja();
     }
