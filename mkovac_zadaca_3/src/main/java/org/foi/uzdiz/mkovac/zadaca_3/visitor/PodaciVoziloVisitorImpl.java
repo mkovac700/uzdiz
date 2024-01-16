@@ -7,7 +7,7 @@ import org.foi.uzdiz.mkovac.zadaca_3.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
-import org.foi.uzdiz.mkovac.zadaca_3.singleton.TvrtkaSingleton;
+import org.foi.uzdiz.mkovac.zadaca_3.pomocnici.DatumskoVremenskiKonverter;
 
 public class PodaciVoziloVisitorImpl implements Visitor {
 
@@ -24,9 +24,9 @@ public class PodaciVoziloVisitorImpl implements Visitor {
     if (paket != null)
       oznakaPaketa = paket.getOznaka();
 
-    return new String[] {TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(vrijemePocetka),
-        TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(vrijemeKraja),
-        TvrtkaSingleton.getInstance().konvertirajVrijeme(trajanje), String.valueOf(odvozenoKm),
+    return new String[] {DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemePocetka),
+        DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemeKraja),
+        DatumskoVremenskiKonverter.konvertirajVrijeme(trajanje), String.valueOf(odvozenoKm),
         oznakaPaketa};
   }
 
@@ -42,9 +42,9 @@ public class PodaciVoziloVisitorImpl implements Visitor {
     float zauzeceProstoraNaPocetku = voznja.getZauzeceProstoraNaPocetku();
     float zauzeceTezineNaPocetku = voznja.getZauzeceTezineNaPocetku();
 
-    return new String[] {TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(vrijemePocetka),
-        TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(vrijemeKraja),
-        TvrtkaSingleton.getInstance().konvertirajVrijeme(trajanje), String.valueOf(odvozenoKm),
+    return new String[] {DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemePocetka),
+        DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemeKraja),
+        DatumskoVremenskiKonverter.konvertirajVrijeme(trajanje), String.valueOf(odvozenoKm),
         String.valueOf(brojHitnih), String.valueOf(brojObicnih), String.valueOf(brojIsporucenih),
         String.valueOf(zauzeceProstoraNaPocetku), String.valueOf(zauzeceTezineNaPocetku)};
   }

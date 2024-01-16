@@ -19,6 +19,7 @@ import org.foi.uzdiz.mkovac.zadaca_3.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Parametar;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
+import org.foi.uzdiz.mkovac.zadaca_3.pomocnici.DatumskoVremenskiKonverter;
 import org.foi.uzdiz.mkovac.zadaca_3.pomocnici.ParametriProvjera;
 import org.foi.uzdiz.mkovac.zadaca_3.prototype.VrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_3.strategy.IsporukaNajblizaDostava;
@@ -55,9 +56,6 @@ public class TvrtkaSingleton {
 
   private Properties postavke;
 
-  private DateTimeFormatter dtf;
-  private DateTimeFormatter tf;
-
   public LocalDateTime virtualniSat;
   public int mnoziteljSekunde;
   public LocalTime pocetakRada;
@@ -77,22 +75,11 @@ public class TvrtkaSingleton {
   private List<Paket> paketi;
 
   public String getVirtualniSatFormatirano() {
-    String virtualniSatFormatirano = virtualniSat.format(dtf);
-    return virtualniSatFormatirano;
-  }
-
-  public String konvertirajDatumVrijeme(LocalDateTime datumVrijeme) {
-    return datumVrijeme.format(dtf);
-  }
-
-  public String konvertirajVrijeme(LocalTime vrijeme) {
-    return vrijeme.format(tf);
+    return DatumskoVremenskiKonverter.konvertirajDatumVrijeme(virtualniSat);
   }
 
   public void init(String argument) throws IOException, NeispravniParametri {
     postavke = new Properties();
-    dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
-    tf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     this.ucitajParametre(argument);
     this.ucitajVrstePaketa(postavke.getProperty("vp"));
@@ -207,10 +194,6 @@ public class TvrtkaSingleton {
 
   public List<Paket> getPaketi() {
     return paketi;
-  }
-
-  public DateTimeFormatter getDtf() {
-    return dtf;
   }
 
   public void ispisPodrucja() {
@@ -436,8 +419,9 @@ public class TvrtkaSingleton {
 
       // TODO ispisati da je stigao paket (dodati jos info)
       System.out.println("Zaprimljen paket " + paket.getOznaka() + " -> VRIJEME PRIJEMA: "
-          + konvertirajDatumVrijeme(paket.getVrijemePrijema()) + " POŠILJATELJ: "
-          + paket.getPosiljatelj().getOsoba() + " PRIMATELJ: " + paket.getPrimatelj().getOsoba());
+          + DatumskoVremenskiKonverter.konvertirajDatumVrijeme(paket.getVrijemePrijema())
+          + " POŠILJATELJ: " + paket.getPosiljatelj().getOsoba() + " PRIMATELJ: "
+          + paket.getPrimatelj().getOsoba());
 
       // TODO posalji obavijest primatelju i posiljatelju
       paket.setStatus("ZAPRIMLJEN");

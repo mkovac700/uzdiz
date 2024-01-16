@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
+import org.foi.uzdiz.mkovac.zadaca_3.pomocnici.DatumskoVremenskiKonverter;
 import org.foi.uzdiz.mkovac.zadaca_3.singleton.TvrtkaSingleton;
 import org.foi.uzdiz.mkovac.zadaca_3.state.StatusVozilaState;
 import org.foi.uzdiz.mkovac.zadaca_3.state.StatusVoznjeState;
@@ -323,7 +324,7 @@ public class Vozilo implements Element {
         this.trenutnaVoznja = null;
 
         System.out.println("Vozilo " + this.getRegistracija() + " bi se trebalo vratiti u "
-            + TvrtkaSingleton.getInstance().konvertirajDatumVrijeme(this.getVrijemePovratka()));
+            + DatumskoVremenskiKonverter.konvertirajDatumVrijeme(this.getVrijemePovratka()));
 
       }
 

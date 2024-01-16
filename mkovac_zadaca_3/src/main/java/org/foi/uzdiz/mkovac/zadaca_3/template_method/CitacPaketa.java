@@ -44,7 +44,7 @@ public class CitacPaketa implements CitacDatoteke<Paket> {
 
     List<Paket> paketi = new ArrayList<>();
 
-    DateTimeFormatter dtf = TvrtkaSingleton.getInstance().getDtf();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm:ss");
 
     var citac = Files.newBufferedReader(putanja, Charset.forName("UTF-8"));
 
