@@ -10,8 +10,10 @@ import org.foi.uzdiz.mkovac.zadaca_3.state.StatusVozilaState;
 import org.foi.uzdiz.mkovac.zadaca_3.state.StatusVoznjeState;
 import org.foi.uzdiz.mkovac.zadaca_3.state.UkrcavanjeState;
 import org.foi.uzdiz.mkovac.zadaca_3.strategy.IsporukaStrategy;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.Element;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.Visitor;
 
-public class Vozilo {
+public class Vozilo implements Element {
   private String registracija;
   private String opis;
   private float kapacitetTezine;
@@ -252,7 +254,9 @@ public class Vozilo {
 
     // dodaj ostale podatke za segmente
     for (Segment segment : trenutnaVoznja.getSegmenti()) {
-      segment.setTrajanjeVoznje((int) segment.getUdaljenost() / (int) this.prosjecnaBrzina * 60);
+      int trajanjeVoznje = (int) ((segment.getUdaljenost() / this.prosjecnaBrzina) * 60);
+      // segment.setTrajanjeVoznje((int) segment.getUdaljenost() / (int) this.prosjecnaBrzina * 60);
+      segment.setTrajanjeVoznje(trajanjeVoznje);
       segment
           .setUkupnoTrajanjeSegmenta(segment.getTrajanjeVoznje() + segment.getTrajanjeIsporuke());
       segment.setVrijemePocetka(vrijemePocetka);
@@ -344,5 +348,16 @@ public class Vozilo {
   public void setVrijemePovratka(LocalDateTime vrijemePovratka) {
     this.vrijemePovratka = vrijemePovratka;
   }
+
+  @Override
+  public String[] accept(Visitor visitor) {
+    return visitor.visit(this);
+  }
+
+  public List<Voznja> getVoznje() {
+    return voznje;
+  }
+
+
 
 }

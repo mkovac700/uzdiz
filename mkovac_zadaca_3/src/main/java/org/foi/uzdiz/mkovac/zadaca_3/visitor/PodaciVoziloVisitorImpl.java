@@ -15,7 +15,7 @@ public class PodaciVoziloVisitorImpl implements Visitor {
     LocalDateTime vrijemePocetka = segment.getVrijemePocetka();
     LocalDateTime vrijemeKraja = segment.getVrijemeKraja();
     int trajanje = segment.getUkupnoTrajanjeSegmenta();
-    float odvozenoKm = segment.getKm();
+    float odvozenoKm = segment.getUdaljenost();
     Paket paket = segment.getPaket();
     String oznakaPaketa = "-";
     if (paket != null)

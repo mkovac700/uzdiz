@@ -2,17 +2,18 @@ package org.foi.uzdiz.mkovac.zadaca_3.podaci;
 
 import java.time.LocalDateTime;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Paket;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.Element;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.Visitor;
 
-public class Segment {
+public class Segment implements Element {
   private String odGps;
   private String doGps;
-  private float udaljenost; // valjda isto sto i km
+  private float udaljenost; // km
   private LocalDateTime vrijemePocetka;
   private LocalDateTime vrijemeKraja;
   private int trajanjeVoznje; // udaljenost/prosjecnaBrzina*60 --> u minutama
   private int trajanjeIsporuke;
   private int ukupnoTrajanjeSegmenta; // trajanjeVoznje + trajanjeIsporuke
-  private float km;
   private Paket paket;
 
   public Segment() {}
@@ -81,20 +82,17 @@ public class Segment {
     this.ukupnoTrajanjeSegmenta = ukupnoTrajanjeSegmenta;
   }
 
-  public float getKm() {
-    return km;
-  }
-
-  public void setKm(float km) {
-    this.km = km;
-  }
-
   public Paket getPaket() {
     return paket;
   }
 
   public void setPaket(Paket paket) {
     this.paket = paket;
+  }
+
+  @Override
+  public String[] accept(Visitor visitor) {
+    return visitor.visit(this);
   }
 
 

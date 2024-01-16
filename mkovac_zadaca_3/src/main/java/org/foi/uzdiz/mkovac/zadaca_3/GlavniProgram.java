@@ -52,6 +52,12 @@ public class GlavniProgram {
         } else if (kljuc.equals("VR")) {
           int vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
           simulator.pokreni(vrijemeIzvrsavanja);
+        } else if (kljuc.equals("SV")) {
+
+        } else if (kljuc.equals("VV")) {
+
+        } else if (kljuc.equals("VS")) {
+          tvrtka.ispisiSegmente(grupa[20], grupa[21]);
         } else if (kljuc.equals("PP")) {
           tvrtka.ispisPodrucja();
         } else if (kljuc.equals("PO")) {

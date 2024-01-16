@@ -17,6 +17,8 @@ import org.foi.uzdiz.mkovac.zadaca_3.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_3.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_3.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Parametar;
+import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
+import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
 import org.foi.uzdiz.mkovac.zadaca_3.pomocnici.ParametriProvjera;
 import org.foi.uzdiz.mkovac.zadaca_3.prototype.VrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_3.strategy.IsporukaNajblizaDostava;
@@ -31,6 +33,7 @@ import org.foi.uzdiz.mkovac.zadaca_3.template_method.CitacPodrucja;
 import org.foi.uzdiz.mkovac.zadaca_3.template_method.CitacUlica;
 import org.foi.uzdiz.mkovac.zadaca_3.template_method.CitacVozila;
 import org.foi.uzdiz.mkovac.zadaca_3.template_method.CitacVrstaPaketa;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.PodaciVoziloVisitorImpl;
 
 public class TvrtkaSingleton {
   private static volatile TvrtkaSingleton INSTANCE = new TvrtkaSingleton();
@@ -289,6 +292,51 @@ public class TvrtkaSingleton {
         vozilo.setNeispravno();
     } else {
       System.out.println("Vozilo nije pronađeno!");
+    }
+  }
+
+  public void ispisiSegmente(String registracija, String brojVoznje) {
+    if (!this.vozila.stream().anyMatch(v -> v.getRegistracija().equals(registracija))) {
+      System.out.println("Ne postoji vozilo " + registracija);
+      return;
+    }
+
+    List<Voznja> voznje = this.vozila.stream().filter(v -> v.getRegistracija().equals(registracija))
+        .findFirst().get().getVoznje();
+
+    int n = 0;
+
+    try {
+      n = Integer.parseInt(brojVoznje);
+    } catch (NumberFormatException e) {
+      System.out.println("Neispravan broj vožnje!");
+      return;
+    }
+
+    if (n < 1) {
+      System.out.println("Neispravan broj vožnje!");
+      return;
+    }
+    if (voznje.isEmpty()) {
+      System.out.println("Nema podataka za prikaz!");
+      return;
+    }
+    if (n > voznje.size() - 1) {
+      System.out
+          .println("Uneseni broj vožnje veći od ukupnog broja vožnji za vozilo " + registracija);
+      return;
+    }
+
+    Voznja trazenaVoznja = voznje.get(n - 1);
+
+    PodaciVoziloVisitorImpl podaciVoziloVisitorImpl = new PodaciVoziloVisitorImpl();
+
+    for (Segment s : trazenaVoznja.getSegmenti()) {
+      String[] podaci = s.accept(podaciVoziloVisitorImpl);
+      for (String p : podaci) {
+        System.out.print(String.format("%-30s", p));
+      }
+      System.out.println();
     }
   }
 
