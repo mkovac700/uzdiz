@@ -36,6 +36,8 @@ public class Voznja implements Element {
   }
 
   public LocalTime getTrajanje() {
+    if (vrijemePocetka == null || vrijemePovratka == null)
+      return null;
     Duration duration = Duration.between(vrijemePocetka, vrijemePovratka);
     return LocalTime.of(duration.toHoursPart(), duration.toMinutesPart(), duration.toSecondsPart());
   }
@@ -51,7 +53,7 @@ public class Voznja implements Element {
   public int getBrojHitnih() {
     int brojHitnih = 0;
     for (Segment s : segmenti) {
-      if (s.getPaket().getUslugaDostave().equals("H"))
+      if (s.getPaket() != null && s.getPaket().getUslugaDostave().equals("H"))
         brojHitnih++;
     }
     return brojHitnih;
@@ -60,7 +62,7 @@ public class Voznja implements Element {
   public int getBrojObicnih() {
     int brojObicnih = 0;
     for (Segment s : segmenti) {
-      if (!s.getPaket().getUslugaDostave().equals("H"))
+      if (s.getPaket() != null && !s.getPaket().getUslugaDostave().equals("H"))
         brojObicnih++;
     }
     return brojObicnih;
@@ -69,7 +71,7 @@ public class Voznja implements Element {
   public int getBrojIsporucenih() {
     int brojIsporucenih = 0;
     for (Segment s : segmenti) {
-      if (s.getPaket().getStatus().equals("PREUZETO"))
+      if (s.getPaket() != null && s.getPaket().getStatus().equals("PREUZETO"))
         brojIsporucenih++;
     }
     return brojIsporucenih;

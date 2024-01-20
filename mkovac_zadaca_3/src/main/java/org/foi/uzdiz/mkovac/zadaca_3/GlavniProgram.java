@@ -55,7 +55,7 @@ public class GlavniProgram {
         } else if (kljuc.equals("SV")) {
 
         } else if (kljuc.equals("VV")) {
-
+          tvrtka.ispisiVoznje(grupa[17]);
         } else if (kljuc.equals("VS")) {
           tvrtka.ispisiSegmente(grupa[20], grupa[21]);
         } else if (kljuc.equals("PP")) {

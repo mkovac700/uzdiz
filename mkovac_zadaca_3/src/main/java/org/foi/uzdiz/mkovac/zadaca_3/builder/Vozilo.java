@@ -285,16 +285,18 @@ public class Vozilo implements Element {
 
     try {
       trenutnaVoznja.setZauzeceProstoraNaPocetku(
-          (this.izracunajTrenutnuTezinu() / this.kapacitetTezine) * 100);
-    } catch (Exception e) {
-      trenutnaVoznja.setZauzeceProstoraNaPocetku(0);
-    }
-
-    try {
-      trenutnaVoznja.setZauzeceTezineNaPocetku(
           (this.izracunajTrenutnoZauzeceProstora() / this.kapacitetProstora) * 100);
     } catch (Exception e) {
       trenutnaVoznja.setZauzeceProstoraNaPocetku(0);
+      System.out.println(e.getMessage());
+    }
+
+    try {
+      trenutnaVoznja
+          .setZauzeceTezineNaPocetku((this.izracunajTrenutnuTezinu() / this.kapacitetTezine) * 100);
+    } catch (Exception e) {
+      trenutnaVoznja.setZauzeceTezineNaPocetku(0);
+      System.out.println(e.getMessage());
     }
   }
 

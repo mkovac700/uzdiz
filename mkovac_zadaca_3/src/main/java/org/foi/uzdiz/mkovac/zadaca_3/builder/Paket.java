@@ -164,7 +164,10 @@ public class Paket implements Subject {
   }
 
   public float getM3() {
-    return this.sirina * this.duzina * this.visina;
+    if (this.vrstaPaketa.oznaka.equals("X"))
+      return this.sirina * this.duzina * this.visina;
+    else
+      return this.vrstaPaketa.sirina * this.vrstaPaketa.duzina * this.vrstaPaketa.visina;
   }
 
   public LocalDateTime getVrijemeIsporuke() {

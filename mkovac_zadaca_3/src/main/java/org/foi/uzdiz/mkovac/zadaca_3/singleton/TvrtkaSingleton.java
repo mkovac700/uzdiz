@@ -279,6 +279,9 @@ public class TvrtkaSingleton {
   }
 
   public void ispisiSegmente(String registracija, String brojVoznje) {
+    final int RAZMAK_KRACI = 3;
+    final int RAZMAK_DUZI = 20;
+
     if (!this.vozila.stream().anyMatch(v -> v.getRegistracija().equals(registracija))) {
       System.out.println("Ne postoji vozilo " + registracija);
       return;
@@ -314,12 +317,15 @@ public class TvrtkaSingleton {
 
     PodaciVoziloVisitorImpl podaciVoziloVisitorImpl = new PodaciVoziloVisitorImpl();
 
+    String[] zaglavlje =
+        {"#", "VRIJEME POČETKA", "VRIJEME KRAJA", "TRAJANJE", "ODVOŽENO KM", "PAKET"};
+
     // PRINTAJ GORNJI BORDER ZAGLAVLJA
-    for (int i = 0; i <= 5; i++) {
+    for (int i = 0; i <= zaglavlje.length; i++) {
       System.out.print("+");
-      if (i == 5)
+      if (i == zaglavlje.length)
         break;
-      for (int j = 0; j < 20; j++) {
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
         System.out.print("-");
       }
     }
@@ -327,27 +333,31 @@ public class TvrtkaSingleton {
     System.out.println();
 
     // PRINTAJ ZAGLAVLJE
-    String[] zaglavlje = {"VRIJEME POČETKA", "VRIJEME KRAJA", "TRAJANJE", "ODVOŽENO KM", "PAKET"};
 
     System.out.print("|");
 
-    // for (String z : zaglavlje) System.out.print(String.format("%-20s|", z));
+    int totalSpaces;
+    int padding;
 
-    for (String z : zaglavlje) {
-      int totalSpaces = 20 - z.length();
-      int padding = totalSpaces / 2;
-      System.out.print(String.format("%-20s|", String.format("%-" + (z.length() + padding) + "s",
-          String.format("%" + (z.length() + padding) + "s", z))));
+    int razmak;
+
+    for (int i = 0; i < zaglavlje.length; i++) {
+      razmak = i == 0 ? RAZMAK_KRACI : RAZMAK_DUZI;
+      totalSpaces = razmak - zaglavlje[i].length();
+      padding = totalSpaces / 2;
+      System.out.print(String.format("%-" + razmak + "s|",
+          String.format("%-" + (zaglavlje[i].length() + padding) + "s",
+              String.format("%" + (zaglavlje[i].length() + padding) + "s", zaglavlje[i]))));
     }
 
     System.out.println();
 
     // PRINTAJ DONJI BORDER ZAGLAVLJA
-    for (int i = 0; i <= 5; i++) {
+    for (int i = 0; i <= zaglavlje.length; i++) {
       System.out.print("+");
-      if (i == 5)
+      if (i == zaglavlje.length)
         break;
-      for (int j = 0; j < 20; j++) {
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
         System.out.print("-");
       }
     }
@@ -356,21 +366,118 @@ public class TvrtkaSingleton {
 
     // PRINTAJ PODATKE
 
+    int brojac = 0;
     for (Segment s : trazenaVoznja.getSegmenti()) {
       String[] podaci = s.accept(podaciVoziloVisitorImpl);
       System.out.print("|");
+      System.out.print(String.format("%-" + RAZMAK_KRACI + "s|", ++brojac));
       for (String p : podaci) {
-        System.out.print(String.format("%-20s|", p));
+        System.out.print(String.format("%-" + RAZMAK_DUZI + "s|", p));
       }
       System.out.println();
     }
 
     // PRINTAJ DONJI BORDER
-    for (int i = 0; i <= 5; i++) {
+    for (int i = 0; i <= zaglavlje.length; i++) {
       System.out.print("+");
-      if (i == 5)
+      if (i == zaglavlje.length)
         break;
-      for (int j = 0; j < 20; j++) {
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+  }
+
+  public void ispisiVoznje(String registracija) {
+    final int RAZMAK_KRACI = 3;
+    final int RAZMAK_DUZI = 20;
+
+    if (!this.vozila.stream().anyMatch(v -> v.getRegistracija().equals(registracija))) {
+      System.out.println("Ne postoji vozilo " + registracija);
+      return;
+    }
+
+    Vozilo vozilo =
+        vozila.stream().filter(v -> v.getRegistracija().equals(registracija)).findFirst().get();
+
+    List<Voznja> voznje = vozilo.getVoznje();
+
+    if (voznje.isEmpty()) {
+      System.out.println("Nema podataka za prikaz!");
+      return;
+    }
+
+    PodaciVoziloVisitorImpl podaciVoziloVisitorImpl = new PodaciVoziloVisitorImpl();
+
+    String[] zaglavlje = {"#", "VRIJEME POČETKA", "VRIJEME POVRATKA", "TRAJANJE",
+        "UKUPNO ODVOŽENO KM", "BROJ HITNIH", "BROJ OBIČNIH", "BROJ ISPORUČENIH",
+        "ZAUZEĆE PROSTORA (%)", "ZAUZEĆE TEŽINE (%)"};
+
+    // PRINTAJ GORNJI BORDER ZAGLAVLJA
+    for (int i = 0; i <= zaglavlje.length; i++) {
+      System.out.print("+");
+      if (i == zaglavlje.length)
+        break;
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+
+    // PRINTAJ ZAGLAVLJE
+
+    System.out.print("|");
+
+    int totalSpaces;
+    int padding;
+
+    int razmak;
+
+    for (int i = 0; i < zaglavlje.length; i++) {
+      razmak = i == 0 ? RAZMAK_KRACI : RAZMAK_DUZI;
+      totalSpaces = razmak - zaglavlje[i].length();
+      padding = totalSpaces / 2;
+      System.out.print(String.format("%-" + razmak + "s|",
+          String.format("%-" + (zaglavlje[i].length() + padding) + "s",
+              String.format("%" + (zaglavlje[i].length() + padding) + "s", zaglavlje[i]))));
+    }
+
+    System.out.println();
+
+    // PRINTAJ DONJI BORDER ZAGLAVLJA
+    for (int i = 0; i <= zaglavlje.length; i++) {
+      System.out.print("+");
+      if (i == zaglavlje.length)
+        break;
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+
+    // PRINTAJ PODATKE
+
+    int brojac = 0;
+    for (Voznja v : vozilo.getVoznje()) {
+      String[] podaci = v.accept(podaciVoziloVisitorImpl);
+      System.out.print("|");
+      System.out.print(String.format("%-" + RAZMAK_KRACI + "s|", ++brojac));
+      for (String p : podaci) {
+        System.out.print(String.format("%-" + RAZMAK_DUZI + "s|", p));
+      }
+      System.out.println();
+    }
+
+    // PRINTAJ DONJI BORDER
+    for (int i = 0; i <= zaglavlje.length; i++) {
+      System.out.print("+");
+      if (i == zaglavlje.length)
+        break;
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
         System.out.print("-");
       }
     }

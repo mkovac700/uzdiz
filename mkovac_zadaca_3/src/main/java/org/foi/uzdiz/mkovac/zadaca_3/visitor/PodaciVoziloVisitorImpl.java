@@ -42,11 +42,22 @@ public class PodaciVoziloVisitorImpl implements Visitor {
     float zauzeceProstoraNaPocetku = voznja.getZauzeceProstoraNaPocetku();
     float zauzeceTezineNaPocetku = voznja.getZauzeceTezineNaPocetku();
 
-    return new String[] {DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemePocetka),
-        DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemeKraja),
-        DatumskoVremenskiKonverter.konvertirajVrijeme(trajanje), String.valueOf(odvozenoKm),
-        String.valueOf(brojHitnih), String.valueOf(brojObicnih), String.valueOf(brojIsporucenih),
-        String.valueOf(zauzeceProstoraNaPocetku), String.valueOf(zauzeceTezineNaPocetku)};
+    String vrijemePocetkaKonvertirano = "-";
+    String vrijemeKrajaKonvertirano = "-";
+    String trajanjeKonvertirano = "-";
+
+    if (vrijemePocetka != null)
+      vrijemePocetkaKonvertirano =
+          DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemePocetka);
+    if (vrijemeKraja != null)
+      vrijemeKrajaKonvertirano = DatumskoVremenskiKonverter.konvertirajDatumVrijeme(vrijemeKraja);
+    if (trajanje != null)
+      trajanjeKonvertirano = DatumskoVremenskiKonverter.konvertirajVrijeme(trajanje);
+
+    return new String[] {vrijemePocetkaKonvertirano, vrijemeKrajaKonvertirano, trajanjeKonvertirano,
+        String.valueOf(odvozenoKm), String.valueOf(brojHitnih), String.valueOf(brojObicnih),
+        String.valueOf(brojIsporucenih), String.valueOf(zauzeceProstoraNaPocetku),
+        String.valueOf(zauzeceTezineNaPocetku)};
   }
 
   @Override
