@@ -9,7 +9,7 @@ import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
 import org.foi.uzdiz.mkovac.zadaca_3.pomocnici.DatumskoVremenskiKonverter;
 
-public class PodaciVoziloVisitorImpl implements Visitor {
+public class VoziloVisitorImpl implements VoziloVisitor {
 
   @Override
   public String[] visit(Segment segment) {

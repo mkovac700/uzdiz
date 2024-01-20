@@ -2,10 +2,10 @@ package org.foi.uzdiz.mkovac.zadaca_3.podaci;
 
 import java.time.LocalDateTime;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Paket;
-import org.foi.uzdiz.mkovac.zadaca_3.visitor.Element;
-import org.foi.uzdiz.mkovac.zadaca_3.visitor.Visitor;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.VoziloElement;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.VoziloVisitor;
 
-public class Segment implements Element {
+public class Segment implements VoziloElement {
   private String odGps;
   private String doGps;
   private float udaljenost; // km
@@ -91,7 +91,7 @@ public class Segment implements Element {
   }
 
   @Override
-  public String[] accept(Visitor visitor) {
+  public String[] accept(VoziloVisitor visitor) {
     return visitor.visit(this);
   }
 

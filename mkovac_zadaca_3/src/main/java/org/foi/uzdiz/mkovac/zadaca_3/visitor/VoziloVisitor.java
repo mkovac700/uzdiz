@@ -4,7 +4,7 @@ import org.foi.uzdiz.mkovac.zadaca_3.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
 
-public interface Visitor {
+public interface VoziloVisitor {
 
   public String[] visit(Segment segment);
 

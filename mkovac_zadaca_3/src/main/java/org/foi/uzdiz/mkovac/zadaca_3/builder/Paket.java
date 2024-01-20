@@ -7,8 +7,10 @@ import java.util.List;
 import org.foi.uzdiz.mkovac.zadaca_3.observer.Observer;
 import org.foi.uzdiz.mkovac.zadaca_3.observer.Subject;
 import org.foi.uzdiz.mkovac.zadaca_3.prototype.VrstaPaketa;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.PaketElement;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.PaketVisitor;
 
-public class Paket implements Subject {
+public class Paket implements Subject, PaketElement {
 
   private List<Observer> observers = new ArrayList<>();
 
@@ -178,6 +180,35 @@ public class Paket implements Subject {
     this.vrijemeIsporuke = vrijemeIsporuke;
   }
 
+  @Override
+  public String[] accept(PaketVisitor visitor) {
+    return visitor.visit(this);
+  }
 
+  // AKA cijena paketa
+  public float getIznosDostave() {
+    float iznos = 0.0f;
+
+    if (this.uslugaDostave.equals("P"))
+      return iznos;
+
+    if (this.vrstaPaketa.oznaka.equals("X")) {
+      if (this.uslugaDostave.equals("H")) {
+        iznos = this.vrstaPaketa.cijenaHitno + (this.vrstaPaketa.cijenaP * this.getM3())
+            + (this.vrstaPaketa.cijenaT * this.getTezina());
+      } else {
+        iznos = this.vrstaPaketa.cijena + (this.vrstaPaketa.cijenaP * this.getM3())
+            + (this.vrstaPaketa.cijenaT * this.getTezina());
+      }
+    } else {
+      if (this.uslugaDostave.equals("H")) {
+        iznos = this.vrstaPaketa.cijenaHitno;
+      } else {
+        iznos = this.vrstaPaketa.cijena;
+      }
+    }
+
+    return iznos;
+  }
 
 }

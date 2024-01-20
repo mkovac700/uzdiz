@@ -48,7 +48,7 @@ public class GlavniProgram {
         String kljuc = komanda.split(" ")[0];
 
         if (kljuc.equals("IP")) {
-
+          tvrtka.ispisPaketa();
         } else if (kljuc.equals("VR")) {
           int vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
           simulator.pokreni(vrijemeIzvrsavanja);

@@ -12,10 +12,10 @@ import org.foi.uzdiz.mkovac.zadaca_3.state.StatusVozilaState;
 import org.foi.uzdiz.mkovac.zadaca_3.state.StatusVoznjeState;
 import org.foi.uzdiz.mkovac.zadaca_3.state.UkrcavanjeState;
 import org.foi.uzdiz.mkovac.zadaca_3.strategy.IsporukaStrategy;
-import org.foi.uzdiz.mkovac.zadaca_3.visitor.Element;
-import org.foi.uzdiz.mkovac.zadaca_3.visitor.Visitor;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.VoziloElement;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.VoziloVisitor;
 
-public class Vozilo implements Element {
+public class Vozilo implements VoziloElement {
   private String registracija;
   private String opis;
   private float kapacitetTezine;
@@ -364,7 +364,7 @@ public class Vozilo implements Element {
   }
 
   @Override
-  public String[] accept(Visitor visitor) {
+  public String[] accept(VoziloVisitor visitor) {
     return visitor.visit(this);
   }
 

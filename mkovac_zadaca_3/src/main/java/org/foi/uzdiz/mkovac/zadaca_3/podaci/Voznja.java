@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_3.visitor.Element;
-import org.foi.uzdiz.mkovac.zadaca_3.visitor.Visitor;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.VoziloElement;
+import org.foi.uzdiz.mkovac.zadaca_3.visitor.VoziloVisitor;
 
-public class Voznja implements Element {
+public class Voznja implements VoziloElement {
   private LocalDateTime vrijemePocetka;
   private LocalDateTime vrijemePovratka;
   // private LocalTime trajanje;
@@ -118,7 +118,7 @@ public class Voznja implements Element {
   }
 
   @Override
-  public String[] accept(Visitor visitor) {
+  public String[] accept(VoziloVisitor visitor) {
     return visitor.visit(this);
   }
 
