@@ -53,7 +53,7 @@ public class GlavniProgram {
           int vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
           simulator.pokreni(vrijemeIzvrsavanja);
         } else if (kljuc.equals("SV")) {
-
+          tvrtka.ispisiVozila();
         } else if (kljuc.equals("VV")) {
           tvrtka.ispisiVoznje(grupa[17]);
         } else if (kljuc.equals("VS")) {

@@ -62,6 +62,7 @@ public class PodaciVoziloVisitorImpl implements Visitor {
 
   @Override
   public String[] visit(Vozilo vozilo) {
+    String registracija = vozilo.getRegistracija();
     String status = vozilo.getStatus().getOznaka();
     float odvozenoKm = vozilo.getOdvozenoKm();
     int brojHitnih = vozilo.getBrojHitnih();
@@ -71,8 +72,8 @@ public class PodaciVoziloVisitorImpl implements Visitor {
     float trenutniPostotakZauzecaTezine = vozilo.getTrenutniPostotakZauzecaTezine();
     int brojVoznji = vozilo.getBrojVoznji();
 
-    return new String[] {status, String.valueOf(odvozenoKm), String.valueOf(brojHitnih),
-        String.valueOf(brojObicnih), String.valueOf(brojIsporucenih),
+    return new String[] {registracija, status, String.valueOf(odvozenoKm),
+        String.valueOf(brojHitnih), String.valueOf(brojObicnih), String.valueOf(brojIsporucenih),
         String.valueOf(trenutniPostotakZauzecaProstora),
         String.valueOf(trenutniPostotakZauzecaTezine), String.valueOf(brojVoznji)};
 

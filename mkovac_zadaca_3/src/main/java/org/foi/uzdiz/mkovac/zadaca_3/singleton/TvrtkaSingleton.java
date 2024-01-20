@@ -485,6 +485,91 @@ public class TvrtkaSingleton {
     System.out.println();
   }
 
+  public void ispisiVozila() {
+    final int RAZMAK_KRACI = 3;
+    final int RAZMAK_DUZI = 20;
+
+    if (this.vozila == null || this.vozila.isEmpty()) {
+      System.out.println("Nema podataka za prikaz!");
+      return;
+    }
+
+    PodaciVoziloVisitorImpl podaciVoziloVisitorImpl = new PodaciVoziloVisitorImpl();
+
+    String[] zaglavlje =
+        {"#", "REGISTRACIJA", "STATUS", "UKUPNO ODVOŽENO KM", "BROJ HITNIH", "BROJ OBIČNIH",
+            "BROJ ISPORUČENIH", "ZAUZEĆE PROSTORA (%)", "ZAUZEĆE TEŽINE (%)", "BROJ VOŽNJI"};
+
+    // PRINTAJ GORNJI BORDER ZAGLAVLJA
+    for (int i = 0; i <= zaglavlje.length; i++) {
+      System.out.print("+");
+      if (i == zaglavlje.length)
+        break;
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+
+    // PRINTAJ ZAGLAVLJE
+
+    System.out.print("|");
+
+    int totalSpaces;
+    int padding;
+
+    int razmak;
+
+    for (int i = 0; i < zaglavlje.length; i++) {
+      razmak = i == 0 ? RAZMAK_KRACI : RAZMAK_DUZI;
+      totalSpaces = razmak - zaglavlje[i].length();
+      padding = totalSpaces / 2;
+      System.out.print(String.format("%-" + razmak + "s|",
+          String.format("%-" + (zaglavlje[i].length() + padding) + "s",
+              String.format("%" + (zaglavlje[i].length() + padding) + "s", zaglavlje[i]))));
+    }
+
+    System.out.println();
+
+    // PRINTAJ DONJI BORDER ZAGLAVLJA
+    for (int i = 0; i <= zaglavlje.length; i++) {
+      System.out.print("+");
+      if (i == zaglavlje.length)
+        break;
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+
+    // PRINTAJ PODATKE
+
+    int brojac = 0;
+    for (Vozilo v : this.vozila) {
+      String[] podaci = v.accept(podaciVoziloVisitorImpl);
+      System.out.print("|");
+      System.out.print(String.format("%-" + RAZMAK_KRACI + "s|", ++brojac));
+      for (String p : podaci) {
+        System.out.print(String.format("%-" + RAZMAK_DUZI + "s|", p));
+      }
+      System.out.println();
+    }
+
+    // PRINTAJ DONJI BORDER
+    for (int i = 0; i <= zaglavlje.length; i++) {
+      System.out.print("+");
+      if (i == zaglavlje.length)
+        break;
+      for (int j = 0; i != 0 ? j < RAZMAK_DUZI : j < RAZMAK_KRACI; j++) {
+        System.out.print("-");
+      }
+    }
+
+    System.out.println();
+  }
+
   public UredPrijem getUredPrijem() {
     return uredPrijem;
   }
