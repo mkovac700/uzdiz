@@ -15,9 +15,6 @@ import org.foi.uzdiz.mkovac.zadaca_3.builder.Vozilo;
 import org.foi.uzdiz.mkovac.zadaca_3.composite.LokacijaComponent;
 import org.foi.uzdiz.mkovac.zadaca_3.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_3.composite.UlicaLeaf;
-import org.foi.uzdiz.mkovac.zadaca_3.decorator.IspisPaketa;
-import org.foi.uzdiz.mkovac.zadaca_3.decorator.IspisPaketaImpl;
-import org.foi.uzdiz.mkovac.zadaca_3.decorator.IspisPrometaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_3.iznimke.NeispravniParametri;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Parametar;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
@@ -78,6 +75,8 @@ public class TvrtkaSingleton {
   private List<Paket> paketi;
 
   public volatile boolean KRAJ = false;
+
+  private float prikupljeniNovac;
 
   public String getVirtualniSatFormatirano() {
     return DatumskoVremenskiKonverter.konvertirajDatumVrijeme(virtualniSat);
@@ -569,10 +568,10 @@ public class TvrtkaSingleton {
     System.out.println();
   }
 
-  public void ispisPaketa() {
-    IspisPaketa ispisPaketa = new IspisPrometaPaketa(new IspisPaketaImpl());
-    ispisPaketa.ispisi();
-  }
+  /*
+   * public void ispisPaketa() { IspisPaketa ispisPaketa = new IspisPrometaPaketa(new
+   * IspisPaketaImpl()); ispisPaketa.ispisi(); }
+   */
 
   public UredPrijem getUredPrijem() {
     return uredPrijem;
@@ -580,6 +579,18 @@ public class TvrtkaSingleton {
 
   public UredDostava getUredDostava() {
     return uredDostava;
+  }
+
+  public float getPrikupljeniNovac() {
+    return prikupljeniNovac;
+  }
+
+  public void setPrikupljeniNovac(float prikupljeniNovac) {
+    this.prikupljeniNovac = prikupljeniNovac;
+  }
+
+  public void azurirajPrikupljeniNovac(float iznos) {
+    this.prikupljeniNovac += iznos;
   }
 
   public class UredPrijem {
@@ -633,6 +644,7 @@ public class TvrtkaSingleton {
         Paket p = itr.next();
         if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
           tvrtka.getUredPrijem().zaprimiPaket(p);
+          tvrtka.azurirajPrikupljeniNovac(p.getIznosDostave());
           brojZaprimljenihPaketa++;
           // itr.remove();
         }

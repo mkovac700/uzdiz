@@ -336,9 +336,13 @@ public class Vozilo implements VoziloElement {
 
         if (segment.getVrijemeKraja().isBefore(TvrtkaSingleton.getInstance().virtualniSat)
             || segment.getVrijemeKraja().isEqual(TvrtkaSingleton.getInstance().virtualniSat)) {
+
+          TvrtkaSingleton.getInstance()
+              .azurirajPrikupljeniNovac(segment.getPaket().getIznosPouzeca());
           segment.getPaket().setVrijemeIsporuke(TvrtkaSingleton.getInstance().virtualniSat);
           segment.getPaket().setStatus("PREUZETO");
           paketi.remove(segment.getPaket());
+
         }
       }
     }
