@@ -18,8 +18,8 @@ public class KomandaPOHandler implements KomandaHandler {
         RegexProvjeraSingleton.getInstance().razdvojiIzraz(komanda, RegexVrsta.komanda);
 
     if (kljuc.equals("PO")) {
-      TvrtkaSingleton.getInstance().promjeniStatusSlanjaObavijesti(grupa[7].replace("'", ""),
-          grupa[8], grupa[9]);
+      TvrtkaSingleton.getInstance().promjeniStatusSlanjaObavijesti(grupa[8].replace("'", ""),
+          grupa[9], grupa[10]);
       return true;
     }
 

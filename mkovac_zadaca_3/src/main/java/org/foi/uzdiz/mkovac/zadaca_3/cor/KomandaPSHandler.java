@@ -18,7 +18,7 @@ public class KomandaPSHandler implements KomandaHandler {
         RegexProvjeraSingleton.getInstance().razdvojiIzraz(komanda, RegexVrsta.komanda);
 
     if (kljuc.equals("PS")) {
-      TvrtkaSingleton.getInstance().promijeniStatusVozila(grupa[12], grupa[13]);
+      TvrtkaSingleton.getInstance().promijeniStatusVozila(grupa[13], grupa[14]);
       return true;
     }
 

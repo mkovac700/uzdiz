@@ -18,7 +18,7 @@ public class KomandaVSHandler implements KomandaHandler {
         RegexProvjeraSingleton.getInstance().razdvojiIzraz(komanda, RegexVrsta.komanda);
 
     if (kljuc.equals("VS")) {
-      TvrtkaSingleton.getInstance().ispisiSegmente(grupa[20], grupa[21]);
+      TvrtkaSingleton.getInstance().ispisiSegmente(grupa[21], grupa[22]);
       return true;
     }
 

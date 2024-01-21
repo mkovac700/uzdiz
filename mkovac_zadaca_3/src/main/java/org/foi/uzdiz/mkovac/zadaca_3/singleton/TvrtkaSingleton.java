@@ -221,19 +221,16 @@ public class TvrtkaSingleton {
       Paket paket =
           paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get();
 
-      if (paketi.stream().anyMatch(p -> p.getPosiljatelj().getOsoba().equals(osoba))) {
-        Osoba o = paketi.stream().filter(p -> p.getPosiljatelj().getOsoba().equals(osoba))
-            .findFirst().get().getPosiljatelj();
+      if (paket.getPosiljatelj().getOsoba().equals(osoba)) {
+        Osoba o = paket.getPosiljatelj();
 
         if (naredba.equals("N")) {
-          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
-              .removeObserver(o);
+          paket.removeObserver(o);
 
           System.out.println("Pošiljatelj " + o.getOsoba() + " ne želi primati obavijesti za paket "
               + paket.getOznaka());
         } else {
-          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
-              .addObserver(o);
+          paket.addObserver(o);
 
           System.out.println("Pošiljatelj " + o.getOsoba() + " želi primati obavijesti za paket "
               + paket.getOznaka());
@@ -241,19 +238,16 @@ public class TvrtkaSingleton {
 
       }
 
-      else if (paketi.stream().anyMatch(p -> p.getPrimatelj().getOsoba().equals(osoba))) {
-        Osoba o = paketi.stream().filter(p -> p.getPosiljatelj().getOsoba().equals(osoba))
-            .findFirst().get().getPrimatelj();
+      else if (paket.getPrimatelj().getOsoba().equals(osoba)) {
+        Osoba o = paket.getPrimatelj();
 
         if (naredba.equals("N")) {
-          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
-              .removeObserver(o);
+          paket.removeObserver(o);
 
           System.out.println("Primatelj " + o.getOsoba() + " ne želi primati obavijesti za paket "
               + paket.getOznaka());
         } else {
-          paketi.stream().filter(p -> p.getOznaka().equals(oznakaPaketa)).findFirst().get()
-              .addObserver(o);
+          paket.addObserver(o);
 
           System.out.println("Primatelj " + o.getOsoba() + " želi primati obavijesti za paket "
               + paket.getOznaka());
