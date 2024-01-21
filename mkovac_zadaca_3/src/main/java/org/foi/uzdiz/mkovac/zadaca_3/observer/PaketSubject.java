@@ -1,9 +1,9 @@
 package org.foi.uzdiz.mkovac.zadaca_3.observer;
 
-public interface Subject {
-  public void addObserver(Observer observer);
+public interface PaketSubject {
+  public void addObserver(PaketObserver observer);
 
-  public void removeObserver(Observer observer);
+  public void removeObserver(PaketObserver observer);
 
   public String getStatus();
 

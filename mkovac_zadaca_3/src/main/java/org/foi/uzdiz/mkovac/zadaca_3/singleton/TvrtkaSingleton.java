@@ -75,6 +75,8 @@ public class TvrtkaSingleton {
   private List<Osoba> osobe;
   private List<Paket> paketi;
 
+  public volatile boolean KRAJ = false;
+
   public String getVirtualniSatFormatirano() {
     return DatumskoVremenskiKonverter.konvertirajDatumVrijeme(virtualniSat);
   }

@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.foi.uzdiz.mkovac.zadaca_3.observer.Observer;
-import org.foi.uzdiz.mkovac.zadaca_3.observer.Subject;
+import org.foi.uzdiz.mkovac.zadaca_3.observer.PaketObserver;
+import org.foi.uzdiz.mkovac.zadaca_3.observer.PaketSubject;
 import org.foi.uzdiz.mkovac.zadaca_3.prototype.VrstaPaketa;
 import org.foi.uzdiz.mkovac.zadaca_3.visitor.PaketElement;
 import org.foi.uzdiz.mkovac.zadaca_3.visitor.PaketVisitor;
 
-public class Paket implements Subject, PaketElement {
+public class Paket implements PaketSubject, PaketElement {
 
-  private List<Observer> observers = new ArrayList<>();
+  private List<PaketObserver> observers = new ArrayList<>();
 
   private String status = "";
 
@@ -126,7 +126,7 @@ public class Paket implements Subject, PaketElement {
   }
 
   @Override
-  public void addObserver(Observer observer) {
+  public void addObserver(PaketObserver observer) {
     if (!observers.contains(observer)) {
       observers.add(observer);
     } else {
@@ -135,7 +135,7 @@ public class Paket implements Subject, PaketElement {
   }
 
   @Override
-  public void removeObserver(Observer observer) {
+  public void removeObserver(PaketObserver observer) {
     if (observers.contains(observer)) {
       observers.remove(observer);
     } else {
@@ -157,9 +157,9 @@ public class Paket implements Subject, PaketElement {
 
   @Override
   public void posaljiObavijest() {
-    Iterator<Observer> i = observers.iterator();
+    Iterator<PaketObserver> i = observers.iterator();
     while (i.hasNext()) {
-      Observer o = (Observer) i.next();
+      PaketObserver o = (PaketObserver) i.next();
       o.update(this);
     }
 
