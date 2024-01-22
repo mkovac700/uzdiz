@@ -8,6 +8,10 @@ public class Simulator {
 
   private LocalDateTime virtualniKraj;
 
+  private static final String ANSI_RED = "\033[31m";
+  private static final String ANSI_GREEN = "\033[32m";
+  private static final String ANSI_CLEAR = "\033[0m";
+
   public Simulator() {}
 
   public void pokreni(int vrijemeIzvrsavanja) {
@@ -25,7 +29,7 @@ public class Simulator {
 
       tvrtka.virtualniSat = tvrtka.virtualniSat.plusSeconds(tvrtka.mnoziteljSekunde);
 
-      System.out.println("[" + tvrtka.getVirtualniSatFormatirano() + "]");
+      System.out.println(ANSI_GREEN + "[" + tvrtka.getVirtualniSatFormatirano() + "]" + ANSI_CLEAR);
 
       if (tvrtka.virtualniSat.toLocalTime().isBefore(tvrtka.pocetakRada))
         continue;
