@@ -8,8 +8,6 @@ public class Simulator {
 
   private LocalDateTime virtualniKraj;
 
-  // private static int brojZaprimljenihPaketa;
-
   public Simulator() {}
 
   public void pokreni(int vrijemeIzvrsavanja) {
@@ -29,41 +27,24 @@ public class Simulator {
 
       System.out.println("[" + tvrtka.getVirtualniSatFormatirano() + "]");
 
-      // TODO dodati ogranicenje ako je virtualni sat prije pocetka radnog vremena (pr)
       if (tvrtka.virtualniSat.toLocalTime().isBefore(tvrtka.pocetakRada))
         continue;
 
-      // TODO prebaciti metodu u tvrtka.uredprijem
       tvrtka.getUredPrijem().zaprimiPakete();
-
-      // TODO prije nego otkuca puni sat, odraditi postupak utovara
 
       if (tvrtka.virtualniSat.getHour() != tvrtka.virtualniSat.plusSeconds(tvrtka.mnoziteljSekunde)
           .getHour()) {
         System.out.println("Utovar paketa...");
 
-        // preseli pakete u ured za dostavu
         tvrtka.getUredPrijem().prebaciPaketeUUredZaDostavu();
 
-        // utovari hitne
         tvrtka.getUredDostava().utovariHitnePakete();
 
-        // utovari ostale
         tvrtka.getUredDostava().utovariOstalePakete();
-
-        // sada kreće dostava
-        // tvrtka.getUredDostava().pokreniIsporuku();
-
       }
-      // sada kreće dostava
       tvrtka.getUredDostava().pokreniIsporuku();
-
     }
-
     odrediKrajRada();
-
-
-
   }
 
   private void odrediKrajRada() {

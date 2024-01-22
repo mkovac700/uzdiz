@@ -32,7 +32,6 @@ public class GlavniProgram {
       return;
     }
 
-    // TODO inicijalizacija tvrtke:
     TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
     try {
       tvrtka.init(argument);
@@ -58,29 +57,6 @@ public class GlavniProgram {
         System.out.println("Greška u čitanju primljene komande: " + e.getMessage());
         continue;
       }
-
-      /*
-       * if (regex.provjeriIzraz(komanda, RegexVrsta.komanda)) { String[] grupa =
-       * regex.razdvojiIzraz(komanda, RegexVrsta.komanda);
-       * 
-       * String kljuc = komanda.split(" ")[0];
-       * 
-       * if (kljuc.equals("IP")) { tvrtka.ispisPaketa(); } else if (kljuc.equals("VR")) { int
-       * vrijemeIzvrsavanja = Integer.parseInt(komanda.split(" ")[1]);
-       * simulator.pokreni(vrijemeIzvrsavanja); } else if (kljuc.equals("SV")) {
-       * tvrtka.ispisiVozila(); } else if (kljuc.equals("VV")) { tvrtka.ispisiVoznje(grupa[17]); }
-       * else if (kljuc.equals("VS")) { tvrtka.ispisiSegmente(grupa[20], grupa[21]); } else if
-       * (kljuc.equals("PP")) { tvrtka.ispisPodrucja(); } else if (kljuc.equals("PO")) {
-       * tvrtka.promjeniStatusSlanjaObavijesti(grupa[7].replace("'", ""), grupa[8], grupa[9]); }
-       * else if (kljuc.equals("PS")) { tvrtka.promijeniStatusVozila(grupa[12], grupa[13]); } else
-       * if (kljuc.equals("Q")) { break; } } else System.out.println("Nepoznata komanda!");
-       */
-
-      /*
-       * if (regex.provjeriIzraz(komanda, RegexVrsta.komanda)) { if
-       * (!komandaHandlerChain.handle(komanda)) System.out.println("Nepoznata komanda!"); } else {
-       * System.out.println("Nepoznata komanda!"); }
-       */
 
       if (!regex.provjeriIzraz(komanda, RegexVrsta.komanda) || !komandaHandlerChain.handle(komanda))
         System.out.println("Nepoznata komanda!");

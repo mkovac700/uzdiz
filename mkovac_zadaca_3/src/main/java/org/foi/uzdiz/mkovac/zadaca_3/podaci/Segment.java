@@ -18,6 +18,15 @@ public class Segment implements VoziloElement {
 
   public Segment() {}
 
+  public Segment(Segment segment) {
+    this.odGps = segment.odGps;
+    this.doGps = segment.doGps;
+    this.udaljenost = segment.udaljenost;
+    this.vrijemePocetka = segment.vrijemePocetka;
+
+    this.paket = new Paket(segment.getPaket());
+  }
+
   public String getOdGps() {
     return odGps;
   }

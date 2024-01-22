@@ -89,19 +89,24 @@ public class TvrtkaSingleton {
 
     paketiCopy = this.paketi.stream().map(Paket::new).collect(Collectors.toList());
 
+    // TODO dovrsit
     /*
-     * List<Vozilo> vozilaCopy = new ArrayList<>();
-     * 
-     * for (Vozilo vozilo : vozila) { Vozilo _vozilo = new Vozilo(); for (Voznja voznja :
-     * vozilo.getVoznje()) { Voznja _voznja = new Voznja(); for (Segment segment :
-     * voznja.getSegmenti()) { Segment _segment = new Segment();
-     * 
-     * }
-     * 
-     * } }
+     * List<Vozilo> vozilaCopy = new ArrayList<>(); for (Vozilo vozilo : vozila) { Vozilo _vozilo =
+     * new Vozilo(); for (Voznja voznja : vozilo.getVoznje()) { Voznja _voznja = new Voznja(); for
+     * (Segment segment : voznja.getSegmenti()) { Segment _segment = new Segment(); } } }
      */
 
-    return new TvrtkaMemento(virtualniSatCopy, null, null);
+    return new TvrtkaMemento(virtualniSatCopy, paketiCopy, null);
+  }
+
+  public void restoreMemento(TvrtkaMemento memento) {
+    if (memento != null) {
+      this.paketi = memento.getPaketi();
+      this.vozila = memento.getVozila();
+      this.virtualniSat = memento.getVirtualniSat();
+    } else {
+      System.out.println("Memento je null");
+    }
   }
 
   public String getVirtualniSatFormatirano() {
@@ -645,23 +650,16 @@ public class TvrtkaSingleton {
       primljeniPaketiTmp.add(paket);
       primljeniPaketi.add(paket);
 
-      // TODO ispisati da je stigao paket (dodati jos info)
       System.out.println("Zaprimljen paket " + paket.getOznaka() + " -> VRIJEME PRIJEMA: "
           + DatumskoVremenskiKonverter.konvertirajDatumVrijeme(paket.getVrijemePrijema())
           + " POŠILJATELJ: " + paket.getPosiljatelj().getOsoba() + " PRIMATELJ: "
           + paket.getPrimatelj().getOsoba());
 
-      // TODO posalji obavijest primatelju i posiljatelju
       paket.setStatus("ZAPRIMLJEN");
     }
 
     public void zaprimiPakete() {
       TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
-
-      /*
-       * Iterator<Paket> itr = tvrtka.getPaketi().subList(brojZaprimljenihPaketa,
-       * tvrtka.getPaketi().size()).iterator();
-       */
 
       Iterator<Paket> itr = tvrtka.getPaketi().iterator();
 
@@ -670,8 +668,6 @@ public class TvrtkaSingleton {
         if (p.getStatus().equals("") && p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
           tvrtka.getUredPrijem().zaprimiPaket(p);
           tvrtka.azurirajPrikupljeniNovac(p.getIznosDostave());
-          // brojZaprimljenihPaketa++;
-          // itr.remove();
         }
       }
     }
@@ -700,13 +696,10 @@ public class TvrtkaSingleton {
 
     private List<Paket> paketi;
 
-    // private UredPrijem uredPrijem;
-
     public UredDostava() {
       podrucja = new ArrayList<>();
       vozila = new ArrayList<>();
       paketi = new ArrayList<>();
-      // uredPrijem = TvrtkaSingleton.getInstance().getUredPrijem();
     }
 
     public List<Podrucje> getPodrucja() {
@@ -732,7 +725,6 @@ public class TvrtkaSingleton {
     public Podrucje odrediPodrucjePaketa(Paket paket) {
       MjestoComposite gradPosiljatelja = paket.getPrimatelj().getGrad();
       UlicaLeaf ulicaPosiljatelja = paket.getPrimatelj().getUlica();
-      // int kbrPosiljatelja = paket.getPrimatelj().getKbr();
 
       Podrucje odabranoPodrucje = null;
 
@@ -775,7 +767,6 @@ public class TvrtkaSingleton {
               && vozilo.getTrenutnoPodrucje().equals(podrucjePaketa)
               && vozilo.getPaketi().stream().anyMatch(p -> p.getUslugaDostave().equals("H"))) {
 
-            // TODO dodat uvjet za tezinu i prostor paketa
             // ako trenutna tezina u vozilu + tezina novog paketa premasuje kapacitet vozila,
             // preskoci
             if (vozilo.izracunajTrenutnuTezinu() + paket.getTezina() > vozilo.getKapacitetTezine())
@@ -817,7 +808,6 @@ public class TvrtkaSingleton {
           for (Vozilo vozilo : tmpVozila) {
             if (vozilo.getPodrucjaPoRangu().indexOf(podrucjePaketa) == minRang) {
 
-              // TODO dodat uvjet za tezinu i prostor paketa
               // ako trenutna tezina u vozilu + tezina novog paketa premasuje kapacitet vozila,
               // preskoci
               if (vozilo.izracunajTrenutnuTezinu() + paket.getTezina() > vozilo
@@ -835,7 +825,7 @@ public class TvrtkaSingleton {
         }
 
       }
-      // TODO nijedno odgovarajuće vozilo nije pronađeno (paket čeka idući puni sat)
+      // nijedno odgovarajuće vozilo nije pronađeno (paket čeka idući puni sat)
       return null;
     }
 
@@ -853,7 +843,6 @@ public class TvrtkaSingleton {
               && vozilo.getTrenutnoPodrucje().equals(podrucjePaketa)
               && vozilo.getPaketi().stream().anyMatch(p -> !p.getUslugaDostave().equals("H"))) {
 
-            // TODO dodat uvjet za tezinu i prostor paketa
             // ako trenutna tezina u vozilu + tezina novog paketa premasuje kapacitet vozila,
             // preskoci
             if (vozilo.izracunajTrenutnuTezinu() + paket.getTezina() > vozilo.getKapacitetTezine())
@@ -895,7 +884,6 @@ public class TvrtkaSingleton {
           for (Vozilo vozilo : tmpVozila) {
             if (vozilo.getPodrucjaPoRangu().indexOf(podrucjePaketa) == minRang) {
 
-              // TODO dodat uvjet za tezinu i prostor paketa
               // ako trenutna tezina u vozilu + tezina novog paketa premasuje kapacitet vozila,
               // preskoci
               if (vozilo.izracunajTrenutnuTezinu() + paket.getTezina() > vozilo
@@ -913,7 +901,7 @@ public class TvrtkaSingleton {
         }
 
       }
-      // TODO nijedno odgovarajuće vozilo nije pronađeno (paket čeka idući puni sat)
+      // nijedno odgovarajuće vozilo nije pronađeno (paket čeka idući puni sat)
       return null;
     }
 
@@ -1020,7 +1008,7 @@ public class TvrtkaSingleton {
         if (vozilo.getStatus().getOznaka().equals("A")
             && vozilo.getStatusVoznje().getOznaka().equals("POVRATAK")) {
 
-          if (vozilo.getVrijemePovratka().isBefore(virtualniSat) // TODO isAfter?
+          if (vozilo.getVrijemePovratka().isBefore(virtualniSat)
               || vozilo.getVrijemePovratka().isEqual(virtualniSat)) {
             vozilo.setUkrcavanje();
           }

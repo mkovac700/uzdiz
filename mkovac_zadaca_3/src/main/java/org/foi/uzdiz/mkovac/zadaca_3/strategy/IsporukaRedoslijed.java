@@ -10,12 +10,6 @@ import org.foi.uzdiz.mkovac.zadaca_3.singleton.TvrtkaSingleton;
 
 public class IsporukaRedoslijed implements IsporukaStrategy {
 
-  // private List<Vozilo> vozila;
-  //
-  // public IsporukaRedoslijed(List<Vozilo> vozila) {
-  // this.vozila = vozila;
-  // }
-
   @Override
   public void obaviIzracune(List<Paket> paketi, Voznja voznja) {
     // voznja sluzi tome da se odma kreiraju segmenti
@@ -25,13 +19,8 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
 
     String trenutniGps = gpsUreda;
 
-    // float[] trenutniGpsKonvertirano = konvertirajGpsKoordinate(trenutniGps);
-
     for (Paket paket : paketi) {
       float[] gpsPaketa = izracunajGpsPaketa(paket);
-
-      // float udaljenost =
-      // this.izracunajUdaljenostIzmeduDvijeTocke(trenutniGpsKonvertirano, gpsPaketa);
 
       float udaljenost = this
           .izracunajUdaljenostIzmeduDvijeTocke(konvertirajGpsKoordinate(trenutniGps), gpsPaketa);
@@ -46,8 +35,6 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
       segmenti.add(segment);
 
       trenutniGps = konvertirajGpsKoordinate(gpsPaketa);
-
-      // System.arraycopy(gpsPaketa, 0, trenutniGpsKonvertirano, 0, gpsPaketa.length);
     }
 
     // nakon zadnjeg paketa kreiraj i segment povratka u ured:
@@ -94,13 +81,6 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
     float gpsLat2 = ulica.getGpsLat2();
     float gpsLon2 = ulica.getGpsLon2();
 
-    // float dLat = gpsLat2 - gpsLat1;
-    // float dLon = gpsLon2 - gpsLon1;
-
-    // float udaljenostPocetakKrajUlice = (float) Math.abs(Math.sqrt(dLat * dLat + dLon * dLon));
-
-    // float udaljenostOdPocetkaDoPaketa = postotak * udaljenostPocetakKrajUlice;
-
     float paketLat = (gpsLat2 - gpsLat1) * postotak + gpsLat1;
     float paketLon = (gpsLon2 - gpsLon1) * postotak + gpsLon1;
 
@@ -109,8 +89,8 @@ public class IsporukaRedoslijed implements IsporukaStrategy {
 
   private float izracunajUdaljenostIzmeduDvijeTocke(float[] gps1, float[] gps2) {
 
-    float kmLat = 111.32f; // Approximately 111.32 kilometers per degree of latitude
-    float kmLon = 111.32f; // Approximately 111.32 kilometers per degree of longitude at the equator
+    float kmLat = 111.32f;
+    float kmLon = 111.32f;
 
     float gpsLat1 = gps1[0];
     float gpsLon1 = gps1[1];
