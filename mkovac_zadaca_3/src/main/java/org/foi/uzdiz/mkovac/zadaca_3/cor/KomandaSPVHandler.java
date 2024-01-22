@@ -12,7 +12,7 @@ public class KomandaSPVHandler implements KomandaHandler {
     String kljuc = komanda.split(" ")[0];
 
     if (kljuc.equals("SPV")) {
-      // TODO
+      System.out.println("Nije implementirano!");
       return true;
     }
 

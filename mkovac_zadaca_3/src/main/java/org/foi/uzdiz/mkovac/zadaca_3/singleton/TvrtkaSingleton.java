@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Osoba;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Paket;
 import org.foi.uzdiz.mkovac.zadaca_3.builder.Podrucje;
@@ -16,6 +17,7 @@ import org.foi.uzdiz.mkovac.zadaca_3.composite.LokacijaComponent;
 import org.foi.uzdiz.mkovac.zadaca_3.composite.MjestoComposite;
 import org.foi.uzdiz.mkovac.zadaca_3.composite.UlicaLeaf;
 import org.foi.uzdiz.mkovac.zadaca_3.iznimke.NeispravniParametri;
+import org.foi.uzdiz.mkovac.zadaca_3.memento.TvrtkaMemento;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Parametar;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Segment;
 import org.foi.uzdiz.mkovac.zadaca_3.podaci.Voznja;
@@ -77,6 +79,30 @@ public class TvrtkaSingleton {
   public volatile boolean KRAJ = false;
 
   private float prikupljeniNovac;
+
+  public TvrtkaMemento createMemento() {
+    LocalDateTime virtualniSatCopy = LocalDateTime.of(virtualniSat.getYear(),
+        virtualniSat.getMonth(), virtualniSat.getDayOfMonth(), virtualniSat.getHour(),
+        virtualniSat.getMinute(), virtualniSat.getSecond());
+
+    List<Paket> paketiCopy = new ArrayList<>();
+
+    paketiCopy = this.paketi.stream().map(Paket::new).collect(Collectors.toList());
+
+    /*
+     * List<Vozilo> vozilaCopy = new ArrayList<>();
+     * 
+     * for (Vozilo vozilo : vozila) { Vozilo _vozilo = new Vozilo(); for (Voznja voznja :
+     * vozilo.getVoznje()) { Voznja _voznja = new Voznja(); for (Segment segment :
+     * voznja.getSegmenti()) { Segment _segment = new Segment();
+     * 
+     * }
+     * 
+     * } }
+     */
+
+    return new TvrtkaMemento(virtualniSatCopy, null, null);
+  }
 
   public String getVirtualniSatFormatirano() {
     return DatumskoVremenskiKonverter.konvertirajDatumVrijeme(virtualniSat);
@@ -568,11 +594,6 @@ public class TvrtkaSingleton {
     System.out.println();
   }
 
-  /*
-   * public void ispisPaketa() { IspisPaketa ispisPaketa = new IspisPrometaPaketa(new
-   * IspisPaketaImpl()); ispisPaketa.ispisi(); }
-   */
-
   public UredPrijem getUredPrijem() {
     return uredPrijem;
   }
@@ -594,7 +615,7 @@ public class TvrtkaSingleton {
   }
 
   public class UredPrijem {
-    private static int brojZaprimljenihPaketa;
+    // private static int brojZaprimljenihPaketa;
 
     /**
      * Trajno ostaju radi statistike
@@ -637,15 +658,19 @@ public class TvrtkaSingleton {
     public void zaprimiPakete() {
       TvrtkaSingleton tvrtka = TvrtkaSingleton.getInstance();
 
-      Iterator<Paket> itr =
-          tvrtka.getPaketi().subList(brojZaprimljenihPaketa, tvrtka.getPaketi().size()).iterator();
+      /*
+       * Iterator<Paket> itr = tvrtka.getPaketi().subList(brojZaprimljenihPaketa,
+       * tvrtka.getPaketi().size()).iterator();
+       */
+
+      Iterator<Paket> itr = tvrtka.getPaketi().iterator();
 
       while (itr.hasNext()) {
         Paket p = itr.next();
-        if (p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
+        if (p.getStatus().equals("") && p.getVrijemePrijema().isBefore(tvrtka.virtualniSat)) {
           tvrtka.getUredPrijem().zaprimiPaket(p);
           tvrtka.azurirajPrikupljeniNovac(p.getIznosDostave());
-          brojZaprimljenihPaketa++;
+          // brojZaprimljenihPaketa++;
           // itr.remove();
         }
       }

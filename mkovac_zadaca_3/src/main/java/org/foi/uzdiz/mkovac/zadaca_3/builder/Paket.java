@@ -32,6 +32,13 @@ public class Paket implements PaketSubject, PaketElement {
 
   public Paket() {}
 
+  public Paket(Paket paket) {
+    this.oznaka = paket.getOznaka();
+    this.status = paket.getStatus();
+    this.vrijemeIsporuke = paket.getVrijemeIsporuke();
+  }
+
+
   public String getOznaka() {
     return oznaka;
   }

@@ -12,7 +12,7 @@ public class KomandaPPVHandler implements KomandaHandler {
     String kljuc = komanda.split(" ")[0];
 
     if (kljuc.equals("PPV")) {
-      // TODO
+      System.out.println("Nije implementirano!");
       return true;
     }
 
