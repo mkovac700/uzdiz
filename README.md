@@ -19,42 +19,18 @@
     <br />
 
   </p>
-</div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Sadržaj</summary>
-  <ol>
-    <li>
-      <a href="#-o-projektu">O projektu</a>
-      <ul>
-        <li><a href="#općenito">Općenito</a></li>
-        <li><a href="#opis-zadatka">Opis zadatka</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#-glavne-značajke">Glavne značajke</a>
-    </li>
-    <li><a href="#-korišteni-alati">Korišteni alati</a></li>
-    <li>
-      <a href="#-konfiguracija">Konfiguracija</a>
-      <ul>
-        <li><a href="#preduvjeti">Preduvjeti</a></li>
-        <li><a href="#podešavanje">Podešavanje</a></li>
-      </ul>
-    </li>
-    <li><a href="#-preuzimanje">Preuzimanje</a></li>
-    <li>
-      <a href="#-doprinos">Doprinos</a>
-      <ul>
-        <li><a href="#-bugovi-i-prijedlozi">Bugovi i prijedlozi</a></li>
-        <li><a href="#-dnevnik-promjena">Dnevnik promjena</a></li>
-      </ul>
-    </li>
-    <li><a href="#-primjena">Primjena</a></li>
-    <li><a href="#-licenca">Licenca</a></li>
-  </ol>
-</details>
+  <br>
+  
+  <!-- TABLE OF CONTENTS -->
+
+  <a href="#-uvod">Uvod</a> • 
+  <a href="#-zadatak">Zadatak</a> • 
+  <a href="#-struktura-rješenja">Struktura rješenja</a> • 
+  <a href="#-konfiguracija">Konfiguracija</a> • 
+  <a href="#-upotreba">Upotreba</a> • 
+  <a href="#-korišteni-alati">Korišteni alati</a>
+</div>
 
 <br>
 
@@ -423,7 +399,7 @@ Za pokretanje rješenja bit će vam potrebno slijedeće:
 
 <p align="right">(<a href="#readme-top">povratak na vrh</a>)</p>
 
-## 🚀 Korištenje
+## 🚀 Upotreba
 
 Korisniku se daje mogućnost izvršavanja sljedećih komandi:
 
