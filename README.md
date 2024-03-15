@@ -281,7 +281,7 @@ Detaljnije upute možete pročitati <a href="./mkovac_zadaca_3/UzDiz_opis_zadace
 Na slici možete vidjeti dijagram klasa s naglašenim uzorcima dizajna koji su korišteni. Za detaljnije informacije o rješenju kliknite <a href="./mkovac_zadaca_3/mkovac_zadaca_3.pdf"><strong>ovdje</strong></a>.
 
 <div align="center">
-  <a href="./dokumentacija/dz3_dijagram_v2.png"><img alt="dz3_dijagram" src="./dokumentacija/dz3_dijagram_v2.png"></a>
+  <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/dz3_dijagram_v2.png"><img alt="dz3_dijagram" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/dz3_dijagram_v2.png"></a>
 </div>
 
 <p align="right">(<a href="#readme-top">povratak na vrh</a>)</p>
@@ -429,7 +429,7 @@ Korisniku se daje mogućnost izvršavanja sljedećih komandi:
     komanda.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_1.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_1.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_1.png"></a>
   </div>
 
 * <strong>Pregled statusa paketa u trenutku virtualnog vremena</strong>
@@ -450,7 +450,7 @@ Korisniku se daje mogućnost izvršavanja sljedećih komandi:
     dostavljen ako je vrijeme preuzimanja manje od virtualnog vremena.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_2.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_2.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_2.png"></a>
   </div>
 
 * <strong>Pregled podataka za vozila u trenutku virtualnog vremena</strong>
@@ -470,7 +470,7 @@ Korisniku se daje mogućnost izvršavanja sljedećih komandi:
     Visitor.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_3.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_3.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_3.png"></a>
   </div>
 
 * <strong>Pregled podataka za vožnje vozila tijekom dana</strong>
@@ -490,7 +490,7 @@ Korisniku se daje mogućnost izvršavanja sljedećih komandi:
     početku vožnje). Ispis podataka mora se temeljiti na uzorku dizajna Visitor.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_4.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_4.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_4.png"></a>
   </div>
 
 * <strong>Pregled podataka za segmente vožnje vozila tijekom dana</strong>
@@ -509,7 +509,7 @@ Korisniku se daje mogućnost izvršavanja sljedećih komandi:
     ured)). Ispis podataka mora se temeljiti na uzorku dizajna Visitor.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_5.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_5.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_5.png"></a>
   </div>
 
 * <strong>Pregled područja s hijerarhijskim prikazom mjesta koja uključuje, a mjesta koje ulice.
@@ -528,7 +528,7 @@ Svaka nova razina ima uvlaku od 4 praznine.</strong>
     koje ulaze u područje.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_6.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_6.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_6.png"></a>
   </div>
 
 * <strong>Promjena statusa vozila u trenutku virtualnog vremena</strong>
@@ -548,7 +548,7 @@ Svaka nova razina ima uvlaku od 4 praznine.</strong>
     Vozilu VŽ100PK se postavlja status da nije ispravno.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_7.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_7.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_7.png"></a>
   </div>
 
 * <strong>Promjena statusa slanja obavijest za pošiljatelja ili primatelja paketa</strong>
@@ -567,7 +567,7 @@ Svaka nova razina ima uvlaku od 4 praznine.</strong>
     Pošiljatelj Pero Kos ne želi primati obavijesti za paket CROVŽ0001.
 
   <div align="center">
-    <img alt="dz3_demo" src="./dokumentacija/komande/Screenshot_8.png">
+    <a href="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_8.png"><img alt="dz3_demo" src="https://raw.githubusercontent.com/mkovac700/uzdiz/master/dokumentacija/komande/Screenshot_8.png"></a>
   </div>
 
 * <strong>Prekid rada programa</strong>
